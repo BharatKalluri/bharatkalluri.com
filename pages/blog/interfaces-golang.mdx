@@ -1,0 +1,111 @@
+---
+title: Understanding interfaces in Go Language
+date: 2018-08-09
+description: Understanding interfaces and how they should be used using Golang
+tag:
+  - golang
+  - tutorial
+hero: "https://unsplash.com/photos/1td5Iq5IvNc/download?force=true&w=1920"
+authors:
+  - Bharat Kalluri
+
+---
+Interfaces help code to be more flexible and readable. Interfaces are how golang lets us implement polymorphism. So, the question is, do we need interfaces? Let us look at a practical and super simple example and understand why
+interfaces are beautiful.
+
+Let us say that I am making a process monitor for all the major operating systems. I have a method called 
+`SnapProcess` for Linux first. Let us create an empty structure called `LinuxTracker` and define a function to get the list of processes in Linux. We will omit the code to get the list of the process for simplicity. Also, create a function which will take in a process id and return status(Active or not active).
+
+Let's get started
+
+```go
+import (
+    "fmt"
+)
+
+type LinuxTracker struct{}
+
+func (l *LinuxTracker) SnapProcess() []int64 {
+    // Code for getting process from linux
+    return {}int64[542,680]
+}
+
+func (l *LinuxTracker) isActive(pid int64) bool {
+    // fake logic for checking status
+    if pid%2 == 0 {
+        return true
+    } else {
+        return false
+    }
+}
+```
+
+Now, Let us write Windows tracker and it's implementation to get the list of process in the windows machine.
+
+
+```go
+type WindowsTracker struct{}
+
+func (w *WindowsTracker) SnapProcess() []int64{
+    // Code for getting process from windows
+    return []int64{946,455,956}
+}
+
+func (w *WindowsTracker) isActive(pid int64) bool {
+    // Just to make it clear that the logic is fundamentally diffrent for both functions
+    if pid%2 == 0 {
+        return false
+    } else {
+        return true
+    }
+}
+```
+
+There is a clear pattern here. All these trackers for different operating systems implement a process which returns an array of all the process ids. Say I want to implement a function which counts the number of active process running in my system.
+Should I write a function for `LinuxTracker` and another function to `WindowsTracker`? Would it not create duplicate code? How do we solve 
+this problem then?
+
+### Interfaces to the rescue!
+
+An interface is simply a set of Behavior.interfaces are implemented implicitly, that means If a struct implements all the methods
+which the interface implements, then it automatically implements the interface. Now an interface can act as a common ground for multiple types. So, if we have a function which takes in an interface and calls functions inside the interface, it is sure that all functions will be implemented by the type. So we get results. Hence achieving polymorphism.
+
+So, if an interface has `SnapProcess` and `isActive` as function definitions, then both our trackers implicitly implement the interface!
+With that in hand, a function can take an interface as an input and use its functions to get results. Let us see how that translates to 
+code.
+
+```go
+type Tracker interface {
+    SnapProcess() []int64
+    isActive(int64) bool
+}
+
+func countActiveProcess(t Tracker) int {
+    count := 0
+    for _, val := range t.SnapProcess() {
+        if t.isActive(val) {
+            count++
+        }
+    }
+    return count
+}
+```
+
+`countActiveProcess` takes in a tracker as input, And uses it functions under its belt to get an answer. The awesome thing is that, since we have a function which takes in an interface, and both our trackers implement the `Tracker` interface. This function may be called with any of 
+the trackers!
+
+```go
+func main() {
+    l := &LinuxTracker{}
+    fmt.Println(countActiveProcess(l))
+    w := &WindowsTracker{}
+    fmt.Println(countActiveProcess(w))
+}
+// Output : 2 1
+```
+
+Instead of repeating ourselves with functions under every structure, Interfaces help the code to be modular and adaptable. One type can implement multiple interfaces, this is a powerful concept that will prove useful in large projects. Another huge advantage is If we plan on adding more trackers (for example, `DarwinTracker` for mac). We already have a boilerplate for the new tracker so that they all stay consistent. Thus improving code readability. 
+
+So, That's how interfaces work in go. 
+
+Cheers!

@@ -1,0 +1,79 @@
+---
+title: Managing dotfiles using GNU Stow
+date: 2018-01-14
+description: Automate dotfile management on linux system's using GNU stow.
+tag:
+- Linux
+- Tutorial
+hero: "https://unsplash.com/photos/gpKe3hmIawg/download?force=true&w=1920"
+authors:
+- Bharat Kalluri
+
+---
+## What are dotfiles?
+
+
+In the Linux ecosystem, every file with a dot before the file name is set as a hidden file. Usually, all the configuration files in Linux are stored as hidden files. These files store settings. After using Linux for a decent amount of time and fiddling around with window managers like i3, My collection of dotfiles was steadily increasing.
+
+
+The interesting thing about these dotfiles is that if you decide to discard your current computer and get a new computer. All you need to do is to copy your old dotfiles to their respective locations and voila! You will have your old configurations back. This becomes extremely useful if you are a distro hopper like me or just someone who likes messing around with different settings.
+
+
+Some applications prefer to have these configuration files in home directory. For example, bash has its config file (.bashrc) in the home directory. Some applications tend to have them in a separate folder. For example, neovim(also called nvim) has its configuration file under the .config dir. Managing these dotfiles becomes tedious really fast.
+
+
+So many people have different solutions to this problems, Some manually symlink files. And then write an install script which automates the process for them. Others tend to use a dotfiles management framework. These frameworks tend to have a lot of dependencies usually.I tried using the first method for a while and understood it was a lot of manual effort. I did not like the second option because I had to install a lot of dependencies for each of the frameworks for a simple task.
+
+
+Then I read about Stow, this was super intuitive and extremely simple. Stow describes itself as
+
+
+> GNU Stow is a symlink farm manager which takes distinct packages of software and/or data located in separate directories on the filesystem and makes them appear to be installed in the same place.
+
+
+But this can also be used to manage dotfiles as we too require the bulk symlinking functionality. Let me explain.
+
+
+Suppose I have my .bashrc in my home directory. Now I want to version control my .bashrc but don't want to initialize a git repo in my home directory. Now without using stow, my home directory structure would be something like this
+
+```bash
++ home
+	+ bharat
+		...
+		- .bashrc
+		...
+```
+
+Let us now create a directory named dotfiles in our home directory and make a folder inside it named bash. Now, copy the bashrc into the the bash directory. Now the directory will have the following structure
+```bash
++ home
+	+ bharat
+		+ dotfiles
+			+ bash
+				- .bashrc
+```
+Now all we have to do is cd into our dotfiles dir, and run
+```bash
+stow bash
+```
+Stow will automatically take the given directory as home and symlink the files and folders underneath to that path.
+
+So that means the file .bashrc under the bash folder will be symlinked under the home folder as .bashrc
+```bash
+~/dotfiles/bash/.bashrc -> ~/.bashrc
+```
+
+Now, this concept is really powerful. You could have a large folder structure like an i3 and poly bar config. All you need to do is put those files under their directories and run ```stow i3``` and it will all be symlinked to the right places. Now all dotfiles can be managed in one single directory. The other huge advantage is that this folder can be managed by a Version control system such as git. And then linked to a GitHub repo and you are all set! For the next time, when a new installation is needed. Just install all the required programs, Clone the dotfiles repo into your home dir and run stow for every program you installed.
+
+## Unstow!
+If you no longer want stow to manage .bashrc all you need to do is
+```bash
+cd dotfiles
+stow -D bash
+```
+Stow will now remove the symlink of bashrc, This process is called as unstow-ing.
+
+
+## Wrapping Up
+
+Stow makes it really easy to manage dotfiles. If you need an example, All my dotfiles are managed using stow [here](https://github.com/BharatKalluri/dotfiles). If you have any questions or suggestions, feel free to comment below :)

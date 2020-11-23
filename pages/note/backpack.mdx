@@ -1,0 +1,73 @@
+---
+author: Bharat Kalluri
+title: Backpack - Knowledge aggregation tool
+date: 2020-10-09T23:41:32+05:30
+tag:
+- project
+---
+
+**Status: Brewing**
+
+I've always hoarded URL's to read, Movies and series to watch, books to read, games to play, twitter threads to archive etc.. The problem is that
+there is no clean central place to do this. 
+
+The idea of this platform would be a one stop shop where you can dump different kinds of links. This service will figure out the domain. We will have custom plugins
+for domains. And if we have an integration, we will populate extra information/data. Let me explain
+
+- If you drop and IMDB/Rotten tomatoes link. Maybe the service will figure out the movie, get its ratings and show it as a thumbnail with the poster
+- If you drop in a twitter thread, it will compile all the tweets in a readable thread format and lay it out for you.
+- If you drop in a normal web link, it will get the article contents and show it.
+- If you drop in a spotify link, it will fetch the artist / album info and show it as well.
+
+This could go on and on. 
+
+One more very important feature is that it should be very easy to share stuff to this service, and it should be entirely cross platform. So the service will also
+have a telegram bot to which you can push links and later tag and classify them. One you are done, you can archive them as usual. 
+
+People should also have an option to set their bookmarks to public. I think this can be at per URL level. Users should also have the feature to share their profile details and see the public bookmarks.
+
+Sometimes I want to read about a topic, but don't know where I have to look it up etc.. There should be some simple note support so that I can dump in
+a topic name and some notes and later research and make bookmarks.
+
+API should be a first class citizen. Everything should be script-able from day one. Sync between websites could be a thing. All the saved links in pocket
+could appear in #pocket. All the loved tweets can appear in #twitter.
+
+### UI
+
+Just one big board of content (Something similar to Pinterest). 
+
+Each card will contain 
+- Title
+- Description (If any)
+- Image (Either from open graph tags or a screen shot of the website at that time)
+- URL
+- Tags (Clickable)
+
+An option to multiple select and do bulk actions.
+
+On click, There will be a new page opened which will have three tabs. First tab will be the web view, second will be the processed view and the third will be the 
+metadata view.
+
+I will try to create a functional prototype using something like figma sometime soon..
+
+### External Services I can think of
+
+- Twitter threads (replace unroll/threaded)
+- IMDB (Thumbnails can have rating to the lower bottom)
+- Rotten tomatoes (Thumbnails can have rating to the bottom)
+- Reader view for articles (Check out [readability by mozilla](https://github.com/mozilla/readability))
+- Youtube videos can have video length. (Maybe likes and dislikes count as well?)
+- Shazam songs can have corresponding youtube / spotify links (?)
+
+### Challenges:
+
+This is too early to think of challenges, but here are some thoughts running in my head as of now.
+
+- Auth will be firebase. Need to figure out how I can authenticate users from telegram.
+- Have multiple helper services, which hit external APIs like twitter, IMDB, Goodreads etc..
+
+### Literature
+
+- [Raindrop](https://raindrop.io) : Nailed the UI piece. Fetches thumbnails for IMDB etc..
+- [Pocket](https://getpocket.com) : Extremely crossplatform. Has reader view/dark mode etc.. The UI is not very appealing I feel. 
+- [Pinboard](https://pinboard.in/) : One of the most simplest bookmarking service. Charges a one time fee of 22$.

@@ -1,0 +1,37 @@
+---
+title: Understanding MongoDB's Object ID
+date: 2020-10-01
+tag:
+- mongodb
+---
+
+MongoDB ID's are not entirely random. The actual spec is in the mongoDB documentation [here](https://docs.mongodb.com/manual/reference/method/ObjectId/).
+
+The gist of it is that, it is a 12 byte value in which
+
+- The first 4 bytes represent the ObjectID creation epoch timestamp
+- 5 bytes random value
+- 3 byte incrementing counter, initialized to a random value
+
+For example, 5f6f613ad7bf070237959759 is a valid mongoDB ID.
+
+```python
+mongo_id = "5f6f613ad7bf070237959759"
+ts_hex = mongo_id[:8]
+ts = int(ts_hex, 16)
+print(ts)
+# 1601134906 => Saturday, September 26, 2020 3:41:46 PM GMT
+```
+
+The next 5 bytes (`mongo_id[8:18]`) are random, so nothing to dig in there. The next 3 bytes are an incrementing counter, but initialized at a random value.
+Consider two ID's `5f70d73ae16328c827714546` and `5f70d741e16328c827714547`, the last 3 bytes are incremented (`714546` and `714547`). 
+This is one of the reason mongoID's are sortable, since they have the timestamp and an auto incrementing key in them already.
+
+But objectID's created at the same time do not ensure ordering. And one more piece to note is that the developer can also generate object ID's. And if 
+the program runs in two different computers, they can have their system clocks at different positions.
+
+### The interesting history of MongoDB ID formats
+
+In version 3.2 (and before afaik), ObjectID's had a [different format](https://docs.mongodb.com/v3.2/reference/method/ObjectId/). They did not have 
+the 5 byte random value., This made it possibly vunerable to IDOR (Insecure Direct Object Reference) attacks if the developer did not put enough thought into the system.
+Post 3.2 the entropy was introduced to make sure people cannot guess the next identifier. 

@@ -1,0 +1,32 @@
+---
+title: Update fedora to upcoming versions
+date: 2020-09-30
+tag:
+- linux
+---
+
+Make sure you system is up to date
+
+```
+sudo dnf --refresh upgrade
+```
+
+And install the system upgrade plugin for dnf
+
+```
+sudo dnf install 'dnf-command(system-upgrade)'
+```
+
+Now upgrade and download the latest release version files by running
+
+```
+sudo dnf system-upgrade download --releasever=33
+```
+
+This will be a hugo download and will take some time. After this, finally run
+
+```
+sudo dnf system-upgrade reboot
+```
+
+This command will reboot and go through the installation phase. After a successfull installation, you will be running the latest fedora version. (In my case 33.)

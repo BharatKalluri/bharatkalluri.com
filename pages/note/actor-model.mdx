@@ -1,0 +1,28 @@
+---
+title: Understanding Actor model
+date: 2020-05-15
+tag:
+- design
+---
+
+## What is an actor?
+It is a fundamental unit of computation. It has to embody
+- Processing
+- Storage
+- Communication
+
+## Axioms of an actor
+On receiving a message, an actor can
+- Create some more actors
+- Can send messages to another actor
+- Designate what it will do with the next message
+
+There is another concept called `Future`. Instead of waiting for a computation to complete, the actor returns back a
+future (or an exception) which contains an address to the result which can be passed around. Eventually we reach a
+result or an exception state with the future.
+
+An actor can have multiple address and one address can point to multiple actors, so there is a many to many relation
+going on here. What that means is that there can be a proxy actor which just forwards the messages to another actor.
+
+### Links
+- [A conversation with Carl Hewitt, the inventor of actor model](https://www.youtube.com/watch?v=7erJ1DV_Tlo)

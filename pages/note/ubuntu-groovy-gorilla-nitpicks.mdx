@@ -1,0 +1,130 @@
+---
+author: Bharat Kalluri
+title: Ubuntu Groovy Gorilla - Nitpicks
+date: 2020-10-07T14:54:36+05:30
+tag:
+- linux
+- ubuntu
+---
+
+> Disclaimer: At this date and time, Ubuntu groovy gorilla is still in beta. This is not stable final software. Bugs are expected. We 
+> can just hope all of these wil be fixed in the final release. This post will contain the mostly UX/UI issues.
+
+> Update: Raised issues for most of the issues mentioned here in the respective repos. And updated the blog with links
+
+I come from the fedora land and its been a while since I played around with Ubuntu. Recently I saw a OMG Ubuntu post saying the beta builds
+for the next Ubuntu version are out. So I thought I will give it a spin. It has been more than 3 years since I used Ubuntu, this should be interesting. 
+
+I've been testing the Ubuntu groovy gorilla build for a while and although it is a well built Linux distribution. The experience 
+feels off. There are a lot of small problems (especially on the UX front) which make it feel like it is not a well thought out system.
+I hate to say this but this feels like "death due to a thousand cuts". I think fixing these small issues will greatly enhance the user 
+experience. Ubuntu is the flagship distro for Linux, it has the biggest user base and this is usually what gets recommended due to its
+large support base. So, we as a Linux community should make sure the first step for people into the Linux world needs to be refined. 
+
+Let me start with what I love.
+
+- I absolutely love the default wallpaper. This is probably the first time I've installed an OS and did not bother changing the wallpaper.
+- The theme is ... interesting. It is very different. Windows/Mac OS/Gnome have a more "professional" look to them. Ubuntu's style seems different and fresh.
+- They have a dark/light theme switch in the settings!
+- The software center comes with snaps pre integrated. This means I can go to the software center, search for slack and hit install. This is great for beginners!
+- The desktop is snappy!
+- The loading indicator is beautiful
+- Everything just works. This is something Ubuntu prides itself on. Stability. And it does deliver.
+
+Now let us discuss my nitpicks. None of these are pointing at Ubuntu specifically, these are what make me pause when I'm using the system.
+
+## Nitpicks
+
+### The carousel is too small in the first page of software center
+
+- [Bug Tracker Link](https://bugs.launchpad.net/ubuntu/+source/gnome-software/+bug/1873945)
+
+I think this is something they will iron out later in the release process. But this bugs me a lot.
+![software-center-start-page](/uploads/software_launch_page.png)
+
+### The Editors picks in the software section have applications which do not have an icon
+As a desktop user, why would I bother to install an application which does not have an icon? I think the more important question is why
+is this an editor pick for Ubuntu desktop?
+I understand this is coming from the snap store and there they have cli tools and desktop applications. But I think in the desktop software center
+this should not show up in the editor picks.
+
+### Software center should make up its mind on weather it should show up cli tools.
+
+- [Bug Tracker Link](https://bugs.launchpad.net/snap-store-desktop/+bug/1899607)
+
+Search for docker and it shows up as a installable program (The snap shows up), does this means all installable programs are shown? 
+No.
+Search for GNU stow, it won't show up. But if it is a snap, it will. This is not cohesive. Either it should show all linux installable programs or 
+just hide all Command line tools using a settings flag to turn them back on. 
+As a end user, I don't care about if an application is a snap or not. I just expect things to be consistent.
+
+### Install percent keeps jumping in software center
+
+- [Bug Tracker Link](https://gitlab.gnome.org/GNOME/gnome-software/-/issues/216)
+
+I think this is related to snap installs. But as a normal end user who does not understand snap/apt installations, this does not look good.
+It seems to jump to 14% and then go back to 0% and start from there.
+![GoLand install jumps](/uploads/snap_install_jump.gif)
+
+### Snap packages seem to open a different Firefox instance with a different profile (?)
+
+- [Bug Tracker Link](https://bugs.launchpad.net/snapd/+bug/1835024)
+
+To be honest I don't fully understand what is causing this. But run a server in VS code snap. Control click the URL and you will notice it opens
+up a Firefox instance which does not have any extensions installed. This seems to be a different profile (?). But this is really irritating. The same
+thing happens with slack snap as well. But for some reason, postman is not affected by this. But postman has some more weird bugs. Which brings me to the next
+point.
+
+### Search results are not ordered by relevance
+This is what I see when I search for "spotify"
+![spotify search results](/uploads/spotify_app_store.png)
+
+Why is the actual, verified spotify snap so low in the search ordering. It makes it look like it is not the original (but it is).
+
+### Cursors are sometime different between normal applications and snaps
+
+- [Bug Tracker Link](https://github.com/postmanlabs/postman-app-support/issues/8481)
+
+The right of the image is a normally installed application (I don't recall which), the left of the image is postman.
+It looks like postman has a different cursor theme altogether. 
+![postman different cursor theme](/uploads/cursor_problems_postman.gif)
+
+### Do not disturb toggle transition issue
+For some reason, do not disturb toggle has no transition. This is something I noticed on fedora as well. So I'm sure this is a GNOME thing. I don't
+think this is intentional.
+![do not disturb toggle](/uploads/do-not-disturb-toggle.gif)
+
+### Some pre installed applications do not look like they are a part of the system
+One of the first program I noticed which felt very inconsistent was "Power settings". 
+![Power settings](/uploads/power_settings_sidebar_comp.png)
+
+Here are some more applications still in the GTK 2 design style.
+- Software & updates
+- Software updater
+- Additional Drivers
+
+So it looks like most of the software exclusive to Ubuntu desktop is in its older designs.. Hopefully they will find time to upgrade these.
+
+### The settings in the terminal application looks different from other windows
+You might say, that does not look very different. Then I would say, No! It looks very different. Where are the icons to the left! the sidebar 
+size is *slightly* bigger. At least for people like me who obsess over design. This bugs me.
+![terminal settings](/uploads/terminal_settings_diff.png)
+
+### The settings icon in wifi looks squished
+![settings icon in wifi](/uploads/squished_settings_icon_wifi.png)
+
+### Window previews have too much padding on the right
+
+- [Bug Tracker Link](https://bugs.launchpad.net/ubuntu/+source/gnome-shell-extension-ubuntu-dock/+bug/1899741)
+
+![window preview padding](/uploads/window_positioning_on_dock.png)
+
+### The right click menu of the dock has too much padding on the right
+![options for dock applications](/uploads/dock_options.png)
+
+### After installing a font, the Install button flashes for a very short period of time and then changes to installed
+
+- [Bug Tracker Link](https://gitlab.gnome.org/GNOME/gnome-font-viewer/-/issues/21)
+
+This is a GNOME Fonts issue which was [already reported here](https://gitlab.gnome.org/GNOME/gnome-font-viewer/-/issues/21). Hopefully they find 
+time to fix it.

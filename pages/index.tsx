@@ -1,15 +1,17 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
+import { Heading, Stack, Text } from "@chakra-ui/react";
+import Layout from "../components/Layout";
 
 const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-)
+    <Layout title="Home">
+        <Stack direction="column" spacing={5}>
+            <Heading>Hey, I'm Bharat Kalluri 👋</Heading>
+            <Text>
+                Welcome to my corner of the internet. I make an effort to write
+                everything I know here!
+            </Text>
+            <Text>I work for a fintech startup in Bangalore, India.</Text>
+        </Stack>
+    </Layout>
+);
 
-export default IndexPage
+export default IndexPage;
