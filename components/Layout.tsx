@@ -55,6 +55,7 @@ const NavBar = () => {
                 <NavBarButton text="Blog" href="/blog" />
                 <NavBarButton text="Notes" href="/notes" />
                 <NavBarButton text="About" href="/about" />
+                <NavBarButton text="Home" href="/" />
             </Box>
         </Stack>
     );
