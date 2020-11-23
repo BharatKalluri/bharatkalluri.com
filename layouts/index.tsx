@@ -1,9 +1,10 @@
 import { Heading, Stack, Text } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 import React from "react";
-import { parseISO, format } from 'date-fns';
+import { format } from 'date-fns';
 
 const PostLayout = ({ children, frontMatter }: any) => {
+    const publishedAt = Date.parse(frontMatter.publishedAt)
     return (
         <Layout title={`${frontMatter.title} | Bharat Kalluri`}>
             <Stack
@@ -18,7 +19,7 @@ const PostLayout = ({ children, frontMatter }: any) => {
                     {frontMatter.title}
                 </Heading>
                 <Text color='grey'>
-                    Bharat Kalluri / {format(frontMatter.publishedAt, 'dd-mm-yyyy')}
+                    Bharat Kalluri / {format(publishedAt, 'dd-mm-yyyy')}
                 </Text>
                 {children}
             </Stack>
