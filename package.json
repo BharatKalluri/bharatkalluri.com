@@ -15,6 +15,7 @@
     "@mdx-js/loader": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
     "@next/mdx": "^10.0.2",
+    "@types/mdx-js__react": "^1.5.3",
     "babel-plugin-import-glob-array": "^0.2.0",
     "framer-motion": "^2.9.4",
     "next": "latest",
