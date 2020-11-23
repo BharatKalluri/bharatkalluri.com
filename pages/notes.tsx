@@ -7,12 +7,15 @@ import { PostCard } from "../components/PostCard";
 import React from "react";
 
 const Blog = () => {
+    const sortedNotes = notes.sort(
+        (a: any, b: any) => Number(new Date(b.date)) - Number(new Date(a.date))
+    );
     return (
         <Layout title="Notes">
             <Heading letterSpacing="tight" mb={2} as="h1">
                 Notes
             </Heading>
-            {notes.map((frontMatter: any) => (
+            {sortedNotes.map((frontMatter: any) => (
                 <PostCard
                     key={frontMatter.title}
                     frontMatter={frontMatter}
