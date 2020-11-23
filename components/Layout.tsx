@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import NextLink from "next/link";
 import Head from "next/head";
-import { Box, Flex } from "@chakra-ui/layout";
+import { Box, Flex, Stack } from "@chakra-ui/layout";
 import { Button, IconButton, useColorMode } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
@@ -18,7 +18,11 @@ interface INavBarButtonProps {
 const NavBarButton = (props: INavBarButtonProps) => {
     return (
         <NextLink href={props.href} passHref>
-            <Button as="a" variant="ghost" p={[1, 4]}>
+            <Button
+                as="a"
+                variant="ghost"
+                fontWeight="400"
+            >
                 {props.text}
             </Button>
         </NextLink>
@@ -28,25 +32,17 @@ const NavBarButton = (props: INavBarButtonProps) => {
 const NavBar = () => {
     const { colorMode, toggleColorMode } = useColorMode();
     return (
-        <Flex
+        <Stack
             flexDirection="row"
             justifyContent="space-between"
             alignItems="center"
             width="100%"
             as="nav"
-            mt={[0, 8]}
-            mb={8}
+            p={8}
             mx="auto"
             maxW="900px"
         >
             <Box>
-                <NavBarButton text="Bharat Kalluri" href="/" />
-            </Box>
-            <Box flexDirection="row">
-                <NavBarButton text="Blog" href="/blog" />
-                <NavBarButton text="Notes" href="/notes" />
-                <NavBarButton text="About" href="/about" />
-
                 <IconButton
                     aria-label="Toggle dark mode"
                     variant="ghost"
@@ -55,14 +51,21 @@ const NavBar = () => {
                     p={[1, 4]}
                 />
             </Box>
-        </Flex>
+            <Box flexDirection="row">
+                <NavBarButton text="Blog" href="/blog" />
+                <NavBarButton text="Notes" href="/notes" />
+                <NavBarButton text="About" href="/about" />
+            </Box>
+        </Stack>
     );
 };
 
 const Layout = ({ children, title = "" }: Props) => (
     <div>
         <Head>
-            <title>{title} {title ? '|' : ''} Bharat Kalluri</title>
+            <title>
+                {title} {title ? "|" : ""} Bharat Kalluri
+            </title>
             <meta charSet="utf-8" />
             <meta
                 name="viewport"
@@ -70,20 +73,20 @@ const Layout = ({ children, title = "" }: Props) => (
             />
         </Head>
         <header>
-            <nav>
-                <NavBar />
-            </nav>
+            <NavBar />
         </header>
         <Flex
             as="main"
             justifyContent="center"
             flexDirection="column"
-            px={2}
-            py={2}
+            px={4}
             mx="auto"
+            mt={8}
             maxW="800px"
         >
-            {children}
+            <Stack spacing={10}>
+                {children}
+            </Stack>
         </Flex>
     </div>
 );

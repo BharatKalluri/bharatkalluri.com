@@ -18,7 +18,6 @@ export const PostCard = ({frontMatter, folderPrefix}: IPostCardProps) => {
             <ChakraLink
                 w="100%"
                 _hover={{textDecoration: "none"}}
-                marginY="1rem"
                 borderWidth="1px"
                 borderRadius="lg"
                 padding='1.5rem'
