@@ -1,5 +1,13 @@
-import { Heading, Stack, Text, Link, Flex } from "@chakra-ui/react";
+import { Heading, Stack, Text } from "@chakra-ui/react";
 import Layout from "../components/Layout";
+import LinkCard from "../components/LinkCard";
+
+
+interface IProjectCardProps {
+    name: string;
+    description: string;
+    link: string;
+}
 
 // TODO: Move this to constants as well
 const PROJECT_LIST: Array<IProjectCardProps> = [
@@ -47,46 +55,12 @@ const PROJECT_LIST: Array<IProjectCardProps> = [
     },
 ];
 
-interface IProjectCardProps {
-    name: string;
-    description: string;
-    link: string;
-}
 
-const ProjectCard = ({ name, description, link }: IProjectCardProps) => {
-    return (
-        <Link
-            mb={4}
-            href={link}
-            title={name}
-            isExternal
-            _hover={{
-                boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.05)",
-                textDecoration: "none",
-            }}
-        >
-            <Flex
-                align="center"
-                border="2px solid"
-                borderColor="gray.200"
-                borderRadius={4}
-                p={4}
-            >
-                <Stack>
-                    <Heading as="h4" size="md" mb={4} letterSpacing="tight">
-                        {name}
-                    </Heading>
-                    <Text lineHeight="1.3">{description}</Text>
-                </Stack>
-            </Flex>
-        </Link>
-    );
-};
 
 const ProjectListComponent = () => (
-    <Stack direction="column" spacing={0}>
+    <Stack direction="column" spacing={5}>
         {PROJECT_LIST.map((project) => (
-            <ProjectCard
+            <LinkCard
                 name={project.name}
                 description={project.description}
                 link={project.link}
