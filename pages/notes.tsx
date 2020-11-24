@@ -7,9 +7,9 @@ import { PostCard } from "../components/PostCard";
 import React from "react";
 
 const Blog = () => {
-    const sortedNotes = notes.sort(
-        (a: any, b: any) => Number(new Date(b.date)) - Number(new Date(a.date))
-    );
+    const sortedNotes = notes.sort((a: any, b: any) => {
+        return Date.parse(b.publishedAt) - Date.parse(a.publishedAt)
+    });
     return (
         <Layout title="Notes">
             <Heading letterSpacing="tight" mb={2} as="h1">
