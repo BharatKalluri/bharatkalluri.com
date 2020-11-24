@@ -4,6 +4,7 @@ import Head from "next/head";
 import { Box, Flex, Stack } from "@chakra-ui/layout";
 import { Button, IconButton, useColorMode } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import Footer from "./Footer";
 
 type Props = {
     children?: ReactNode;
@@ -88,6 +89,7 @@ const Layout = ({ children, title = "" }: Props) => (
                 {children}
             </Stack>
         </Flex>
+        <Footer />
     </div>
 );
 
