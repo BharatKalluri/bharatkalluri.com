@@ -18,6 +18,7 @@ function CustomCodeBlock({ children, className }: any) {
                         marginTop: 20,
                         marginBottom: 20,
                         padding: 16,
+                        overflow:'scroll'
                     }}
                 >
                     {tokens.map((line, i) => (

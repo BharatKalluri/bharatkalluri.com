@@ -38,7 +38,7 @@ const NavBar = () => {
             alignItems="center"
             width="100%"
             as="nav"
-            p={8}
+            p={3}
             mx="auto"
             maxW="900px"
         >
@@ -48,7 +48,7 @@ const NavBar = () => {
                     variant="ghost"
                     onClick={toggleColorMode}
                     icon={colorMode == "dark" ? <SunIcon /> : <MoonIcon />}
-                    p={[1, 4]}
+                    pt={2}
                 />
             </Box>
             <Box flexDirection="row">
