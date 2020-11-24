@@ -1,6 +1,7 @@
 import React from 'react';
 import { Flex, Link, IconButton } from '@chakra-ui/react';
 import {FiTwitter, FiGithub, FiLinkedin, FiMail} from 'react-icons/fi'
+import NowPlaying from "./NowPlaying";
 
 
 // TODO: Move to constants
@@ -12,6 +13,7 @@ const EMAIL = 'bharatkalluri@pm.me'
 
 const Footer = () => (
   <Flex align="center" py={8} direction="column">
+    <NowPlaying />
     <div>
       <Link href={TWITTER_URL} title="Twitter" isExternal>
         <IconButton

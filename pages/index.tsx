@@ -61,6 +61,7 @@ const ProjectListComponent = () => (
     <Stack direction="column" spacing={5}>
         {PROJECT_LIST.map((project) => (
             <LinkCard
+                key={project.name}
                 name={project.name}
                 description={project.description}
                 link={project.link}
