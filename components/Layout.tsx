@@ -42,13 +42,12 @@ const NavBar = () => {
             mx="auto"
             maxW="900px"
         >
-            <Box>
+            <Box flexDirection="row" mt='0.5rem'>
                 <IconButton
                     aria-label="Toggle dark mode"
                     variant="ghost"
                     onClick={toggleColorMode}
                     icon={colorMode == "dark" ? <SunIcon /> : <MoonIcon />}
-                    pt={2}
                 />
             </Box>
             <Box flexDirection="row">
