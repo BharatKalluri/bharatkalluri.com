@@ -278,7 +278,7 @@ to note is that fold is a **higher order function**. Which means this function r
 takes in one argument. In fold's case it will be the actual `Either` object. (To understand what all this fuzz is about, 
 I suggest reading [a post about decorators in python](/blog/decorators-python). I covers a similar concept using python).
 
-This might seem like a lot, and it is. There is actually a better way of doing this `decodeRawDataWith` function using `pipe`. I am using
+This might seem like a lot, **and it is**. There is actually a better(and more cryptic) way of doing this `decodeRawDataWith` function using `pipe` and higher order functions. I am using
 that style for decoding. [You can find the source code for that in my blog post repo.](https://github.com/BharatKalluri/bharatkalluri.com/blob/197683e9cbf11e67e0bc5e1d7c3f07d40aa812d0/utils/ioTsUtils.ts#L6)
 
 Thats it! Now with just a function call, data can be validated at runtime using io-ts. 
