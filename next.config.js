@@ -12,5 +12,12 @@ module.exports = withMdxEnhanced({
         },
         phase: "prebuild|loader|both"
     },
-    reExportDataFetching: false
-})(/* your normal nextjs config */);
+    reExportDataFetching: false,
+})({
+    webpack: (config, { isServer }) => {
+        if (isServer) {
+            require("./scripts/generate-sitemap");
+        }
+        return config;
+    }
+});
