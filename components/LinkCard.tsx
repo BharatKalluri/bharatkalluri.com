@@ -1,5 +1,5 @@
-import { Heading, Text, Link, Flex, Box } from "@chakra-ui/react";
-import NextLink from 'next/link';
+import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 interface ILinkCardProps {
     name: string;
@@ -12,10 +12,10 @@ const LinkCard = ({ name, description, link }: ILinkCardProps) => {
         <NextLink href={link} passHref>
             <Link
                 w="100%"
-                _hover={{textDecoration: "none"}}
+                _hover={{ textDecoration: "none" }}
                 borderWidth="1px"
                 borderRadius="lg"
-                padding='1.5rem'
+                padding="1.5rem"
             >
                 <Box display="block" width="100%">
                     <Flex
@@ -24,15 +24,15 @@ const LinkCard = ({ name, description, link }: ILinkCardProps) => {
                         justifyContent="space-between"
                         flexDirection="column"
                     >
-                        <Heading size="md" as="h3" letterSpacing='tight'>
+                        <Heading size="md" as="h3" letterSpacing="tight">
                             {name}
                         </Heading>
-                        {description && <Text mt='1rem' fontSize='md'>{description}</Text>}
+                        {description && <Text mt="1rem" fontSize="md">{description}</Text>}
                     </Flex>
                 </Box>
             </Link>
         </NextLink>
-    )
+    );
 };
 
 export default LinkCard;

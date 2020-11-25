@@ -6,11 +6,11 @@ tag:
 - mongodb
 ---
 
-A load test allows you to understand how the server performs under peak load, using load testing tools you can check how the server performs in 
+A load test allows you to understand how the server performs under peak load, using load testing tools you can check how the server performs in
 terms of CPU, latency, throughput and many more metrics.
 
-For my digital ocean 5$ single vCPU 2.1 Ghz instance running a golang gin server. Testing with a simple GET request which just reads and 
-returns data from the database, these are the metrics vegeta came up with 
+For my digital ocean 5$ single vCPU 2.1 Ghz instance running a golang gin server. Testing with a simple GET request which just reads and
+returns data from the database, these are the metrics vegeta came up with
 
 ```
 Documents ❯ echo "GET https://ayured-api.bharatkalluri.in/api/v1/book" | vegeta attack -max-workers=40 -rate=0 -duration=30s | tee results.bin | vegeta report                              ⏎

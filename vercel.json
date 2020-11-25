@@ -1,16 +1,16 @@
 {
-    "version": 2,
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "headers": [
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/api/now-playing",
+      "headers": [
         {
-            "source": "/api/now-playing",
-            "headers": [
-                {
-                    "key": "Cache-Control",
-                    "value": "public, max-age=60, stale-while-revalidate=30"
-                }
-            ]
+          "key": "Cache-Control",
+          "value": "public, max-age=60, stale-while-revalidate=30"
         }
-    ]
+      ]
+    }
+  ]
 }

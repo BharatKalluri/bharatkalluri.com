@@ -9,9 +9,9 @@ authors:
 - Bharat Kalluri
 
 ---
-API is the developer interface to your service. Get it right and you will have happy developers developing amazing stuff with your help. 
-Get it wrong and everyone using it will hate the design and expect a lot of support queries. 
-Once an API is public, it is permanent. If you want to fix it, you have to release a new version of the API. 
+API is the developer interface to your service. Get it right and you will have happy developers developing amazing stuff with your help.
+Get it wrong and everyone using it will hate the design and expect a lot of support queries.
+Once an API is public, it is permanent. If you want to fix it, you have to release a new version of the API.
 Now that you see why API Design is super important. Let us see what we can do to get it as (almost) right.
 
 ### Keep it small and simple
@@ -65,8 +65,8 @@ Now that you see why API Design is super important. Let us see what we can do to
 
 ### Error codes are better than error responses
 
-- If HTTP status codes are not communicating enough back to the client. Have a list of predefined status code list with the a default description which 
-    will be included in the error response. From a client stand point, it will be much easier to look at the error code than looking at the error response
+- If HTTP status codes are not communicating enough back to the client. Have a list of predefined status code list with the a default description which
+will be included in the error response. From a client stand point, it will be much easier to look at the error code than looking at the error response
 - The server must also send out an error message along with error code which can be used as a safe fallback in case the error code is not sufficient.
 
 > This is a living document and will be updated based on things I have learned over time

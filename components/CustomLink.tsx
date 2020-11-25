@@ -2,7 +2,12 @@ import { Link, useColorMode } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
 
-export const CustomLink = (props: any) => {
+interface ICustomLinkProps {
+    href: string
+    children: string
+}
+
+export const CustomLink = (props: ICustomLinkProps) => {
     const { colorMode } = useColorMode();
     const color = {
         light: "hsl(208, 99%, 44%)",

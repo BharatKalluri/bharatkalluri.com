@@ -29,22 +29,22 @@ they are healthy. So I did the same thing ;-). Started a new repo and plugged it
 problems with gitbook.
 
 - I should go and create/edit/delete using the gitbook UI. Not from the text editor (I am sure I can do it from the text
-  editor, but the recommended approach is through the UI)
+editor, but the recommended approach is through the UI)
 - No dark mode in free plan
 - Not mobile friendly enough. I wanted to open up an android app and start typing, that was not the case.
 
 But these did not push me hard enough to create a solution, I was using what I already had. Then I heard about Obsidian!
 The wiki links idea was great! Although the graph looks cool, I did not know if it offered any real value for me since
 my note collection is not that big yet. But I was in love with Obsidian. But Obsidian is not open source. They have a
-free plan for now, I really hope that does not change anytime soon. 
+free plan for now, I really hope that does not change anytime soon.
 
 Which brings me to another point, why should our note taking system be tied up to a service/ website. If we *are*
-writing in pure text, our system should be editor independent. 
+writing in pure text, our system should be editor independent.
 
 So I started writing a static site generator 🤣 , my genius idea was that, if at all we had a static site generator
 which supported wiki links natively, that would solve all the problems! Started a project called gardener which was
 initially started using go-lang and it basically converted markdown files to html and natively supported wiki-links. To
-be fair, it was a success. It did work. But it was overkill. 
+be fair, it was a success. It did work. But it was overkill.
 
 Because I did not know GitHub has a feature in which you can basically write markdown and it will publish a website
 using Jekyll. Another idea which I did not know about was a part of the common mark spec's [Link reference
@@ -57,7 +57,7 @@ experience.
 
 I did use foam for a while, my notes repo still is using foam's template. But I think a digital garden solution should
 not be tied up to an editor. If I want to use vim (vim has [vimwiki] (Although I am not sure if it serves the same
-purpose)) or anything else, you should be able to. This is where gardener comes in again. 
+purpose)) or anything else, you should be able to. This is where gardener comes in again.
 
 I could be using obsidian or VS code, but to push these markdown files to GitHub, I need to somehow convert the wiki
 links to actual markdown links. One way of doing it is that you make a copy of the folder, actually replace wiki-links
@@ -65,7 +65,7 @@ with markdown links and push that to GitHub. Or, we could do what foam does. Use
 generate common mark complaint link references from wiki links. Foam currently does it using a vs code extension. The
 initial version of gardener was to make it a command line tool. Run it in your notes folder before you push your notes
 to GitHub, or better make it a pre commit hook so that before you push gardener makes sure all link ref's are up to date
-and you will have a great website up and running in no time. 
+and you will have a great website up and running in no time.
 
 Another feature which I really like are backlinks. The way I see it, it should just be an optional chunk of markdown you
 attach to each and every file saying where the file has been referred. This is in the roadmap and will eventually be

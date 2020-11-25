@@ -1,7 +1,7 @@
 ---
 author: Bharat Kalluri
-title: Understanding python decorators with step by step examples
-description: Understanding decorators is tricky. Here's your step by step guide to understand how decorators work!
+title: Understanding python decorators with step-by-step examples
+description: Understanding decorators is tricky. Here's your step-by-step guide to understand how decorators work!
 publishedAt: 2020-10-27T15:27:47+05:30
 tag:
 - python
@@ -20,8 +20,8 @@ a = printer
 a()
 # printing
 ```
-Here we assigned the function to a variable and now the variable holds the function. 
-**Functions can also be passed around as arguments between functions** (since they just act like values). Another popular example is `map`. The first argument of the function is a function (`Callable`) and the second argument of the function is an `Iterable`(List, tuple etc.). Then `map` runs over the `Iterable` and executes the function. 
+Here we assigned the function to a variable and now the variable holds the function.
+**Functions can also be passed around as arguments between functions** (since they just act like values). Another popular example is `map`. The first argument of the function is a function (`Callable`) and the second argument of the function is an `Iterable`(List, tuple etc.). Then `map` runs over the `Iterable` and executes the function.
 Let us write our own simple `map` implementation
 ```python
 from typing import Callable, Iterable
@@ -132,7 +132,7 @@ sleeper(5)
 And, it works as expected!
 
 ## Returning values from decorated functions
-Give it a thought, what would happen if sleeper were to return the number of seconds it was sleeping. Who would have the return value? 
+Give it a thought, what would happen if sleeper were to return the number of seconds it was sleeping. Who would have the return value?
 According to the current implementation, the decorator is not giving back anything. We just call the `func`but are not returning anything from the wrapper function. The returns also need to cascade upwards so that the caller get back the expected value.
 ```python
 from time import time, sleep
@@ -159,8 +159,8 @@ print(sleep_time)
 ```
 
 ## Passing arguments to decorators
-What if we want to have a `timer_decorator`that takes in an argument, say `in_min`which can be true or false. And if true, then the time should be printed in minutes instead of seconds. 
-Remember that the only requirement from a decorator is that it should return a function that takes in a function as an argument. 
+What if we want to have a `timer_decorator`that takes in an argument, say `in_min`which can be true or false. And if true, then the time should be printed in minutes instead of seconds.
+Remember that the only requirement from a decorator is that it should return a function that takes in a function as an argument.
 ```python
 from time import time, sleep
 from typing import Callable
@@ -188,7 +188,7 @@ def sleeper(sec: int):
 sleep_time = sleeper(5)
 # 0.08336979548136393 (time consumed in minutes)
 ```
-In this implementation, `timer_decorator`takes in an argument and gives back a decorator (!). This decorator already has access to the variable `in_min` and will use it. This might be the most complicated example of the post. Take your time and make sure you understand everything clearly. 
+In this implementation, `timer_decorator`takes in an argument and gives back a decorator (!). This decorator already has access to the variable `in_min` and will use it. This might be the most complicated example of the post. Take your time and make sure you understand everything clearly.
 
 ## Practical use cases of decorators
 - **Flask uses decorators for routing, authentication guards etc..**:  It makes the code much more clean and readable
@@ -196,7 +196,7 @@ In this implementation, `timer_decorator`takes in an argument and gives back a d
 - **Retry decorator on certian exceptions**: An `@retry`decorator which takes in a list of exception types as arguments and retry's the function if the function exceptions out (Celery does this)
 
 And many more...
-	
+
 Congratulations on coming this far! Decorators are quite tricky in the beggining, but once you understand them. They are really powerful and useful.
 
 ## Further Reading
