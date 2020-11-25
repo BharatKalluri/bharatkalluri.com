@@ -8,10 +8,9 @@ import React from "react";
 import { IBlogFrontMatter } from "../interfaces";
 
 const Blog = () => {
-    const sortedPosts = blogPosts.sort(
-        (a: IBlogFrontMatter, b: IBlogFrontMatter) =>
-            Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
-    );
+    const sortedPosts = blogPosts.sort((a: IBlogFrontMatter, b: IBlogFrontMatter) => {
+        return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
+    });
     return (
         <Layout title="Blog">
             <Heading letterSpacing="tight" mb={2} as="h1">
