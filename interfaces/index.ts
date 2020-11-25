@@ -12,3 +12,12 @@ export interface IBlogFrontMatter {
     tag: Array<string>
     draft: string
 }
+
+export interface ICurrentlyPlayingInfo {
+    collectionName: string
+    collectionImageUrl: string
+    artist: string
+    isPlaying: boolean
+    mediaURL: string
+    title: string
+}

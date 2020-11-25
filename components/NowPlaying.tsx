@@ -2,10 +2,11 @@ import React from "react";
 import useSWR from "swr";
 import { Box, Icon, Image, Link, Skeleton, Stack, Text, useColorMode } from "@chakra-ui/react";
 import { fetcher } from "../lib/fetcher";
+import { ICurrentlyPlayingInfo } from "../interfaces";
 
 
 const NowPlaying = () => {
-    const { data } = useSWR("/api/now-playing", fetcher);
+    const { data }: { data?: ICurrentlyPlayingInfo } = useSWR("/api/now-playing", fetcher);
     const { colorMode } = useColorMode();
     const borderColor = {
         light: "gray.200",
@@ -24,13 +25,13 @@ const NowPlaying = () => {
             p={2}
             w="300px"
         >
-            <Skeleton isLoaded={data}>
+            <Skeleton isLoaded={!!data}>
                 <Image
                     alt="Spotify album cover"
                     height="60px"
                     width="60px"
                     borderRadius={8}
-                    src={data?.albumImageUrl || "/static/images/placeholder.jpg"}
+                    src={data?.collectionImageUrl || "/static/images/placeholder.jpg"}
                 />
             </Skeleton>
             <Stack
@@ -47,7 +48,7 @@ const NowPlaying = () => {
                     whiteSpace="nowrap"
                     overflow="hidden"
                     textOverflow="ellipsis"
-                    href={data?.songUrl}
+                    href={data?.collectionImageUrl}
                     isExternal
                 >
                     {data && (data?.title || "Not Playing")}

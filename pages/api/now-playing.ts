@@ -1,6 +1,7 @@
 import { getNowPlaying } from "../../lib/spotify";
+import { ICurrentlyPlayingInfo } from "../../interfaces";
 
-type IExternalURLInfo  = Record<string, string>
+type IExternalURLInfo = Record<string, string>
 
 interface ISpotifyImageInfo {
     url: string
@@ -57,53 +58,56 @@ export default async (_: any, res: any) => {
 
     const nowPlayingData: INowPlaying = await response.json();
     const isPlaying = nowPlayingData.is_playing;
-    const currentlyPlayingType = nowPlayingData.currently_playing_type
+    const currentlyPlayingType = nowPlayingData.currently_playing_type;
 
-    if (currentlyPlayingType === 'track') {
+    if (currentlyPlayingType === "track") {
 
-        const nowPlayingItem = nowPlayingData.item as ITrackInfo
-        const title = nowPlayingItem.name
+        const nowPlayingItem = nowPlayingData.item as ITrackInfo;
+        const title = nowPlayingItem.name;
         const artist = nowPlayingItem.artists
             .map((_artist) => _artist.name)
             .join(", ");
-        const album = nowPlayingItem.album.name
-        const albumImageUrl = nowPlayingItem.album.images[0].url
-        const songUrl = nowPlayingItem.external_urls.spotify
-
-        return res.status(200).json({
-            album,
-            albumImageUrl,
+        const collectionName = nowPlayingItem.album.name;
+        const collectionImageUrl = nowPlayingItem.album.images[0].url;
+        const mediaURL = nowPlayingItem.external_urls.spotify;
+        const currentlyPlayingInfo: ICurrentlyPlayingInfo = {
+            collectionName,
+            collectionImageUrl,
             artist,
             isPlaying,
-            songUrl,
+            mediaURL,
             title
-        });
+        };
 
-    } else if (currentlyPlayingType == 'episode') {
+        return res.status(200).json(currentlyPlayingInfo);
 
-        const nowPlayingItem = nowPlayingData.item as IEpisodeInfo
-        const showInfo = nowPlayingItem.show
+    } else if (currentlyPlayingType == "episode") {
 
-        const title = nowPlayingItem.name
-        const artist = showInfo.publisher
-        const album = showInfo.publisher
-        const albumImageUrl = showInfo.images[0].url
-        const songUrl = nowPlayingItem.external_urls.spotify
+        const nowPlayingItem = nowPlayingData.item as IEpisodeInfo;
+        const showInfo = nowPlayingItem.show;
 
-        return res.status(200).json({
-            album,
-            albumImageUrl,
+        const title = nowPlayingItem.name;
+        const artist = showInfo.publisher;
+        const collectionName = showInfo.name;
+        const collectionImageUrl = showInfo.images[0].url;
+        const mediaURL = nowPlayingItem.external_urls.spotify;
+
+        const currentlyPlayingInfo: ICurrentlyPlayingInfo = {
+            collectionName,
+            collectionImageUrl,
             artist,
             isPlaying,
-            songUrl,
+            mediaURL,
             title
-        });
+        };
+
+        return res.status(200).json(currentlyPlayingInfo);
 
     } else {
 
         return res.status(500).json({
             error: "unknown currently_playing_type"
-        })
+        });
 
     }
 };
