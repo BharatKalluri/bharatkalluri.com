@@ -7,9 +7,9 @@ tag:
 
 ## Why do I need to care about Asynchronous task processing?
 
-A lot of times you will have to queue stuff up for processing without holding the user on the website. If a user requests 
+A lot of times you will have to queue stuff up for processing without holding the user on the website. If a user requests
 for a report, you cannot expect the user to stay on the website staring at a loading screen for 10 minutes and then see a success
-or failure. This is where asynchronous task procesing helps. Using a async task processor, you can just queue the task and send 
+or failure. This is where asynchronous task procesing helps. Using a async task processor, you can just queue the task and send
 back an OK to the client. And after 10 minutes, once the report is ready, send out an email to the customer.
 
 ## What does celery do?
@@ -29,11 +29,11 @@ Let us say you have a service which will send emails from a `csv` file. This hyp
 with 2 columns,  `email` and `contents`. Here is what you are supposed to do
 
 - perform validation on each of the row. This file can have millions of rows, so we do not want the user to wait post
-  file upload.
+file upload.
 
 - For each row in the file
-  - Check if that particular user can send emails to this emails and the email is verified
-  - send out an email with corresponding contents
+- Check if that particular user can send emails to this emails and the email is verified
+- send out an email with corresponding contents
 - Send a email back to the customer saying the bulk email campaign has been successfully completed.
 
 Here we can see there is a validation task, a verify email task, send email task and send a success email back to the
@@ -67,25 +67,25 @@ customer. The work flow might look something like this:
           +---------------------+                                                             
 ```
 
-Although this is not hyper complex, it is still fairly complicated. Broadly speaking we have to, 
+Although this is not hyper complex, it is still fairly complicated. Broadly speaking we have to,
 
-- execute a task 
-- and then execute a group of (chain of two tasks) 
-- and post completion execute something else. 
+- execute a task
+- and then execute a group of (chain of two tasks)
+- and post completion execute something else.
 
-This is key, `verified_check` and `send_email` are a chain. They *need to be executed in sequence*. But the 
+This is key, `verified_check` and `send_email` are a chain. They *need to be executed in sequence*. But the
 *chains should be executed in parallel*. The vocabulary is very important.
 
 I love what the celery authors call the piece in celery which takes care of designing these work flows, they call it
 [canvas](https://docs.celeryproject.org/en/stable/userguide/canvas.html). It is a canvas on which we can draw
 distributed work flows.
 
-A canvas has many primitives, we will go over two of the important ones. 
+A canvas has many primitives, we will go over two of the important ones.
 
 - chain: primitives executed in series.
 - group: primitives executed in parallel.
 
-Note that, chains can be grouped, groups can be chained etc.. 
+Note that, chains can be grouped, groups can be chained etc..
 
 Here are our functions:
 
@@ -153,21 +153,21 @@ Some notes:
 - The name of the celery worker should be the same name as it is defined in the app declaration.
 - Any function will become a task if you add the celery decorator to it.
 - To execute a function as a *celery* task instead of a function, add `.delay` to it and make sure the function has the
-  decorator.
+decorator.
 - A [signature](https://docs.celeryproject.org/en/stable/userguide/canvas.html#signatures) is a serialize able version
-  of a task, which means it can be sent over a broker as json.
+of a task, which means it can be sent over a broker as json.
 - There are two types of ways you can work with tasks. You can create a simple task signature, for which the first
-    argument will be from the previous task. Or you can create an immutable signature for which there are no arguments
-    from the previous tasks
+argument will be from the previous task. Or you can create an immutable signature for which there are no arguments
+from the previous tasks
 - All the magic is happening in `process_email_file`, we create a **group** of **chains**, and chain this workflow along
-  with the `success_on_complete_email`. remember, chains run in series, groups run in parallel.
+with the `success_on_complete_email`. remember, chains run in series, groups run in parallel.
 - Celery also has a really cool feature of [auto
-  retry](http://docs.celeryproject.org/en/master/userguide/tasks.html#automatic-retry-for-known-exceptions), you can
-  dump some params in the decorator and it takes care of it automatically. `@app.task(autoretry_for=(Exception,),
-  retry_backoff=2)`
+retry](http://docs.celeryproject.org/en/master/userguide/tasks.html#automatic-retry-for-known-exceptions), you can
+dump some params in the decorator and it takes care of it automatically. `@app.task(autoretry_for=(Exception,),
+retry_backoff=2)`
 - When deploying to AWS, if you happen to run Django and Celery running in the same machine and you have auto-scaling
-  enabled. There is a risk that AWS will auto scale from 1 -> 2 and the 2nd machine picks up some tasks and then AWS
-  kills the instance when it is scaling down. Take care that celery instance is never killed.
+enabled. There is a risk that AWS will auto scale from 1 -> 2 and the 2nd machine picks up some tasks and then AWS
+kills the instance when it is scaling down. Take care that celery instance is never killed.
 
 
 

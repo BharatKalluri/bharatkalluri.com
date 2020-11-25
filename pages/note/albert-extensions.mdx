@@ -7,13 +7,13 @@ tag:
 - albert
 hero: "https://unsplash.com/photos/afW1hht0NSs/download?force=true&w=1920"
 authors:
-  - Bharat Kalluri
+- Bharat Kalluri
 
 ---
 Albert describes itself as:
 
 Albert is a desktop agnostic launcher. Its goals are usability and beauty,
-performance and extensibility. It is written in C++ and based on the Qt 
+performance and extensibility. It is written in C++ and based on the Qt
 framework.GPL-licensed, 100% free and open source.
 
 It has a lot of positives
@@ -26,38 +26,38 @@ And the best part is
 
 - It can be extended using python!
 
-I consider myself as a mediocre developer. but If you ask me to write a 
+I consider myself as a mediocre developer. but If you ask me to write a
 extension in C++, I would not even try. But python! Sign me up!
 
 So, I thought I would start developing albert extensions to make my life simple
-. Let us develop a extension which just shows the weather of a city with a 
+. Let us develop a extension which just shows the weather of a city with a
 trigger word like `weather`.
 
 `weather bangalore`
 
 should return weather of bangalore(high and low) and humidity. We will get data
-from openweathermap api. So, signup for an account and get a key from 
-openweathermap api. If I say `<API_KEY>`, replace it with your own API 
+from openweathermap api. So, signup for an account and get a key from
+openweathermap api. If I say `<API_KEY>`, replace it with your own API
 key.
 
 ### Let's Dive in!
 
-Albert gives you a library called albertv0. To use it, the script needs to be 
+Albert gives you a library called albertv0. To use it, the script needs to be
 inside the path of default python extension.
 
-Some basic concepts to understand are that, the python library gives you a function 
-called handleQuery which takes in a argument, which will be the query you type after 
+Some basic concepts to understand are that, the python library gives you a function
+called handleQuery which takes in a argument, which will be the query you type after
 the trigger. The metadata of the program will contain the trigger word, name and author.
-Finally, everything which pops under albert is an `Item` object. An Item object takes in 
-a couple of arguments. It'll take an Id, icons which can take system icons using a helper 
-function called `iconLookup`, text which is the heading for each item and a subtext which 
+Finally, everything which pops under albert is an `Item` object. An Item object takes in
+a couple of arguments. It'll take an Id, icons which can take system icons using a helper
+function called `iconLookup`, text which is the heading for each item and a subtext which
 will be the subtitle.
 
-So, If you bundle all the data into an array of items and return the array of `Item`, We 
+So, If you bundle all the data into an array of items and return the array of `Item`, We
 are done! The simplicity of the API is extremly appeling!
 
-Let's start off by importing albertv0 library and since we are using python 3, urllib3 
-will be great for making API requests. We should setup some metadata before starting 
+Let's start off by importing albertv0 library and since we are using python 3, urllib3
+will be great for making API requests. We should setup some metadata before starting
 the program.
 
 ```
@@ -150,16 +150,16 @@ def showWeather(query):
         ]
 
 ```
-Let me quickly summarize what's happening in there. Since the function already has a query of a city name, append the 
+Let me quickly summarize what's happening in there. Since the function already has a query of a city name, append the
 city name to the url. Before making the request, a instance of pool manager must be created which will make the requests.
 Then, It tries to make a request, if it fails, it returns a item saying 'Check your internet connection'.
 
-Now, since we have the API response. Check if the code is 200, if not the city does not exist in the database. So, show an 
-item saying the city does not exist in the database. If it does, then the code will be 200. Now parse the json for relevent data 
-and format the data into an item and return it. 
+Now, since we have the API response. Check if the code is 200, if not the city does not exist in the database. So, show an
+item saying the city does not exist in the database. If it does, then the code will be 200. Now parse the json for relevent data
+and format the data into an item and return it.
 
-One thing to note is that, extensions can be debbuged by starting albert in terminal and putting critical() or debug() to 
-test the response. Another thing to note is, all default linux icon sets have weather icons already. So, we take the description from 
+One thing to note is that, extensions can be debbuged by starting albert in terminal and putting critical() or debug() to
+test the response. Another thing to note is, all default linux icon sets have weather icons already. So, we take the description from
 the API and find the corresponding icon. Normally, switch works well in this case, since we do not have switch statments in python.
 Create a dictionary of conditions as such.
 ```

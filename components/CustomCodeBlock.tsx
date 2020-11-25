@@ -1,14 +1,20 @@
-import Highlight, { defaultProps } from "prism-react-renderer";
+import Highlight, { defaultProps, Language } from "prism-react-renderer";
 import theme from "prism-react-renderer/themes/dracula";
 
-function CustomCodeBlock({ children, className }: any) {
-    const language = className ? className.replace(/language-/, "") : "";
+interface ICustomCodeBlockProps {
+    children: string
+    className: string
+}
+
+function CustomCodeBlock({ children, className }: ICustomCodeBlockProps) {
+    const language: unknown = className ? className.replace(/language-/, "") : "";
     return (
         <Highlight
             {...defaultProps}
             theme={theme}
             code={children.trim()}
-            language={language}
+            // TODO: Learn how to cast a string into a narrowed string type
+            language={language as Language}
         >
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
                 <pre
@@ -18,7 +24,7 @@ function CustomCodeBlock({ children, className }: any) {
                         marginTop: 20,
                         marginBottom: 20,
                         padding: 16,
-                        overflow:'scroll'
+                        overflowX: "auto"
                     }}
                 >
                     {tokens.map((line, i) => (

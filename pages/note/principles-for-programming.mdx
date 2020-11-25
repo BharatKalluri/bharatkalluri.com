@@ -6,7 +6,7 @@ tag:
 ---
 
 - Type everything, if you can not type something properly then probably it is too complicated (applies to untyped
-  programming languages)
+programming languages)
 - Name functions clearly. It is perfectly fine if the name of the function is long.
 - Test extensively, might be time consuming now but will help long term.
 - Equip yourself with the right tooling. Do not let syntax errors, linting errors, spelling mistakes in your codebase.
@@ -14,20 +14,20 @@ tag:
 - Do not argue over formatting, decide on a formatter and stick to it. No questions.
 - Keep infra as simple as possible. Do not drive your infra decisions based on hype, drive them based on reason.
 - Log all the set backs. It is understandable that some features will not be as complete as you would like them as of
-    release date. Because of several reasons (running out of time, thought it would be easy but involves more
-    complicated changes etc..). But make sure to create an issue or have atleast a TODO so that future you or someone
-    else on your team can pick the pieces later and fix the system.
+release date. Because of several reasons (running out of time, thought it would be easy but involves more
+complicated changes etc..). But make sure to create an issue or have atleast a TODO so that future you or someone
+else on your team can pick the pieces later and fix the system.
 - Log all checkpoints in the code. In a world of microservices, it is essential that all logging be as descriptive as
-  possible.
+possible.
 - Dependencies should be added after a lot of consideration. If instead of adding a dep, you can write a small piece of
-    logic, it is better to write that short piece. But, if the dependency takes core of a constantly changing spec (Like
-    an API of an external provider), dependencies are welcome as they help us offload work.
+logic, it is better to write that short piece. But, if the dependency takes core of a constantly changing spec (Like
+an API of an external provider), dependencies are welcome as they help us offload work.
 - Think in terms of experience. If you are working on a backend server, think about the experience of the frontend web
-    developer who will be consuming the API. If you are a platform engineer, think about the experience of the
-    developers who will be using your API. If you are a frontend web developer, think in terms of user experience.
-    Always strive to make everything as "intutive" as possible.
+developer who will be consuming the API. If you are a platform engineer, think about the experience of the
+developers who will be using your API. If you are a frontend web developer, think in terms of user experience.
+Always strive to make everything as "intutive" as possible.
 - If you are SSH-ing into a QA/Prod server, you are most probably doing it wrong. Automation is key. Automate
-  build/release/deploy/logging etc.. as much as possible.
+build/release/deploy/logging etc.. as much as possible.
 - Document infrastructure. If you are using platforms like cloudformation (Infra as code), then this step is not
-  necessary I guess. But for everyone else, documentation of infrastructure is very important for onboarding new
-  developers.
+necessary I guess. But for everyone else, documentation of infrastructure is very important for onboarding new
+developers.

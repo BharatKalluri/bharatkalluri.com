@@ -5,17 +5,18 @@ import Layout from "../components/Layout";
 import { frontMatter as notes } from "./note/*.mdx";
 import { PostCard } from "../components/PostCard";
 import React from "react";
+import { IBlogFrontMatter } from "../interfaces";
 
 const Blog = () => {
-    const sortedNotes = notes.sort((a: any, b: any) => {
-        return Date.parse(b.publishedAt) - Date.parse(a.publishedAt)
+    const sortedNotes = notes.sort((a: IBlogFrontMatter, b: IBlogFrontMatter) => {
+        return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
     });
     return (
         <Layout title="Notes">
             <Heading letterSpacing="tight" mb={2} as="h1">
                 Notes
             </Heading>
-            {sortedNotes.map((frontMatter: any) => (
+            {sortedNotes.map((frontMatter: IBlogFrontMatter) => (
                 <PostCard
                     key={frontMatter.title}
                     frontMatter={frontMatter}

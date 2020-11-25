@@ -1,10 +1,16 @@
 import { Heading, Stack, Text } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 import React from "react";
-import { format } from 'date-fns';
+import { format } from "date-fns";
+import { IBlogFrontMatter } from "../interfaces";
 
-const PostLayout = ({ children, frontMatter }: any) => {
-    const publishedAt = Date.parse(frontMatter.publishedAt)
+interface IPostLayoutProps {
+    frontMatter: IBlogFrontMatter
+    children: JSX.Element | Array<JSX.Element>
+}
+
+const PostLayout = ({ children, frontMatter }: IPostLayoutProps) => {
+    const publishedAt = Date.parse(frontMatter.publishedAt);
     return (
         <Layout title={`${frontMatter.title} | Bharat Kalluri`}>
             <Stack
@@ -15,11 +21,11 @@ const PostLayout = ({ children, frontMatter }: any) => {
                 m="0 auto 4rem auto"
                 w="100%"
             >
-                <Heading as="h1" fontWeight='600' size="2xl" mt={10}>
+                <Heading as="h1" fontWeight="600" size="2xl" mt={10}>
                     {frontMatter.title}
                 </Heading>
-                <Text color='grey'>
-                    Bharat Kalluri / {format(publishedAt, 'dd-mm-yyyy')}
+                <Text color="grey">
+                    Bharat Kalluri / {format(publishedAt, "dd-mm-yyyy")}
                 </Text>
                 {children}
             </Stack>

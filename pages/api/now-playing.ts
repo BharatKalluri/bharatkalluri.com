@@ -3,8 +3,9 @@ import { getNowPlaying } from "../../lib/spotify";
 export default async (_: any, res: any) => {
     const response = await getNowPlaying();
 
+    // TODO: Type this response
+
     if (response.status === 204 || response.status > 400) {
-        console.log(response.status);
         return res.status(200).json({ isPlaying: false });
     }
 
@@ -25,6 +26,6 @@ export default async (_: any, res: any) => {
         artist,
         isPlaying,
         songUrl,
-        title,
+        title
     });
 };

@@ -43,7 +43,7 @@ const NavBar = () => {
             mx="auto"
             maxW="900px"
         >
-            <Box flexDirection="row" mt='0.5rem'>
+            <Box flexDirection="row" mt="0.5rem">
                 <IconButton
                     aria-label="Toggle dark mode"
                     variant="ghost"
