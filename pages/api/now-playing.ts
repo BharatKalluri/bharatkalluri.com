@@ -9,6 +9,7 @@ export default async (_: any, res: any) => {
     }
 
     const song = await response.json();
+    console.log(song)
     const isPlaying = song.is_playing;
     const title = song.item.name;
     const artist = song.item.artists
