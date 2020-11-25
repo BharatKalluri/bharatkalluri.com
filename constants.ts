@@ -1,6 +1,6 @@
 import { IProjectCardProps } from "./interfaces";
 
-export const BASE_URL: string = "https://bharatkalluri.in"
+export const BASE_URL: string = "https://bharatkalluri.in";
 
 export const PROJECT_LIST: Array<IProjectCardProps> = [
     {

@@ -1,68 +1,25 @@
 import { getNowPlaying } from "../../lib/spotify";
 import { ICurrentlyPlayingInfo } from "../../interfaces";
+import decodeWith from "../../utils/ioTsUtils";
+import { EpisodeInfo, NowPlaying, NowPlayingValidator, TrackInfo } from "../../types";
 
-type IExternalURLInfo = Record<string, string>
-
-interface ISpotifyImageInfo {
-    url: string
-}
-
-interface IArtistInfo {
-    href: string
-    id: string
-    name: string
-    type: string
-}
-
-interface IAlbumInfo {
-    name: string
-    artists: IArtistInfo[]
-    images: ISpotifyImageInfo[]
-}
-
-interface ITrackInfo {
-    name: string
-    album: IAlbumInfo
-    artists: IArtistInfo[]
-    external_urls: IExternalURLInfo
-}
-
-interface IShowInfo {
-    publisher: string
-    name: string
-    description: string
-    images: ISpotifyImageInfo[]
-}
-
-interface IEpisodeInfo {
-    name: string
-    show: IShowInfo
-    external_urls: IExternalURLInfo
-    href: string
-}
-
-interface INowPlaying {
-    is_playing: boolean
-    timestamp: number
-    item: ITrackInfo | IEpisodeInfo
-    currently_playing_type: "track" | "episode"
-}
 
 export default async (_: any, res: any) => {
     const response = await getNowPlaying();
 
-    // TODO: Type this response
     if (response.status === 204 || response.status > 400) {
         return res.status(200).json({ isPlaying: false });
     }
 
-    const nowPlayingData: INowPlaying = await response.json();
+    const rawNowPlayingData: NowPlaying = await response.json();
+    const nowPlayingData: NowPlaying = decodeWith(NowPlayingValidator)(rawNowPlayingData);
+
     const isPlaying = nowPlayingData.is_playing;
     const currentlyPlayingType = nowPlayingData.currently_playing_type;
 
     if (currentlyPlayingType === "track") {
 
-        const nowPlayingItem = nowPlayingData.item as ITrackInfo;
+        const nowPlayingItem = nowPlayingData.item as TrackInfo;
         const title = nowPlayingItem.name;
         const artist = nowPlayingItem.artists
             .map((_artist) => _artist.name)
@@ -83,7 +40,7 @@ export default async (_: any, res: any) => {
 
     } else if (currentlyPlayingType == "episode") {
 
-        const nowPlayingItem = nowPlayingData.item as IEpisodeInfo;
+        const nowPlayingItem = nowPlayingData.item as EpisodeInfo;
         const showInfo = nowPlayingItem.show;
 
         const title = nowPlayingItem.name;
