@@ -3,7 +3,7 @@ import NextLink from "next/link";
 
 interface ILinkCardProps {
     name: string;
-    description: string;
+    description?: string;
     link: string;
 }
 

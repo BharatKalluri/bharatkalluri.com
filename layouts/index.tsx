@@ -1,16 +1,17 @@
 import { Heading, Stack, Text } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 import React from "react";
-import { format } from "date-fns";
-import { IBlogFrontMatter } from "../interfaces";
+import decodeWith from "../utils/ioTsUtils";
+import { BlogFrontMatter, BlogFrontMatterValidator } from "../types";
 
 interface IPostLayoutProps {
-    frontMatter: IBlogFrontMatter
+    frontMatter: BlogFrontMatter
     children: JSX.Element | Array<JSX.Element>
 }
 
-const PostLayout = ({ children, frontMatter }: IPostLayoutProps) => {
-    const publishedAt = Date.parse(frontMatter.publishedAt);
+const PostLayout = (props: IPostLayoutProps) => {
+    const frontMatter = decodeWith(BlogFrontMatterValidator)(props.frontMatter);
+    const publishedAt = frontMatter.publishedAt
     return (
         <Layout title={`${frontMatter.title} | Bharat Kalluri`}>
             <Stack
@@ -22,12 +23,12 @@ const PostLayout = ({ children, frontMatter }: IPostLayoutProps) => {
                 w="100%"
             >
                 <Heading as="h1" fontWeight="600" size="2xl" mt={10}>
-                    {frontMatter.title}
+                    {frontMatter.title} {typeof frontMatter.publishedAt}
                 </Heading>
                 <Text color="grey">
-                    Bharat Kalluri / {format(publishedAt, "dd-mm-yyyy")}
+                    Bharat Kalluri / {publishedAt}
                 </Text>
-                {children}
+                {props.children}
             </Stack>
         </Layout>
     );

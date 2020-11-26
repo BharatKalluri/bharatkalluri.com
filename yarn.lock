@@ -3350,6 +3350,11 @@ invariant@^2.2.4:
   dependencies:
     loose-envify "^1.0.0"
 
+io-ts-types@^0.5.12:
+  version "0.5.12"
+  resolved "https://registry.yarnpkg.com/io-ts-types/-/io-ts-types-0.5.12.tgz#270487f6e0adfe0a597ca14e50fbab287e4bb266"
+  integrity sha512-8IC96BJBTMeHFIikM3Mh5poyl2NA6pgF1ncWBktrpS1xfCdoRZQeSWPDcUaiR8T8jYWfAYOt/KEcIsw2e1fufw==
+
 io-ts@^2.2.13:
   version "2.2.13"
   resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-2.2.13.tgz#e04016685e863dd5cffb2b5262c5c9c74432dfda"
@@ -3976,6 +3981,11 @@ mkdirp@^0.5.1, mkdirp@^0.5.3:
   dependencies:
     minimist "^1.2.5"
 
+monocle-ts@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/monocle-ts/-/monocle-ts-2.3.3.tgz#1e6d83dcf42bcb96b74fdda07813c2a47ec6cfa4"
+  integrity sha512-pcQyauWO2vapxyZgbhTd73Dv8TmTELx1rL81bvrtPO2sUYTi1MIHmw3j/iMyeNaJwTmnGNAjqJpYV8Gq1Eu68g==
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -4041,6 +4051,11 @@ neo-async@^2.5.0, neo-async@^2.6.1, neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
+
+newtype-ts@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/newtype-ts/-/newtype-ts-0.3.4.tgz#65c74b7d5195edaa9abfcdba6549a33a5c0e298d"
+  integrity sha512-lFJnWAt0oXX1j1ErNy9RU5+FPNtVyzugHW2MchaaMiOeeS9LEmqAAOqyHPFQ0Uw895jStSYGSCslrByzYxFJYQ==
 
 next-mdx-enhanced@^5.0.0:
   version "5.0.0"

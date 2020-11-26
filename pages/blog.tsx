@@ -5,10 +5,10 @@ import Layout from "../components/Layout";
 import { frontMatter as blogPosts } from "./blog/*.mdx";
 import { PostCard } from "../components/PostCard";
 import React from "react";
-import { IBlogFrontMatter } from "../interfaces";
+import { BlogFrontMatter } from "../types";
 
 const Blog = () => {
-    const sortedPosts = blogPosts.sort((a: IBlogFrontMatter, b: IBlogFrontMatter) => {
+    const sortedPosts = blogPosts.sort((a: BlogFrontMatter, b: BlogFrontMatter) => {
         return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
     });
     return (
@@ -16,7 +16,7 @@ const Blog = () => {
             <Heading letterSpacing="tight" mb={2} as="h1">
                 Blog
             </Heading>
-            {sortedPosts.map((frontMatter: IBlogFrontMatter) => (
+            {sortedPosts.map((frontMatter: BlogFrontMatter) => (
                 <PostCard
                     key={frontMatter.title}
                     frontMatter={frontMatter}
