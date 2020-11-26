@@ -53,6 +53,6 @@ export const BlogFrontMatterValidator = t.type({
     description: t.union([t.string, t.undefined]),
     publishedAt: t.string,
     draft: t.union([t.boolean, t.undefined]),
-    __resourcePath: t.string,
+    __resourcePath: t.string
 });
 export type BlogFrontMatter = t.TypeOf<typeof BlogFrontMatterValidator>;

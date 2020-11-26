@@ -12,7 +12,7 @@ module.exports = withMdxEnhanced({
         },
         phase: "prebuild|loader|both"
     },
-    reExportDataFetching: false,
+    reExportDataFetching: false
 })({
     webpack: (config, { isServer }) => {
         if (isServer) {

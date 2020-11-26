@@ -2,7 +2,7 @@ import { Heading, Text } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 
 const AboutPage = () => (
-    <Layout title="About" description="About Bharat Kalluri" relativeCanonicalURL='/about'>
+    <Layout title="About" description="About Bharat Kalluri" relativeCanonicalURL="/about">
         <Heading>About</Heading>
         <Text fontSize="lg">
             Hey and welcome! I’m a Software developer working in a fin-tech

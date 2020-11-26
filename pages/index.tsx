@@ -18,7 +18,7 @@ const ProjectListComponent = () => (
 );
 
 const IndexPage = () => (
-    <Layout title="Home" description="Welcome to Bharat's corner of the internet" relativeCanonicalURL=''>
+    <Layout title="Home" description="Welcome to Bharat's corner of the internet" relativeCanonicalURL="">
         <Stack direction="column" spacing={5}>
             <Heading>Hey, I'm Bharat Kalluri 👋</Heading>
             <Text>

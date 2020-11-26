@@ -1,7 +1,7 @@
 import { IProjectCardProps } from "./interfaces";
 import { DefaultSeoProps } from "next-seo";
 
-export const BASE_URL: string = "https://bharatkalluri.in";
+export const BASE_URL: string = "https://bharatkalluri.com";
 
 export const PROJECT_LIST: Array<IProjectCardProps> = [
     {
@@ -63,10 +63,10 @@ export const DEFAULT_SEO_CONFIG: DefaultSeoProps = {
         description: DEFAULT_DESCRIPTION,
         images: [
             {
-              url: 'https://bharatkalluri.com/static/images/og.jpg',
-              alt: DEFAULT_TITLE,
-              width: 1280,
-              height: 720
+                url: "https://bharatkalluri.com/static/images/og.jpg",
+                alt: DEFAULT_TITLE,
+                width: 1280,
+                height: 720
             }
         ]
     },

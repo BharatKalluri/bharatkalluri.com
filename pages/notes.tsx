@@ -14,8 +14,8 @@ const Blog = () => {
     return (
         <Layout
             title="Notes"
-            description='These are the notes of Bharat, everything from random learnings to interesting facts'
-            relativeCanonicalURL='/notes'
+            description="These are the notes of Bharat, everything from random learnings to interesting facts"
+            relativeCanonicalURL="/notes"
         >
             <Heading letterSpacing="tight" mb={2} as="h1">
                 Notes

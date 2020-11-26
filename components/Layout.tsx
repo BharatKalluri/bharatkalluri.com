@@ -62,7 +62,7 @@ const NavBar = () => {
 };
 
 const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutProps) => {
-    const canonicalURL = `${BASE_URL}/${relativeCanonicalURL}`
+    const canonicalURL = `${BASE_URL}/${relativeCanonicalURL}`;
     return (
         <>
             <NextSeo
@@ -72,7 +72,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                 openGraph={{
                     url: canonicalURL,
                     title: title,
-                    description: description,
+                    description: description
                 }}
             />
             <div>
@@ -101,7 +101,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                 <Footer />
             </div>
         </>
-    )
+    );
 };
 
 export default Layout;
