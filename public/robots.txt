@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://bharatkalluri.in/sitemap.xml
+Sitemap: https://bharatkalluri.com/sitemap.xml
