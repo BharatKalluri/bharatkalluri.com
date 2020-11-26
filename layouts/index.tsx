@@ -13,7 +13,7 @@ const PostLayout = (props: IPostLayoutProps) => {
     const frontMatter = decodeWith(BlogFrontMatterValidator)(props.frontMatter);
     const publishedAt = frontMatter.publishedAt
     return (
-        <Layout title={`${frontMatter.title} | Bharat Kalluri`}>
+        <Layout title={frontMatter.title}>
             <Stack
                 as="article"
                 spacing={8}
