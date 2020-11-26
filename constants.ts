@@ -1,4 +1,5 @@
 import { IProjectCardProps } from "./interfaces";
+import { DefaultSeoProps } from "next-seo";
 
 export const BASE_URL: string = "https://bharatkalluri.in";
 
@@ -46,3 +47,32 @@ export const PROJECT_LIST: Array<IProjectCardProps> = [
         link: "https://alberthub.netlify.app/"
     }
 ];
+const DEFAULT_TITLE = "Bharat Kalluri";
+// TODO: This is boring af!
+const DEFAULT_DESCRIPTION = "Full stack developer";
+const TWITTER_HANDLE = "@bharatkalluri";
+export const DEFAULT_SEO_CONFIG: DefaultSeoProps = {
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    canonical: BASE_URL,
+    openGraph: {
+        type: "website",
+        locale: "en_IE",
+        url: BASE_URL,
+        title: DEFAULT_TITLE,
+        description: DEFAULT_DESCRIPTION,
+        images: [
+            {
+              url: 'https://bharatkalluri.com/static/images/og.jpg',
+              alt: DEFAULT_TITLE,
+              width: 1280,
+              height: 720
+            }
+        ]
+    },
+    twitter: {
+        handle: TWITTER_HANDLE,
+        site: TWITTER_HANDLE,
+        cardType: "summary_large_image"
+    }
+};

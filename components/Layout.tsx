@@ -5,10 +5,14 @@ import { Box, Flex, Stack } from "@chakra-ui/layout";
 import { Button, IconButton, useColorMode } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import Footer from "./Footer";
+import { NextSeo } from "next-seo";
+import { BASE_URL } from "../constants";
 
-type Props = {
+type LayoutProps = {
     children?: ReactNode;
-    title?: string;
+    title: string;
+    description?: string;
+    relativeCanonicalURL: string;
 };
 
 interface INavBarButtonProps {
@@ -19,11 +23,7 @@ interface INavBarButtonProps {
 const NavBarButton = (props: INavBarButtonProps) => {
     return (
         <NextLink href={props.href} passHref>
-            <Button
-                as="a"
-                variant="ghost"
-                fontWeight="400"
-            >
+            <Button as="a" variant="ghost" fontWeight="400">
                 {props.text}
             </Button>
         </NextLink>
@@ -61,36 +61,47 @@ const NavBar = () => {
     );
 };
 
-const Layout = ({ children, title = "" }: Props) => (
-    <div>
-        <Head>
-            <title>
-                {title} {title ? "|" : ""} Bharat Kalluri
-            </title>
-            <meta charSet="utf-8" />
-            <meta
-                name="viewport"
-                content="initial-scale=1.0, width=device-width"
+const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutProps) => {
+    const canonicalURL = `${BASE_URL}/${relativeCanonicalURL}`
+    return (
+        <>
+            <NextSeo
+                title={title}
+                description={description}
+                canonical={canonicalURL}
+                openGraph={{
+                    url: canonicalURL,
+                    title: title,
+                    description: description,
+                }}
             />
-        </Head>
-        <header>
-            <NavBar />
-        </header>
-        <Flex
-            as="main"
-            justifyContent="center"
-            flexDirection="column"
-            px={4}
-            mx="auto"
-            mt={8}
-            maxW="800px"
-        >
-            <Stack spacing={10}>
-                {children}
-            </Stack>
-        </Flex>
-        <Footer />
-    </div>
-);
+            <div>
+                <Head>
+                    <title>{title ? `${title} |` : ""} Bharat Kalluri</title>
+                    <meta charSet="utf-8" />
+                    <meta
+                        name="viewport"
+                        content="initial-scale=1.0, width=device-width"
+                    />
+                </Head>
+                <header>
+                    <NavBar />
+                </header>
+                <Flex
+                    as="main"
+                    justifyContent="center"
+                    flexDirection="column"
+                    px={4}
+                    mx="auto"
+                    mt={8}
+                    maxW="800px"
+                >
+                    <Stack spacing={10}>{children}</Stack>
+                </Flex>
+                <Footer />
+            </div>
+        </>
+    )
+};
 
 export default Layout;
