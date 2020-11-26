@@ -12,7 +12,11 @@ const Blog = () => {
         return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
     });
     return (
-        <Layout title="Notes">
+        <Layout
+            title="Notes"
+            description='These are the notes of Bharat, everything from random learnings to interesting facts'
+            relativeCanonicalURL='/notes'
+        >
             <Heading letterSpacing="tight" mb={2} as="h1">
                 Notes
             </Heading>
