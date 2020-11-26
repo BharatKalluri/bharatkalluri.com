@@ -162,7 +162,7 @@ from the previous tasks
 - All the magic is happening in `process_email_file`, we create a **group** of **chains**, and chain this workflow along
 with the `success_on_complete_email`. remember, chains run in series, groups run in parallel.
 - Celery also has a really cool feature of [auto
-retry](http://docs.celeryproject.org/en/master/userguide/tasks.html#automatic-retry-for-known-exceptions), you can
+retry](https://docs.celeryproject.org/en/master/userguide/tasks.html#automatic-retry-for-known-exceptions), you can
 dump some params in the decorator and it takes care of it automatically. `@app.task(autoretry_for=(Exception,),
 retry_backoff=2)`
 - When deploying to AWS, if you happen to run Django and Celery running in the same machine and you have auto-scaling

@@ -217,7 +217,7 @@ console.log(JSON.stringify(decodeInfo, null, 4));
 So the function does not throw errors, instead it returns objects which have a tag. Tag is usually left or right. Left has the error in the 
 object and right has the object. This is actually called a `Either` object.  An `Either` can take two forms. In success it returns the 
 `Right` object and on failure it returns the `Left` object. So if you get back a `Left`, you should understand that it is a failure state
-and work accordingly. This is a pattern observed in [haskell](http://learnyouahaskell.com/for-a-few-monads-more#error) and rust (Rust has
+and work accordingly. This is a pattern observed in [haskell](https://learnyouahaskell.com/for-a-few-monads-more#error) and rust (Rust has
 an entity called [`Result`](https://doc.rust-lang.org/std/result/)). `fold` is another functional programming concept which is very interesting.
 I don't think I can explain it well enough in this post, but for now let us understand that fold gives us a functionality to handle both success and 
 failure. I will probably make a different blog post of `fp-ts` explaining `fold`, `either`, `pipe`,`flow` and function composition.

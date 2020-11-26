@@ -96,7 +96,7 @@ Now, showWeather contains the actual logic of calling the API and returning Item
 http = urllib3.PoolManager()
 def showWeather(query):
     qurl = (
-        "http://api.openweathermap.org/data/2.5/weather?appid=<API_KEY>&type=accurate&units=metric&q="
+        "https://api.openweathermap.org/data/2.5/weather?appid=<API_KEY>&type=accurate&units=metric&q="
         + query.string.strip()
     )
 
