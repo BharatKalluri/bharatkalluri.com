@@ -1,5 +1,6 @@
 import { Heading, Text } from "@chakra-ui/react";
 import Layout from "../components/Layout";
+import ContactForm from "../components/ContactForm";
 
 const AboutPage = () => (
     <Layout title="About" description="About Bharat Kalluri" relativeCanonicalURL="/about">
@@ -15,6 +16,7 @@ const AboutPage = () => (
             Playing computer games. Most of my personal projects can be found on
             github.
         </Text>
+        <ContactForm />
     </Layout>
 );
 
