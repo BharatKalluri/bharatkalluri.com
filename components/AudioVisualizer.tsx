@@ -79,9 +79,8 @@ const AudioVisualizer = () => {
                         type="file"
                         id="audioPicker"
                         accept="audio/*"
-                        style={{ width: "30%" }}
                     />
-                    <audio style={{ width: "70%" }}>No support for audio</audio>
+                    <audio>No support for audio</audio>
                 </Stack>
                 <canvas
                     id="canvas"
