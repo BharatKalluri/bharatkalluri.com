@@ -3,7 +3,11 @@ import Layout from "../components/Layout";
 import ContactForm from "../components/ContactForm";
 
 const AboutPage = () => (
-    <Layout title="About" description="About Bharat Kalluri" relativeCanonicalURL="/about">
+    <Layout
+        title="About"
+        description="About Bharat Kalluri"
+        relativeCanonicalURL="/about"
+    >
         <Heading>About</Heading>
         <Text fontSize="lg">
             Hey and welcome! I’m a Software developer working in a fin-tech
@@ -17,7 +21,14 @@ const AboutPage = () => (
             github.
         </Text>
         <Text fontSize="lg">
-            A list of topics I am interested to write about are on a [public dashboard here](https://trello.com/b/oAAGQHp9/topics-to-write-about)
+            A list of topics I am interested to write about are on a{" "}
+            <a
+                href="https://trello.com/b/oAAGQHp9/topics-to-write-about"
+                style={{ textDecoration: "underline" }}
+                target="_blank"
+            >
+                public board here
+            </a>
         </Text>
         <ContactForm />
     </Layout>
