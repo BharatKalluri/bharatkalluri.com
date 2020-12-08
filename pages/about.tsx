@@ -16,6 +16,9 @@ const AboutPage = () => (
             Playing computer games. Most of my personal projects can be found on
             github.
         </Text>
+        <Text fontSize="lg">
+            A list of topics I am interested to write about are on a [public dashboard here](https://trello.com/b/oAAGQHp9/topics-to-write-about)
+        </Text>
         <ContactForm />
     </Layout>
 );

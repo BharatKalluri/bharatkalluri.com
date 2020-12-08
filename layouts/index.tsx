@@ -7,6 +7,7 @@ import { BlogFrontMatter, BlogFrontMatterValidator } from "../types";
 
 export const UtterancesComments: React.FC = () => {
     const { colorMode } = useColorMode();
+    // TODO: This duplicates like there is no tomorrow. Need to fix the ref piece.
     return (
         <section
             ref={elem => {
@@ -54,17 +55,10 @@ const PostLayout = (props: IPostLayoutProps) => {
                     w="100%"
                 >
                     <Heading as="h1" fontWeight="600" size="2xl" mt={10}>
-                        {frontMatter.title} {typeof frontMatter.publishedAt}
+                        {frontMatter.title}
                     </Heading>
                     <Text color="grey">Bharat Kalluri / {publishedAt}</Text>
                     {props.children}
-
-                    <Stack
-                        w={'100%'}
-                    >
-                        <Heading>Comments</Heading>
-                        <UtterancesComments />
-                    </Stack>
                 </Stack>
             </Layout>
         </>

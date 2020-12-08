@@ -4,14 +4,14 @@ import { useEffect } from "react";
 const AudioVisualizer = () => {
     const { colorMode } = useColorMode();
     useEffect(() => {
-        const audioContext = new AudioContext();
+        const audioContext = new (window.AudioContext ||
+            // @ts-ignore
+            window.webkitAudioContext)();
         const audioElement = document.querySelector("audio");
         const audioPickerElement = document.getElementById("audioPicker");
         const canvasElement = document.getElementById(
             "canvas"
         ) as HTMLCanvasElement;
-        canvasElement.width = window.innerWidth;
-        canvasElement.height = window.innerHeight;
         const canvasCtx = canvasElement.getContext("2d");
         if (
             audioElement !== null &&
@@ -26,29 +26,34 @@ const AudioVisualizer = () => {
                 audioElement.load();
                 audioElement.play();
 
+                // Root node
                 const track = audioContext.createMediaElementSource(
                     audioElement
                 );
+                // Audio out
                 track.connect(audioContext.destination);
 
                 // Analyzer node
                 const analyser = audioContext.createAnalyser();
                 analyser.fftSize = 128;
-                analyser.connect(audioContext.destination);
                 track.connect(analyser);
 
-                const WIDTH = canvasElement.width;
-                const HEIGHT = canvasElement.height;
-
+                // Creating the array to store the frequency data
                 const bufferLength = analyser.frequencyBinCount;
                 const dataArray = new Uint8Array(bufferLength);
+
+                // Some useful constants
+                const WIDTH = canvasElement.width;
+                const HEIGHT = canvasElement.height;
                 const barWidth = (WIDTH / bufferLength) * 2.5;
                 let barHeight;
                 let x = 0;
 
+                // Colors used for plotting
                 const MATTE_BLACK = "#1A202C";
                 const WHITE = "#FFFFFF";
 
+                // The function which will get called on each repaint
                 function draw() {
                     requestAnimationFrame(draw);
                     if (canvasCtx !== null) {
@@ -86,7 +91,7 @@ const AudioVisualizer = () => {
                     id="canvas"
                     style={{
                         width: "100%",
-                        height: "90vh",
+                        maxHeight: "250px",
                     }}
                 ></canvas>
             </Stack>

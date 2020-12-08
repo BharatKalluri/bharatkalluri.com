@@ -3,6 +3,7 @@ import CustomCodeBlock from "./CustomCodeBlock";
 import { CustomLink } from "./CustomLink";
 import { YoutubeEmbed } from "./YoutubeEmbed";
 import React from "react";
+import AudioVisualizer from "./AudioVisualizer";
 
 // TODO: I have no clue how to type this stuff
 export const MDXComponents = {
@@ -19,5 +20,6 @@ export const MDXComponents = {
         <Alert w="100%" variant="left-accent" status="info" {...props} />
     ),
     a: CustomLink,
-    YoutubeEmbed: YoutubeEmbed
+    YoutubeEmbed: YoutubeEmbed,
+    AudioVisualizer: AudioVisualizer,
 };

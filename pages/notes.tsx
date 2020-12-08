@@ -20,13 +20,15 @@ const Blog = () => {
             <Heading letterSpacing="tight" mb={2} as="h1">
                 Notes
             </Heading>
-            {sortedNotes.map((frontMatter: BlogFrontMatter) => (
-                <PostCard
-                    key={frontMatter.title}
-                    frontMatter={frontMatter}
-                    folderPrefix="note/"
-                />
-            ))}
+            {sortedNotes
+                .filter((f: BlogFrontMatter) => !f.draft)
+                .map((frontMatter: BlogFrontMatter) => (
+                    <PostCard
+                        key={frontMatter.title}
+                        frontMatter={frontMatter}
+                        folderPrefix="note/"
+                    />
+                ))}
         </Layout>
     );
 };
