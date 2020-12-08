@@ -12,6 +12,8 @@ const AudioVisualizer = () => {
         const canvasElement = document.getElementById(
             "canvas"
         ) as HTMLCanvasElement;
+        canvasElement.width = window.innerWidth;
+        canvasElement.height = window.innerHeight;
         const canvasCtx = canvasElement.getContext("2d");
         if (
             audioElement !== null &&
@@ -66,7 +68,7 @@ const AudioVisualizer = () => {
                             barHeight = dataArray[i];
                             canvasCtx.fillStyle =
                                 colorMode === "light" ? MATTE_BLACK : WHITE;
-                            canvasCtx.fillRect(x, 0, barWidth, barHeight);
+                            canvasCtx.fillRect(x, 0, barWidth, barHeight * 3);
                             x += barWidth + 3;
                         }
                     }
@@ -78,7 +80,7 @@ const AudioVisualizer = () => {
 
     return (
         <>
-            <Stack direction="column">
+            <Stack direction="column" style={{ width: "100%" }} >
                 <Stack direction="row" style={{ width: "100%" }} p={2}>
                     <input
                         type="file"
