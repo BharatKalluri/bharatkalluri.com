@@ -40,7 +40,9 @@ const LinkCard = ({ name, description, link, tags }: ILinkCardProps) => {
                         )}
                         <Stack direction="row" mt="1rem">
                             {tags?.map((tag: string) => (
-                                <Tag key={tag}>{tag}</Tag>
+                                <Tag key={tag} size="sm">
+                                    {tag}
+                                </Tag>
                             ))}
                         </Stack>
                     </Flex>
