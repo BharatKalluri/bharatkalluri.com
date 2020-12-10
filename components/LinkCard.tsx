@@ -1,13 +1,14 @@
-import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Link, Stack, Tag, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 interface ILinkCardProps {
     name: string;
     description?: string;
     link: string;
+    tags?: Array<string>;
 }
 
-const LinkCard = ({ name, description, link }: ILinkCardProps) => {
+const LinkCard = ({ name, description, link, tags }: ILinkCardProps) => {
     return (
         <NextLink href={link} passHref>
             <Link
@@ -27,7 +28,25 @@ const LinkCard = ({ name, description, link }: ILinkCardProps) => {
                         <Heading size="md" as="h3" letterSpacing="tight">
                             {name}
                         </Heading>
-                        {description && <Text mt="1rem" fontSize="md">{description}</Text>}
+                        {description && (
+                            <Text
+                                mt="1rem"
+                                fontSize="md"
+                                variant="solid"
+                                colorScheme="teal"
+                            >
+                                {description}
+                            </Text>
+                        )}
+                        {tags && (
+                            <Stack direction="row" mt="1rem">
+                                {tags?.map((tag: string) => (
+                                    <Tag key={tag} size="sm">
+                                        {tag}
+                                    </Tag>
+                                ))}
+                            </Stack>
+                        )}
                     </Flex>
                 </Box>
             </Link>
