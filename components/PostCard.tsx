@@ -18,6 +18,7 @@ export const PostCard = (props: IPostCardProps) => {
             name={frontMatter.title}
             description={frontMatter.description}
             link={`${props.folderPrefix}${slug}`}
+            tags={frontMatter.tags}
         />
     );
 };
