@@ -38,13 +38,15 @@ const LinkCard = ({ name, description, link, tags }: ILinkCardProps) => {
                                 {description}
                             </Text>
                         )}
-                        <Stack direction="row" mt="1rem">
-                            {tags?.map((tag: string) => (
-                                <Tag key={tag} size="sm">
-                                    {tag}
-                                </Tag>
-                            ))}
-                        </Stack>
+                        {tags && (
+                            <Stack direction="row" mt="1rem">
+                                {tags?.map((tag: string) => (
+                                    <Tag key={tag} size="sm">
+                                        {tag}
+                                    </Tag>
+                                ))}
+                            </Stack>
+                        )}
                     </Flex>
                 </Box>
             </Link>
