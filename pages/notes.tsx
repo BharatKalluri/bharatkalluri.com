@@ -7,6 +7,7 @@ import { PostCard } from "../components/PostCard";
 import React, { useState } from "react";
 import { BlogFrontMatter } from "../types";
 import { SearchIcon } from "@chakra-ui/icons";
+import { searchInFrontMatter } from "../utils/postUtils";
 
 const Blog = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
@@ -38,10 +39,7 @@ const Blog = () => {
             {sortedNotes
                 .filter((f: BlogFrontMatter) => !f.draft)
                 .filter((f: BlogFrontMatter) =>
-                    searchQuery.length > 0
-                        ? f.title.toLowerCase().includes(searchQuery) ||
-                          f.description?.toLowerCase().includes(searchQuery)
-                        : true
+                    searchInFrontMatter(f, searchQuery)
                 )
                 .map((frontMatter: BlogFrontMatter) => (
                     <PostCard
