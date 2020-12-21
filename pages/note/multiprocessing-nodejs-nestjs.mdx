@@ -1,0 +1,65 @@
+---
+title: Multiprocessing in nodejs using clusters
+publishedAt: "2020-12-22"
+tags:
+    - nodejs
+---
+
+There are differences between threads and processes. The simplistic explanation would be that threads share a memory
+context and processes do not. Similarly, threads are usually light weight. Whereas processes are heavier. But this is
+not the complete story. Different operating systems work with processes and threads differently. For example,
+[here](https://docs.microsoft.com/en-gb/windows/win32/procthread/about-processes-and-threads?redirectedfrom=MSDN) is
+what microsoft says and [here](http://lkml.iu.edu/hypermail/linux/kernel/9608/0191.html) is what linus says.
+But for now, understand that you opening word is a process and you typing and it auto saving could be explained to
+be two threads inside the word process. This topic most probably warrants its own post/note.
+
+Now coming to nodejs, Javascript is said to be single threaded. It is true up to some extent. But there is more to this.
+Some operations are offloaded to separate threads so that it does not block the main thread but everything pretty much
+runs on the main thread. To _really_ understand how JS works, watch [this](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
+great talk by Phillip Roberts.
+
+But one serious limitation is that nodejs will not (by defalt) make use of those multiple cores you have on your modern
+processor. But we can accomplish this using `cluster`s. Cluster is a nodejs library which allows us to `fork` our master
+process into multiple process. Which in turn makes use of the multiple cores.
+
+## So how does `cluster` work?
+
+Each nodejs process has a memory limit of 512 mb. This can be pushed further if required. To mitigate a possible bottleneck
+of memory, cluster is used. Instead of scaling up on a single process, the master process is forked into multiple child
+processes.
+
+Communication to and from the child processes happens using IPC (Inter process communication). So if your express server is forked
+into 4 processes for 4 cores. The master process later uses a round robin method to delegate requests to different processes. There
+is also another way calls are distributed, where the master just opens up a socket and the child process can pickup. The workers can accept
+the connections directly here. Read more [here](https://nodejs.org/api/cluster.html#cluster_how_it_works)
+
+## Using `Cluster` in NodeJS and NestJS
+
+```typescript
+if (cluster.isMaster) {
+    const cpuCount = os.cpus().length;
+
+    for (let i = 0; i < cpuCount; i += 1) {
+        cluster.fork();
+    }
+
+    cluster.on("online", (worker) => {
+        console.log("Worker " + worker.process.pid + " is online.");
+    });
+    cluster.on("exit", ({ process }) => {
+        console.log("worker " + process.pid + " died.");
+    });
+} else {
+    async function startServer() {
+        const app = await NestFactory.create(AppModule);
+        console.log("Started Listening for Server Port");
+        await app.listen(8080);
+    }
+
+    startServer();
+}
+```
+
+The code should be mostly straightforward. We first check if the current cluster is master. If it is, then we use it as an
+orchestrator to spawn and control other processes. In the master process, we have a look at the CPU count and start forking
+the process and log if they are online. For each of the child process, the server is run.
