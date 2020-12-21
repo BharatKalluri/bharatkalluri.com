@@ -18,7 +18,7 @@ Some operations are offloaded to separate threads so that it does not block the 
 runs on the main thread. To _really_ understand how JS works, watch [this](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
 great talk by Phillip Roberts.
 
-But one serious limitation is that nodejs will not (by defalt) make use of those multiple cores you have on your modern
+But one serious limitation is that nodejs will not (by default) make use of those multiple cores you have on your modern
 processor. But we can accomplish this using `cluster`s. Cluster is a nodejs library which allows us to `fork` our master
 process into multiple process. Which in turn makes use of the multiple cores.
 
