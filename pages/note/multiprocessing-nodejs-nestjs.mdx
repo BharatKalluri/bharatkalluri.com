@@ -19,10 +19,10 @@ runs on the main thread. To _really_ understand how JS works, watch [this](https
 great talk by Phillip Roberts.
 
 But one serious limitation is that nodejs will not (by default) make use of those multiple cores you have on your modern
-processor. But we can accomplish this using `cluster`s. Cluster is a nodejs library which allows us to `fork` our master
+processor. But we can accomplish this using clusters. Cluster is a nodejs library which allows us to `fork` our master
 process into multiple process. Which in turn makes use of the multiple cores.
 
-## So how does `cluster` work?
+## So how does cluster work?
 
 Each nodejs process has a memory limit of 512 mb. This can be pushed further if required. To mitigate a possible bottleneck
 of memory, cluster is used. Instead of scaling up on a single process, the master process is forked into multiple child
@@ -33,7 +33,7 @@ into 4 processes for 4 cores. The master process later uses a round robin method
 is also another way calls are distributed, where the master just opens up a socket and the child process can pickup. The workers can accept
 the connections directly here. Read more [here](https://nodejs.org/api/cluster.html#cluster_how_it_works)
 
-## Using `Cluster` in NodeJS and NestJS
+## Using Cluster in NodeJS and NestJS
 
 ```typescript
 if (cluster.isMaster) {

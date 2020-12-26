@@ -1,6 +1,7 @@
 import { Heading, Text } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 import ContactForm from "../components/ContactForm";
+import { CustomLink } from "../components/CustomLink";
 
 const AboutPage = () => (
     <Layout
@@ -22,13 +23,9 @@ const AboutPage = () => (
         </Text>
         <Text fontSize="lg">
             A list of topics I am interested to write about are on a{" "}
-            <a
-                href="https://trello.com/b/oAAGQHp9/topics-to-write-about"
-                style={{ textDecoration: "underline" }}
-                target="_blank"
-            >
-                public board here
-            </a>
+            <CustomLink href="https://trello.com/b/oAAGQHp9/topics-to-write-about">
+                trello board
+            </CustomLink>
         </Text>
         <ContactForm />
     </Layout>
