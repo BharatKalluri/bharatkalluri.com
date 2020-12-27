@@ -21,31 +21,13 @@ the start configuration.
 The game of life does not have players. It is just a set of rules operating on a initial configuration. Based on the
 start point, life evolves in different ways. The rules are very simple
 
-"""
-
-1.  Survivals. Every counter with two or three neighboring counters survives for the next generation.
-2.  Deaths. Each counter with four or more neighbors dies (is removed) from overpopulation. Every counter with one
-    neighbor or none dies from isolation.
-3.  Births. Each empty cell adjacent to exactly three neighbors--no more, no fewer--is a birth cell. A counter is placed
-    on the next move
-
-In brief, the rules should be such as to make the behavior of the population unpredictable.
-
-"""
-
-These rules are directly copied from the [scientific american
-article](https://web.stanford.edu/class/sts145/Library/life.pdf)
-
-It is **absolutely mind blowing** to understand how much complexity can emerge out of these simple rules. Spoilers, you
-can make some configuration which could expand exponentially, can make logic gates out of these simple rules and expand
-and make a full blown computer using those gates just by following these rules. Check out this video to understand how
-all this is possible.
-
-<YoutubeEmbed youtubeID="Kk2MH9O4pXY" />
-
-This is just an introduction to the field of cellular automata, and the bigger idea of emergence. These are very
-interesting topics and I will probably write up once I am more clear on them. These topics are huge and complicated. I
-probably won't even understand most of it, but its worth a shot.
+> 1.  Survivals. Every counter with two or three neighboring counters survives for the next generation.
+> 2.  Deaths. Each counter with four or more neighbors dies (is removed) from overpopulation. Every counter with one neighbor or none dies from isolation.
+> 3.  Births. Each empty cell adjacent to exactly three neighbors--no more, no fewer--is a birth cell. A counter is placed on the next move
+>     In brief, the rules should be such as to make the behavior of the population unpredictable.
+>
+>     These rules are directly copied from the [scientific american
+>     article](https://web.stanford.edu/class/sts145/Library/life.pdf)
 
 ## The implementation of the Game of life
 
@@ -174,11 +156,26 @@ repainted.
 `draw` gets called as per the framerate of the screen. You can also set the framerate to one frame per sec using
 `frameRate(1)` and watch the generation change at 1 frame paint per second.
 
-Here is the entire code
+[Here is the entire code](https://editor.p5js.org/BharatKalluri/sketches/0CfHbzr4d) and here is a sample output
 
-<iframe src="https://editor.p5js.org/BharatKalluri/embed/0CfHbzr4d"></iframe>
+<iframe
+    src="https://editor.p5js.org/BharatKalluri/embed/0CfHbzr4d"
+    width="100%"
+    height="500px"
+></iframe>
 
 ## Glider guns, stable states and logic gates
+
+It is **absolutely mind blowing** to understand how much complexity can emerge out of these simple rules. Spoilers, you
+can make some configuration which could expand exponentially, can make logic gates out of these simple rules and expand
+and make a full blown computer using those gates just by following these rules. Check out this video to understand how
+all this is possible.
+
+<YoutubeEmbed youtubeID="Kk2MH9O4pXY" />
+
+This is just an introduction to the field of cellular automata, and the bigger idea of emergence. These are very
+interesting topics and I will probably write up once I am more clear on them. These topics are huge and complicated. I
+probably won't even understand most of it, but its worth a shot.
 
 I highly recommend the documentary I linked to earlier in the article. There are patterns which have no end and in turn
 fire particles, these are called glider guns. There are properties to these gliders which can be used to cancel out 2
