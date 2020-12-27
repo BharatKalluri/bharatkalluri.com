@@ -1,0 +1,195 @@
+---
+title: Yet another implementation of Conway's game of life using p5.js
+publishedAt: "2020-12-27"
+tags:
+    - javascript
+---
+
+I've heard about this game on The Joe Rogan podcast with Lex Fridman (#1537). Lex talks about cellular automata,
+Hyper-graphs and a bunch of other things. In the same podcast, he mentions the infamous game of life. This is what
+piqued my interest in this topic. So I thought I should somehow implement this for fun. I thought I will start
+implementing it using typescript and react initially, but then remembered about p5.js and The coding train channel. So,
+I've pivoted and started learning the basics of p5.js and implementing the game using JS.
+
+## The beauty of simple rules and how it can create complexity
+
+In 1970, A column writer presented the conway's game of life as a column in the scientific american. At that point,
+conway did not have a computer to fully model the output and planned the rules of the game using a go board. The idea
+was to have three very simple "genetic laws" for life. And using these rules, observe how complexity emerges based on
+the start configuration.
+
+The game of life does not have players. It is just a set of rules operating on a initial configuration. Based on the
+start point, life evolves in different ways. The rules are very simple
+
+> 1.  Survivals. Every counter with two or three neighboring counters survives for the next generation.
+> 2.  Deaths. Each counter with four or more neighbors dies (is removed) from overpopulation. Every counter with one neighbor or none dies from isolation.
+> 3.  Births. Each empty cell adjacent to exactly three neighbors--no more, no fewer--is a birth cell. A counter is placed on the next move
+>     In brief, the rules should be such as to make the behavior of the population unpredictable.
+>
+>     These rules are directly copied from the [scientific american
+>     article](https://web.stanford.edu/class/sts145/Library/life.pdf)
+
+## The implementation of the Game of life
+
+The rules are very simple to model. So we just need to draw up a bunch of squares and render them on the screen. I
+choose to pick my initial configuration randomly. Then based on the rules, create a new generation based on the current
+configuration and then repaint the new generation. And then basically repeat the above steps.
+
+Some basics on p5.js.. There are two important methods we should know about. `setup` and `draw`. Setup sets up the
+stage, the initial frame and draw is called every time there needs to be a repaint. p5.js also gives us a bunch of
+methods to draw shapes, paint them etc..
+
+Let us start by writing up a couple of helper methods. One to generate a 2D array, one to calculate neighbors and see
+how many of them are alive and one more to calculate the next generation from the current 2D matrix. A couple of
+assumptions I will be making. I will assume that the box wraps around itself (like a sphere). What this means is that,
+for the cell which is at the last column, the neighboring cell will be the cell on the first column in the same row. One
+more assumptions is that a white cell is 1, meaning its alive and a black cell is 0, meaning its dead. You can flip this
+and still get the same result.
+
+```javascript
+// global variables
+let ogMatrix;
+let nextMatrix;
+const squareSize = 20;
+const matSize = 40;
+const canvasSize = matSize * squareSize;
+
+function generate2DArray(rows, columns) {
+    const matrix = [];
+    for (let i = 0; i < rows; i++) {
+        const colContent = Array.from(
+            {
+                length: columns,
+            },
+            () => {
+                return floor(random(2));
+            }
+        );
+        matrix[i] = colContent;
+    }
+    return matrix;
+}
+```
+
+Initialized a couple of global variables. `ogMatrix` stands for original matrix. `generate2DArray` is a simple method to generate a 2D matrix with 0s and 1s randomly placed.
+
+```javascript
+function calcSurr(matrix, r, c) {
+    let sumVal = 0;
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+            const rowNum = (r + i + matSize) % matSize;
+            const colNum = (c + j + matSize) % matSize;
+            sumVal = sumVal + matrix[rowNum][colNum];
+        }
+    }
+    return sumVal - matrix[r][c];
+}
+```
+
+`calcSurr` goes to the 8 surrounding places relative to the cells and adds up all the 1s it sees. Since we are writing a
+for loop for this, at the end I am subtracting the cell itself from the result. So that we only look at the 8
+surrounding neighbors.
+
+```javascript
+function calcNextGen(original) {
+    nextGen = generate2DArray(matSize, matSize);
+    for (let r = 0; r < matSize; r++) {
+        for (let c = 0; c < matSize; c++) {
+            let negVal = calcSurr(original, r, c);
+            let origVal = original[r][c];
+
+            // Rules
+            if (origVal === 0 && negVal === 3) {
+                nextGen[r][c] = 1; // spawn life
+            } else if (origVal === 1 && (negVal < 2 || negVal > 3)) {
+                nextGen[r][c] = 0; // death due to over or under population
+            } else {
+                nextGen[r][c] = origVal;
+            }
+        }
+    }
+
+    return nextGen;
+}
+```
+
+`calcNextGen` calculates the next generation from the current generation, using the above helper methods and rules of
+life.
+
+Piecing all of this together
+
+```javascript
+function setup() {
+    createCanvas(canvasSize, canvasSize);
+    // Generate original matrix here
+    ogMatrix = generate2DArray(matSize, matSize);
+}
+
+function draw() {
+    background(0);
+
+    // draw ogMatrix on the screen to render
+    for (let r = 0; r < matSize; r++) {
+        for (let c = 0; c < matSize; c++) {
+            rect(r * squareSize, c * squareSize, squareSize, squareSize);
+            if (ogMatrix[r][c] === 1) {
+                fill(255);
+            } else {
+                fill(0);
+            }
+        }
+    }
+
+    // calculate nextGen based on ogMatrix
+    nextGenMatrix = calcNextGen(ogMatrix);
+
+    // replace ogMatrix with nextGenMatrix
+    ogMatrix = nextGenMatrix;
+}
+```
+
+The setup function sets up the canvas, we also generate the initial matrix. In the draw function, the background is set
+to black, ogMatrix is rendered on the screen as a bunch of colored squares, the next generation is calculated and then
+repainted.
+
+`draw` gets called as per the framerate of the screen. You can also set the framerate to one frame per sec using
+`frameRate(1)` and watch the generation change at 1 frame paint per second.
+
+[Here is the entire code](https://editor.p5js.org/BharatKalluri/sketches/0CfHbzr4d) and here is a sample output
+
+<iframe
+    src="https://editor.p5js.org/BharatKalluri/embed/0CfHbzr4d"
+    width="100%"
+    height="500px"
+></iframe>
+
+## Glider guns, stable states and logic gates
+
+It is **absolutely mind blowing** to understand how much complexity can emerge out of these simple rules. Spoilers, you
+can make some configuration which could expand exponentially, can make logic gates out of these simple rules and expand
+and make a full blown computer using those gates just by following these rules. Check out this video to understand how
+all this is possible.
+
+<YoutubeEmbed youtubeID="Kk2MH9O4pXY" />
+
+This is just an introduction to the field of cellular automata, and the bigger idea of emergence. These are very
+interesting topics and I will probably write up once I am more clear on them. These topics are huge and complicated. I
+probably won't even understand most of it, but its worth a shot.
+
+I highly recommend the documentary I linked to earlier in the article. There are patterns which have no end and in turn
+fire particles, these are called glider guns. There are properties to these gliders which can be used to cancel out 2
+gliders. There are entities called glider eaters which consume gliders, and there are entities called reflectors which
+can divert gliders in an angle. Using these three ideas, logic gates (AND, NOT, OR) can be built. Using the logic gates,
+storage latches can be built. And using all these things, a computer can be built!
+
+Here is a computer built using game of life (GOL) computing the fibonacci sequence! ([Here is some documentation for
+understanding how all this fits together](https://www.nicolasloizeau.com/gol-computer))
+
+<YoutubeEmbed youtubeID="8unMqSp0bFY" />
+
+Another video showcasing some GOL stimulations
+
+<YoutubeEmbed youtubeID="C2vgICfQawE" />
+
+We have just scratched the surface here, I will try to learn more and write more about cellular automata. Wish me luck!
