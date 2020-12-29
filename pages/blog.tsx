@@ -13,7 +13,13 @@ const Blog = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const sortedPosts = blogPosts.sort(
         (a: BlogFrontMatter, b: BlogFrontMatter) => {
-            return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
+            if (a.pinned === true) {
+                return -1;
+            } else if (b.pinned === true) {
+                return 1;
+            } else {
+                return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
+            }
         }
     );
     return (

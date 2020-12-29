@@ -1,6 +1,6 @@
 import { Box, Flex, Heading, Link, Stack, Tag, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { AiFillPushpin } from "react-icons/ai";
+import { AiTwotonePushpin } from "react-icons/ai";
 
 interface ILinkCardProps {
     name: string;
@@ -33,11 +33,18 @@ const LinkCard = ({
                         justifyContent="space-between"
                         flexDirection="column"
                     >
-                        <Stack direction="row">
-                            {isPinned === true && <AiFillPushpin />}
+                        <Stack
+                            direction="row"
+                            align="center"
+                            style={{ width: "100%" }}
+                            justify="space-between"
+                        >
                             <Heading size="md" as="h3" letterSpacing="tight">
                                 {name}
                             </Heading>
+                            {isPinned === true && (
+                                <AiTwotonePushpin size="20" />
+                            )}
                         </Stack>
                         {description && (
                             <Text
