@@ -44,19 +44,19 @@ mute_ad_spotify() {
 }
 ```
 
-The important command to understand is `dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata 2>/dev/null | sed -n '/title/{n;p}' | cut -d '"' -f 2`. Let's break it down.
+The important command to understand is `dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata 2>/dev/null | sed -n '/title/{n;p}' | cut -d '"' -f 2` Let's break it down.
 
--   `dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata 2>/dev/null`.
+-   `dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata`.
     This sends a command to d-bus asking for mpris properties of spotify. This will return a bunch of values like track
     ID, length, album, albumArtist etc... Run this command when running spotify to get a taste of what data is available
     for us to play with. ([ref](https://gist.github.com/wandernauta/6800547))
+-   Also forwarding the stderr to /dev/null, using `2>/dev/null`. The "right" way to do it is to check if spotify is even running and if
+    yes, ping the d-bus. But that is too many commands for something which runs every second. So whenever spotify is not
+    running, the command will error out and the error will be sent to the void.
 -   `sed -n '/title/{n;p}'` The -n flag suppress all output that isn't explicitly printed. `n` in the flower brackets
     moves to the next line and `p` prints it explicitly.([ref](https://stackoverflow.com/a/51615330/10337869))
 -   At this point we will be left with `variant string "<media name>"`. `cut` is used with a
     delimiter(`-d`) of `"` and the first (zero ordered) piece is taken out using `-f`
--   Finally, forwarding the stderr to /dev/null. The "right" way to do it is to check if spotify is even running and if
-    yes, ping the d-bus. But that is too many commands for something which runs every second. So whenever spotify is not
-    running, the command will error out and the error will be sent to the void.
 
 Now, the media title is compared to string `"Advertisement"` (that's what spotify seems to send to MPRIS if it is
 playing an ad). If true, then we mute the sound using `amixer -q -D pulse sset Master mute` else unmute.
