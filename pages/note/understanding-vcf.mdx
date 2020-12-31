@@ -6,3 +6,158 @@ publishedAt: "2021-01-01"
 This is also called as the vCard format. The spec is located on the IETF website
 ([rfc6350](https://tools.ietf.org/html/rfc6350)). The complete spec is 75 pages! 75 pages of rules defining how to store
 contact information!
+
+## Notes while reading the spec
+
+-   mime type: `text/vcard`. Can contain one contact or a group of contacts
+-   lines are delimited by line breaks, which is a CRLF sequence (U+000D followed by U+000A)
+-   Line folding _should_ be done at 75 octets (75 letters? since octets is 8 bits = byte?). Folding can be done by
+    inserting a CRLF immediately followed by a single white space character (space (U+0020) or horizontal tab (U+0009))
+-   The spec uses ABNF Format Definition ([which has its own spec](https://tools.ietf.org/html/rfc5234), a shorter
+    description can be [found on wikipedia](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form)). This
+    could take time, but is a pretty powerful way of representing rules. Here is the complete vCard spec in ABNF
+
+```
+vcard-entity = 1*vcard
+
+vcard = "BEGIN:VCARD" CRLF
+        "VERSION:4.0" CRLF
+        1*contentline
+        "END:VCARD" CRLF
+    ; A vCard object MUST include the VERSION and FN properties.
+    ; VERSION MUST come immediately after BEGIN:VCARD.
+contentline = [group "."] name *(";" param) ":" value CRLF
+    ; When parsing a content line, folded lines must first
+    ; be unfolded according to the unfolding procedure
+    ; described in Section 3.2.
+    ; When generating a content line, lines longer than 75
+    ; characters SHOULD be folded according to the folding
+    ; procedure described in Section 3.2.
+
+group = 1*(ALPHA / DIGIT / "-")
+name  = "SOURCE" / "KIND" / "FN" / "N" / "NICKNAME"
+        / "PHOTO" / "BDAY" / "ANNIVERSARY" / "GENDER" / "ADR" / "TEL"
+        / "EMAIL" / "IMPP" / "LANG" / "TZ" / "GEO" / "TITLE" / "ROLE"
+        / "LOGO" / "ORG" / "MEMBER" / "RELATED" / "CATEGORIES"
+        / "NOTE" / "PRODID" / "REV" / "SOUND" / "UID" / "CLIENTPIDMAP"
+        / "URL" / "KEY" / "FBURL" / "CALADRURI" / "CALURI" / "XML"
+        / iana-token / x-name
+    ; Parsing of the param and value is based on the "name" as
+    ; defined in ABNF sections below.
+    ; Group and name are case-insensitive.
+
+iana-token = 1*(ALPHA / DIGIT / "-")
+    ; identifier registered with IANA
+
+x-name = "x-" 1*(ALPHA / DIGIT / "-")
+    ; Names that begin with "x-" or "X-" are
+    ; reserved for experimental use, not intended for released
+    ; products, or for use in bilateral agreements.
+
+param = language-param / value-param / pref-param / pid-param
+        / type-param / geo-parameter / tz-parameter / sort-as-param
+        / calscale-param / any-param
+    ; Allowed parameters depend on property name.
+
+param-value = *SAFE-CHAR / DQUOTE *QSAFE-CHAR DQUOTE
+
+any-param  = (iana-token / x-name) "=" param-value *("," param-value)
+
+NON-ASCII = UTF8-2 / UTF8-3 / UTF8-4
+    ; UTF8-{2,3,4} are defined in [RFC3629]
+
+QSAFE-CHAR = WSP / "!" / %x23-7E / NON-ASCII
+    ; Any character except CTLs, DQUOTE
+
+SAFE-CHAR = WSP / "!" / %x23-39 / %x3C-7E / NON-ASCII
+    ; Any character except CTLs, DQUOTE, ";", ":"
+
+VALUE-CHAR = WSP / VCHAR / NON-ASCII
+    ; Any textual character
+```
+
+-   Folding and unfolding is a critical piece. A line that begins with a white space character is a continuation of
+    the previous line and should be treated accordingly.
+-   Here is the ABNF spec for `value`
+
+```
+value = text
+    / text-list
+    / date-list
+    / time-list
+    / date-time-list
+    / date-and-or-time-list
+    / timestamp-list
+    / boolean
+    / integer-list
+    / float-list
+    / URI               ; from Section 3 of [RFC3986]
+    / utc-offset
+    / Language-Tag
+    / iana-valuespec
+; Actual value type depends on property name and VALUE parameter.
+text = *TEXT-CHAR
+
+TEXT-CHAR = "\\" / "\," / "\n" / WSP / NON-ASCII
+        / %x21-2B / %x2D-5B / %x5D-7E
+; Backslashes, commas, and newlines must be encoded.
+
+component = "\\" / "\," / "\;" / "\n" / WSP / NON-ASCII
+        / %x21-2B / %x2D-3A / %x3C-5B / %x5D-7E
+list-component = component *("," component)
+
+text-list             = text             *("," text)
+date-list             = date             *("," date)
+time-list             = time             *("," time)
+date-time-list        = date-time        *("," date-time)
+date-and-or-time-list = date-and-or-time *("," date-and-or-time)
+timestamp-list        = timestamp        *("," timestamp)
+integer-list          = integer          *("," integer)
+float-list            = float            *("," float)
+
+boolean = "TRUE" / "FALSE"
+integer = [sign] 1*DIGIT
+float   = [sign] 1*DIGIT ["." 1*DIGIT]
+
+sign = "+" / "-"
+
+year   = 4DIGIT  ; 0000-9999
+month  = 2DIGIT  ; 01-12
+day    = 2DIGIT  ; 01-28/29/30/31 depending on month and leap year
+hour   = 2DIGIT  ; 00-23
+minute = 2DIGIT  ; 00-59
+second = 2DIGIT  ; 00-58/59/60 depending on leap second
+zone   = utc-designator / utc-offset
+utc-designator = %x5A  ; uppercase "Z"
+
+date          = year    [month  day]
+            / year "-" month
+            / "--"     month [day]
+            / "--"      "-"   day
+date-noreduc  = year     month  day
+            / "--"     month  day
+            / "--"      "-"   day
+date-complete = year     month  day
+
+time          = hour [minute [second]] [zone]
+            /  "-"  minute [second]  [zone]
+            /  "-"   "-"    second   [zone]
+time-notrunc  = hour [minute [second]] [zone]
+time-complete = hour  minute  second   [zone]
+    time-designator = %x54  ; uppercase "T"
+date-time = date-noreduc  time-designator time-notrunc
+timestamp = date-complete time-designator time-complete
+
+date-and-or-time = date-time / date / time-designator time
+
+utc-offset = sign hour [minute]
+
+Language-Tag = <Language-Tag, defined in [RFC5646], Section 2.1>
+
+iana-valuespec = <value-spec, see Section 12>
+            ; a publicly defined valuetype format, registered
+            ; with IANA, as defined in Section 12 of this
+            ; document.
+```
+
+All of this is to say the value can take a bunch of values. Different dates, timestamps with offsets, normal text etc..
