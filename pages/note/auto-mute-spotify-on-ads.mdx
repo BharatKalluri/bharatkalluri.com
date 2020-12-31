@@ -1,0 +1,74 @@
+---
+title: Auto muting when spotify plays ads
+publishedAt: "2020-12-31"
+tags:
+    - shell
+---
+
+I did not buy spotify premium for this year (yet?). I'm not sure if it is just me or it is happening for everybody, but
+it looks like for some reason I'm bombarded with ads. I get 2-3 ads between every 3-4 songs. They are boring, repetitive
+and even sometimes in other languages. I understand that the idea of ads is to push people to pay, so I guess they are
+successful in that regard.
+
+## The idea
+
+I thought I will finally solve this for myself today. The idea is to mute spotify whenever the ad starts playing.
+
+## Understanding d-bus and MPRIS
+
+Some context before I start showing how I solved this. There is a message bus system in linux called d-bus. [d-bus is a
+free desktop standard](https://www.freedesktop.org/wiki/Software/dbus/) and is behind almost all the communication which
+happens between programs.
+
+One more important piece is called MPRIS. MPRIS stands for Media Player Remote Interfacing Specification. It is a
+standard d-bus interface which aims to produce common programmatic API for controlling media players (This is straight up
+copied from the spec). [This is also a freedesktop spec.](https://www.freedesktop.org/wiki/Specifications/mpris-spec/)
+This is the beauty of specs and the free desktop, all the famous desktops adhere to this standard and it is well
+documented.
+
+## The solution
+
+All we have to do is have a small function run every second, check what media is playing by name. If it turns out to be
+an `"Advertisement"`, then we just mute the audio source. I am running ALSA (Advanced Linux Sound Architecture) in the
+background and it can be controlled by [amixer](https://linux.die.net/man/1/amixer).
+
+```bash
+mute_ad_spotify() {
+    MEDIA_TITLE=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata 2>/dev/null | sed -n '/title/{n;p}' | cut -d '"' -f 2)
+
+    if [[ $MEDIA_TITLE = "Advertisement" ]]; then
+        amixer -q -D pulse sset Master mute
+    else
+        amixer -q -D pulse sset Master unmute
+    fi
+}
+```
+
+The important command to understand is `dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata 2>/dev/null | sed -n '/title/{n;p}' | cut -d '"' -f 2`. Let's break it down.
+
+-   `dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata 2>/dev/null`.
+    This sends a command to d-bus asking for mpris properties of spotify. This will return a bunch of values like track
+    ID, length, album, albumArtist etc... Run this command when running spotify to get a taste of what data is available
+    for us to play with. ([ref](https://gist.github.com/wandernauta/6800547))
+-   `sed -n '/title/{n;p}'` The -n flag suppress all output that isn't explicitly printed. `n` in the flower brackets
+    moves to the next line and `p` prints it explicitly.([ref](https://stackoverflow.com/a/51615330/10337869))
+-   At this point we will be left with `variant string "<media name>"`. `cut` is used with a
+    delimiter(`-d`) of `"` and the first (zero ordered) piece is taken out using `-f`
+-   Finally, forwarding the stderr to /dev/null. The "right" way to do it is to check if spotify is even running and if
+    yes, ping the d-bus. But that is too many commands for something which runs every second. So whenever spotify is not
+    running, the command will error out and the error will be sent to the void.
+
+Now, the media title is compared to string `"Advertisement"` (that's what spotify seems to send to MPRIS if it is
+playing an ad). If true, then we mute the sound using `amixer -q -D pulse sset Master mute` else unmute.
+
+Finally we need to place it somewhere such that it runs on startup. **Not in `.bashrc`/`.zshrc`, because they only run when
+the shell starts. To run it when the system starts, this trigger should be placed in `.profile`.** Let us add a loop in
+`.profile` to run the function every second.
+
+```bash
+# .profile
+# Mute spotify on ad
+while sleep 1; do mute_ad_spotify; done &
+```
+
+That's it! Now whenever spotify plays an ad, the audio is muted automatically.
