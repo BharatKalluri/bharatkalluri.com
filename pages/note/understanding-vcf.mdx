@@ -1,0 +1,419 @@
+---
+title: Understanding the VCF format for contact storage and transfer
+publishedAt: "2021-01-01"
+---
+
+This is also called as the vCard format. The spec is located on the IETF website
+([rfc6350](https://tools.ietf.org/html/rfc6350)). The complete spec is 75 pages! 75 pages of rules defining how to store
+contact information!
+
+## Wait, why are you doing this to yourself?
+
+Specs are interesting, a group of people took upon a task of forming a set of rules for defining how contacts should be
+stored and transferred throughout multiple organizations. This sounds like a tremendously hard task (and it is). There
+must have been a lot of research done before deciding on a specification meant for the world.
+
+Specs also show the breadth and depth of the problem. They showcase pieces which you and I might not think of. I think
+this also helps in appreciating the complexity of the problem.
+
+I thought a good starting point for me would be a spec of a standard which is not too complicated. So I picked up the
+vCard spec. Well, turns out what I expected to happen was wrong. This spec is 75 pages! But then, I can't back down now.
+So here is what I have been able to get out reading the spec. Hope you also find this interesting.
+
+## Notes while reading the spec
+
+-   mime type: `text/vcard`. Can contain one contact or a group of contacts
+-   lines are delimited by line breaks, which is a CRLF sequence (U+000D followed by U+000A)
+-   Line folding _should_ be done at 75 octets (75 letters? since octets is 8 bits = byte?). Folding can be done by
+    inserting a CRLF immediately followed by a single white space character (space (U+0020) or horizontal tab (U+0009))
+-   The spec uses ABNF Format Definition ([which has its own spec](https://tools.ietf.org/html/rfc5234), a shorter
+    description can be [found on wikipedia](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form)). This
+    could take time, but is a pretty powerful way of representing rules. Here is the complete vCard spec in ABNF
+
+```
+vcard-entity = 1*vcard
+
+vcard = "BEGIN:VCARD" CRLF
+        "VERSION:4.0" CRLF
+        1*contentline
+        "END:VCARD" CRLF
+    ; A vCard object MUST include the VERSION and FN properties.
+    ; VERSION MUST come immediately after BEGIN:VCARD.
+contentline = [group "."] name *(";" param) ":" value CRLF
+    ; When parsing a content line, folded lines must first
+    ; be unfolded according to the unfolding procedure
+    ; described in Section 3.2.
+    ; When generating a content line, lines longer than 75
+    ; characters SHOULD be folded according to the folding
+    ; procedure described in Section 3.2.
+
+group = 1*(ALPHA / DIGIT / "-")
+name  = "SOURCE" / "KIND" / "FN" / "N" / "NICKNAME"
+        / "PHOTO" / "BDAY" / "ANNIVERSARY" / "GENDER" / "ADR" / "TEL"
+        / "EMAIL" / "IMPP" / "LANG" / "TZ" / "GEO" / "TITLE" / "ROLE"
+        / "LOGO" / "ORG" / "MEMBER" / "RELATED" / "CATEGORIES"
+        / "NOTE" / "PRODID" / "REV" / "SOUND" / "UID" / "CLIENTPIDMAP"
+        / "URL" / "KEY" / "FBURL" / "CALADRURI" / "CALURI" / "XML"
+        / iana-token / x-name
+    ; Parsing of the param and value is based on the "name" as
+    ; defined in ABNF sections below.
+    ; Group and name are case-insensitive.
+
+iana-token = 1*(ALPHA / DIGIT / "-")
+    ; identifier registered with IANA
+
+x-name = "x-" 1*(ALPHA / DIGIT / "-")
+    ; Names that begin with "x-" or "X-" are
+    ; reserved for experimental use, not intended for released
+    ; products, or for use in bilateral agreements.
+
+param = language-param / value-param / pref-param / pid-param
+        / type-param / geo-parameter / tz-parameter / sort-as-param
+        / calscale-param / any-param
+    ; Allowed parameters depend on property name.
+
+param-value = *SAFE-CHAR / DQUOTE *QSAFE-CHAR DQUOTE
+
+any-param  = (iana-token / x-name) "=" param-value *("," param-value)
+
+NON-ASCII = UTF8-2 / UTF8-3 / UTF8-4
+    ; UTF8-{2,3,4} are defined in [RFC3629]
+
+QSAFE-CHAR = WSP / "!" / %x23-7E / NON-ASCII
+    ; Any character except CTLs, DQUOTE
+
+SAFE-CHAR = WSP / "!" / %x23-39 / %x3C-7E / NON-ASCII
+    ; Any character except CTLs, DQUOTE, ";", ":"
+
+VALUE-CHAR = WSP / VCHAR / NON-ASCII
+    ; Any textual character
+```
+
+-   Folding and unfolding is a critical piece. A line that begins with a white space character is a continuation of
+    the previous line and should be treated accordingly.
+-   Here is the ABNF spec for `value`
+
+```
+value = text
+    / text-list
+    / date-list
+    / time-list
+    / date-time-list
+    / date-and-or-time-list
+    / timestamp-list
+    / boolean
+    / integer-list
+    / float-list
+    / URI               ; from Section 3 of [RFC3986]
+    / utc-offset
+    / Language-Tag
+    / iana-valuespec
+; Actual value type depends on property name and VALUE parameter.
+text = *TEXT-CHAR
+
+TEXT-CHAR = "\\" / "\," / "\n" / WSP / NON-ASCII
+        / %x21-2B / %x2D-5B / %x5D-7E
+; Backslashes, commas, and newlines must be encoded.
+
+component = "\\" / "\," / "\;" / "\n" / WSP / NON-ASCII
+        / %x21-2B / %x2D-3A / %x3C-5B / %x5D-7E
+list-component = component *("," component)
+
+text-list             = text             *("," text)
+date-list             = date             *("," date)
+time-list             = time             *("," time)
+date-time-list        = date-time        *("," date-time)
+date-and-or-time-list = date-and-or-time *("," date-and-or-time)
+timestamp-list        = timestamp        *("," timestamp)
+integer-list          = integer          *("," integer)
+float-list            = float            *("," float)
+
+boolean = "TRUE" / "FALSE"
+integer = [sign] 1*DIGIT
+float   = [sign] 1*DIGIT ["." 1*DIGIT]
+
+sign = "+" / "-"
+
+year   = 4DIGIT  ; 0000-9999
+month  = 2DIGIT  ; 01-12
+day    = 2DIGIT  ; 01-28/29/30/31 depending on month and leap year
+hour   = 2DIGIT  ; 00-23
+minute = 2DIGIT  ; 00-59
+second = 2DIGIT  ; 00-58/59/60 depending on leap second
+zone   = utc-designator / utc-offset
+utc-designator = %x5A  ; uppercase "Z"
+
+date          = year    [month  day]
+            / year "-" month
+            / "--"     month [day]
+            / "--"      "-"   day
+date-noreduc  = year     month  day
+            / "--"     month  day
+            / "--"      "-"   day
+date-complete = year     month  day
+
+time          = hour [minute [second]] [zone]
+            /  "-"  minute [second]  [zone]
+            /  "-"   "-"    second   [zone]
+time-notrunc  = hour [minute [second]] [zone]
+time-complete = hour  minute  second   [zone]
+    time-designator = %x54  ; uppercase "T"
+date-time = date-noreduc  time-designator time-notrunc
+timestamp = date-complete time-designator time-complete
+
+date-and-or-time = date-time / date / time-designator time
+
+utc-offset = sign hour [minute]
+
+Language-Tag = <Language-Tag, defined in [RFC5646], Section 2.1>
+
+iana-valuespec = <value-spec, see Section 12>
+            ; a publicly defined valuetype format, registered
+            ; with IANA, as defined in Section 12 of this
+            ; document.
+```
+
+All of this is to say the value can take a bunch of values. Different dates, timestamps with offsets, normal text etc..
+
+-   `param` can take on multiple values as values as well
+-   vCard properties are the most interesting and important component. There are
+    -   5 general properties (`BEGIN, END, SOURCE, KIND, XML`)
+    -   7 user identification properties (`FN, N, NICKNAME, PHOTO, BDAY, ANNIVERSARY, GENDER`)
+    -   1 user address property (`ADR`)
+    -   4 user communication properties (`TEL, EMAIL, IMPP, LANG`)
+    -   2 user geo properties (TZ, GEO)
+    -   6 user organization properties (`TITLE, ROLE, LOGO, ORG, MEMBER, RELATED`)
+    -   7 explanatory properties (`CATEGORIES, NOTE, PRODID, REV, SOUND, UID, CLIENTPIDMAP, URL, VERSION`)
+    -   1 security propery (`KEY`)
+    -   3 calendar properties (`FBURL, CALADURI, CALURI`)
+    -   And some extended properties and parameters (begin with `X-` and can be an defined bilaterally between two
+        agents)
+
+I can talk about each one of them individually, but then I will just be making a copy of the spec. So if you have
+questions, I suggest you go through that piece of the spec to clarify your questions.
+
+## Trying to decode a .vcf file, following the spec
+
+Let us pick up an example vcf document from icloud contacts as an example
+
+```
+BEGIN:VCARD
+VERSION:3.0
+N:Kalluri;Bharat;Kumar;;
+FN:Bharat Kalluri
+ORG:Refyne;Technology
+NICKNAME:Myself
+BDAY;VALUE=date:1997-10-04
+TITLE:SDE
+NOTE:Previously worked at JitFin\, Shubhloans and Wells Fargo.
+item1.ADR;TYPE=HOME;TYPE=pref:;;2nd block;Banga
+ lore;Karnataka;560032;India
+item1.X-ABADR:in
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:(961) 199-3894
+item2.URL;TYPE=pref:https://bharatkalluri.com
+item2.X-ABLABEL:_$!<HomePage>!$_
+EMAIL;TYPE=HOME;TYPE=pref;TYPE=INTERNET:bharatkalluri@protonmail.com
+X-SOCIALPROFILE;X-USER=bharatkalluri;TYPE=twitter:http://twitter.com/bharat
+ kalluri
+PRODID:-//Apple Inc.//iCloud Web Address Book 2023B58//EN
+REV:2021-01-01T05:01:46Z
+END:VCARD
+```
+
+Every vCard begins with `BEGIN:VCARD` and ends with `END:VCARD`. And the second line _must_ contain the version, in this
+case `VERSION:3.0`. Which is a bummer, the latest version of vCard is 4.0.
+
+The next property is `N`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.2.2), cardinality is \*1 which means
+there can be [0,1] entities of N. And N stands for name of the contact. Carefully read the special note, it says "The
+structured property value corresponds, in sequence, to the Family Names (also known as surnames), Given Names,
+Additional names, Honorific Prefixes, and Honorific Suffixes.The text components are separated by the SEMICOLON
+character (U+003B). Individual text components can include multiple text values separated by the COMMA character
+(U+002C)". There we have everything we need, so if this property was denoted as a json, it would be
+
+```json
+{
+    "name": {
+        "content": {
+            "familyNames": ["Kalluri"],
+            "givenNames": ["Bharat"],
+            "additionalNames": ["Kumar"],
+            "honorificPrefixes": [],
+            "honorificSuffixes": []
+        }
+    }
+}
+```
+
+> Why have a nested field called content? Check note one down below about optional params like type etc..
+
+Jumping to the next property, `FN`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.2.1). This talks about the
+name of the object the vCard represents. cardinality of 1\*, which means only one entity is allowed. THis is straight
+forward, this is just a text field. The json here would be
+
+```json
+{
+    "objName": {
+        "content": "Bharat Kalluri"
+    }
+}
+```
+
+To the next one, `ORG`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.6.4). Its purpose is to specify
+organizational name and units. cardinality is \*, which means [0, infinity]. Entities are separated by colon(;). The
+property ordered such that the first one is the org name and the consecutive levels (zero or more) are org unit names.
+One interesting observation, looks like the assumption is that one person can belong to one company? How would
+freelancers working for multiple corporations be represented? Not sure how that would work..
+So, the json would be
+
+```json{
+    "organizationInfo": {
+        "content": {
+            "name": "Refyne",
+            "units": ["Technology"]
+        }
+    }
+}
+```
+
+The next prop, `NICKNAME`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.2.3). With a cardinality of \*. One
+or more text values separated by comma. So the json representation is
+
+```json
+{
+    "nickName": {
+        "content": "Myself"
+    }
+}
+```
+
+Next prop, `BDAY`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.2.3). This is hard to make sense
+out of, looks like there can be a `VALUE` param which can be text/date-and-or-time. So the json here would be
+(I'm sure I'm missing a bunch of details here, but this works for now)
+
+```json
+{
+    "birthDate": {
+        "value": "date",
+        "content": "1997-10-04"
+    }
+}
+```
+
+Next prop, `TITLE`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.6.1). Talks about the specific job or
+position. cardinality is \*. So, the json representation is
+
+```json
+{
+    "title": {
+        "content": "SDE"
+    }
+}
+```
+
+Next up, `Note`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.7.2). Supplemental information. This is just
+text.
+
+```json
+{
+    "note": {
+        "content": "Previously worked at JitFin, Shubhloans and Wells Fargo."
+    }
+}
+```
+
+Next, `ADR`. ignore the item.1, it is just a grouping mechanism. This is a structured field, so that sequence of values
+is post office box, extended address, street address, locality, region, postal code, country name. These must be
+specified for sure, it can be empty if needed. Each field can hold multiple values, separated by a comma.
+
+```json
+{
+    "addresses": [
+        {
+            "type": ["home". "pref"],
+            "content": {
+                "postOfficeBox": "",
+                "extendedAddress": "",
+                "streetAddress": "House Number 174\n6th main\n2nd block",
+                "locality": "bangalore",
+                "region": "karnataka",
+                "postalCode": "560032",
+                "country": "India"
+            }
+        }
+    ]
+}
+```
+
+Next tag, `TEL`.[Spec here](https://tools.ietf.org/html/rfc6350#section-6.4.1). This can have a param of `TYPE` which
+can be text/voice/fax/cell/video/pager/telephone. Also can set `PREF=1`, to set it as preferred. It's cardinality is
+\*.
+
+```json
+{
+    "telephonesInfo": [
+        {
+            "type": ["cell", "pref", "voice"],
+            "content": "(961) 199-3894"
+        }
+    ]
+}
+```
+
+Next tag, `URL`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.7.8). Again, cardinality is \*. It should just
+have one uri(uniform resource locator).
+
+```json
+{
+    "URLsInfo": [
+        {
+            "type": ["pref"]
+            "content": "https://bharatkalluri.com"
+        }
+    ]
+}
+```
+
+Next tag, `EMAIL`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.4.1). cardinality is \*. Just one email here
+per block.
+
+```json
+{
+    "emailsInfo": [
+        {
+            "type": ["home", "pref", "internet"],
+            "content": "bharatkalluri@protonmail.com"
+        }
+    ]
+}
+```
+
+And now for the custom fields, obviously the RFC does not include social profiles like twitter, facebook etc.. So Apple
+made a choice to include them as extended properties(`X-`). It has a user, type and the URL. Here is how it will decode
+to json.
+
+```json
+{
+    "extendedProperties": [
+        {
+            "socialProfile": {
+                "user": "bharatkalluri",
+                "type": ["twitter"],
+                "content": "http://twitter.com/bharatkalluri"
+            }
+        }
+    ]
+}
+```
+
+And finally `PRODID`. This has a cardinality of \*1. This contains metadata about the product that created the vCard.
+
+Well, that's it! This article turned out to much longer than I expected it to be. But hopefully this gives you an idea
+of what it is like to read a spec.
+
+## Some more Notes
+
+-   A lot of the props can take in a type-param/language-param/altid-param etc.. so `NICKNAME:Robbie` and
+    `NICKNAME;TYPE=work:Boss` are both valid. So the second string translates to
+    `{"nickName": {"type": "work", "content": "boss"}}`
+-   There is a beautiful article having some notes on the vcard format, [check it out for sure
+    ](https://www.w3.org/2002/12/cal/vcard-notes.html)
