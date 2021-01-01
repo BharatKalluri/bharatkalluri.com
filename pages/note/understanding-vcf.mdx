@@ -193,3 +193,227 @@ I can talk about each one of them individually, but then I will just be making a
 questions, I suggest you go through that piece of the spec to clarify your questions.
 
 ## Trying to decode a .vcf file, following the spec
+
+Let us pick up an example vcf document from icloud contacts as an example
+
+```
+BEGIN:VCARD
+VERSION:3.0
+N:Kalluri;Bharat;Kumar;;
+FN:Bharat Kalluri
+ORG:Refyne;Technology
+NICKNAME:Myself
+BDAY;VALUE=date:1997-10-04
+TITLE:SDE
+NOTE:Previously worked at JitFin\, Shubhloans and Wells Fargo.
+item1.ADR;TYPE=HOME;TYPE=pref:;;2nd block;Banga
+ lore;Karnataka;560032;India
+item1.X-ABADR:in
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:(961) 199-3894
+item2.URL;TYPE=pref:https://bharatkalluri.com
+item2.X-ABLABEL:_$!<HomePage>!$_
+EMAIL;TYPE=HOME;TYPE=pref;TYPE=INTERNET:bharatkalluri@protonmail.com
+X-SOCIALPROFILE;X-USER=bharatkalluri;TYPE=twitter:http://twitter.com/bharat
+ kalluri
+PRODID:-//Apple Inc.//iCloud Web Address Book 2023B58//EN
+REV:2021-01-01T05:01:46Z
+END:VCARD
+```
+
+Every vCard begins with `BEGIN:VCARD` and ends with `END:VCARD`. And the second line _must_ contain the version, in this
+case `VERSION:3.0`. Which is a bummer, the latest version of vCard is 4.0.
+
+The next property is `N`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.2.2), cardinality is \*1 which means
+there can be [0,1] entities of N. And N stands for name of the contact. Carefully read the special note, it says "The
+structured property value corresponds, in sequence, to the Family Names (also known as surnames), Given Names,
+Additional names, Honorific Prefixes, and Honorific Suffixes.The text components are separated by the SEMICOLON
+character (U+003B). Individual text components can include multiple text values separated by the COMMA character
+(U+002C)". There we have everything we need, so if this property was denoted as a json, it would be
+
+```json
+{
+    "name": {
+        "content": {
+            "familyNames": ["Kalluri"],
+            "givenNames": ["Bharat"],
+            "additionalNames": ["Kumar"],
+            "honorificPrefixes": [],
+            "honorificSuffixes": []
+        }
+    }
+}
+```
+
+> Why have a nested field called content? Check note one down below about optional params like type etc..
+
+Jumping to the next property, `FN`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.2.1). This talks about the
+name of the object the vCard represents. cardinality of 1\*, which means only one entity is allowed. THis is straight
+forward, this is just a text field. The json here would be
+
+```json
+{
+    "objName": {
+        "content": "Bharat Kalluri"
+    }
+}
+```
+
+To the next one, `ORG`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.6.4). Its purpose is to specify
+organizational name and units. cardinality is \*, which means [0, infinity]. Entities are separated by colon(;). The
+property ordered such that the first one is the org name and the consecutive levels (zero or more) are org unit names.
+One interesting observation, looks like the assumption is that one person can belong to one company? How would
+freelancers working for multiple corporations be represented? Not sure how that would work..
+So, the json would be
+
+```json{
+    "organizationInfo": {
+        "content": {
+            "name": "Refyne",
+            "units": ["Technology"]
+        }
+    }
+}
+```
+
+The next prop, `NICKNAME`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.2.3). With a cardinality of \*. One
+or more text values separated by comma. So the json representation is
+
+```json
+{
+    "nickName": {
+        "content": "Myself"
+    }
+}
+```
+
+Next prop, `BDAY`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.2.3). This is hard to make sense
+out of, looks like there can be a `VALUE` param which can be text/date-and-or-time. So the json here would be
+(I'm sure I'm missing a bunch of details here, but this works for now)
+
+```json
+{
+    "birthDate": {
+        "value": "date",
+        "content": "1997-10-04"
+    }
+}
+```
+
+Next prop, `TITLE`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.6.1). Talks about the specific job or
+position. cardinality is \*. So, the json representation is
+
+```json
+{
+    "title": {
+        "content": "SDE"
+    }
+}
+```
+
+Next up, `Note`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.7.2). Supplemental information. This is just
+text.
+
+```json
+{
+    "note": {
+        "content": "Previously worked at JitFin, Shubhloans and Wells Fargo."
+    }
+}
+```
+
+Next, `ADR`. ignore the item.1, it is just a grouping mechanism. This is a structured field, so that sequence of values
+is post office box, extended address, street address, locality, region, postal code, country name. These must be
+specified for sure, it can be empty if needed. Each field can hold multiple values, separated by a comma.
+
+```json
+{
+    "addresses": [
+        {
+            "type": ["home". "pref"],
+            "content": {
+                "postOfficeBox": "",
+                "extendedAddress": "",
+                "streetAddress": "House Number 174\n6th main\n2nd block",
+                "locality": "bangalore",
+                "region": "karnataka",
+                "postalCode": "560032",
+                "country": "India"
+            }
+        }
+    ]
+}
+```
+
+Next tag, `TEL`.[Spec here](https://tools.ietf.org/html/rfc6350#section-6.4.1). This can have a param of `TYPE` which
+can be text/voice/fax/cell/video/pager/telephone. Also can set `PREF=1`, to set it as preferred. It's cardinality is
+\*.
+
+```json
+{
+    "telephonesInfo": [
+        {
+            "type": ["cell", "pref", "voice"],
+            "content": "(961) 199-3894"
+        }
+    ]
+}
+```
+
+Next tag, `URL`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.7.8). Again, cardinality is \*. It should just
+have one uri(uniform resource locator).
+
+```json
+{
+    "URLsInfo": [
+        {
+            "type": ["pref"]
+            "content": "https://bharatkalluri.com"
+        }
+    ]
+}
+```
+
+Next tag, `EMAIL`. [Spec here](https://tools.ietf.org/html/rfc6350#section-6.4.1). cardinality is \*. Just one email here
+per block.
+
+```json
+{
+    "emailsInfo": [
+        {
+            "type": ["home", "pref", "internet"],
+            "content": "bharatkalluri@protonmail.com"
+        }
+    ]
+}
+```
+
+And now for the custom fields, obviously the RFC does not include social profiles like twitter, facebook etc.. So Apple
+made a choice to include them as extended properties(`X-`). It has a user, type and the URL. Here is how it will decode
+to json.
+
+```json
+{
+    "extendedProperties": [
+        {
+            "socialProfile": {
+                "user": "bharatkalluri",
+                "type": ["twitter"],
+                "content": "http://twitter.com/bharatkalluri"
+            }
+        }
+    ]
+}
+```
+
+And finally `PRODID`. This has a cardinality of \*1. This contains metadata about the product that created the vCard.
+
+Well, that's it! This article turned out to much longer than I expected it to be. But hopefully this gives you an idea
+of what it is like to read a spec.
+
+## Some more Notes
+
+-   A lot of the props can take in a type-param/language-param/altid-param etc.. so `NICKNAME:Robbie` and
+    `NICKNAME;TYPE=work:Boss` are both valid. So the second string translates to
+    `{"nickName": {"type": "work", "content": "boss"}}`
+-   There is a beautiful article having some notes on the vcard format, [check it out for sure
+    ](https://www.w3.org/2002/12/cal/vcard-notes.html)
