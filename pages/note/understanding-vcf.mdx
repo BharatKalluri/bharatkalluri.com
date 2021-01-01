@@ -7,6 +7,19 @@ This is also called as the vCard format. The spec is located on the IETF website
 ([rfc6350](https://tools.ietf.org/html/rfc6350)). The complete spec is 75 pages! 75 pages of rules defining how to store
 contact information!
 
+## Wait, why are you doing this to yourself?
+
+Specs are interesting, a group of people took upon a task of forming a set of rules for defining how contacts should be
+stored and transferred throughout multiple organizations. This sounds like a tremendously hard task (and it is). There
+must have been a lot of research done before deciding on a specification meant for the world.
+
+Specs also show the breadth and depth of the problem. They showcase pieces which you and I might not think of. I think
+this also helps in appreciating the complexity of the problem.
+
+I thought a good starting point for me would be a spec of a standard which is not too complicated. So I picked up the
+vCard spec. Well, turns out what I expected to happen was wrong. This spec is 75 pages! But then, I can't back down now.
+So here is what I have been able to get out reading the spec. Hope you also find this interesting.
+
 ## Notes while reading the spec
 
 -   mime type: `text/vcard`. Can contain one contact or a group of contacts
@@ -161,3 +174,22 @@ iana-valuespec = <value-spec, see Section 12>
 ```
 
 All of this is to say the value can take a bunch of values. Different dates, timestamps with offsets, normal text etc..
+
+-   `param` can take on multiple values as values as well
+-   vCard properties are the most interesting and important component. There are
+    -   5 general properties (`BEGIN, END, SOURCE, KIND, XML`)
+    -   7 user identification properties (`FN, N, NICKNAME, PHOTO, BDAY, ANNIVERSARY, GENDER`)
+    -   1 user address property (`ADR`)
+    -   4 user communication properties (`TEL, EMAIL, IMPP, LANG`)
+    -   2 user geo properties (TZ, GEO)
+    -   6 user organization properties (`TITLE, ROLE, LOGO, ORG, MEMBER, RELATED`)
+    -   7 explanatory properties (`CATEGORIES, NOTE, PRODID, REV, SOUND, UID, CLIENTPIDMAP, URL, VERSION`)
+    -   1 security propery (`KEY`)
+    -   3 calendar properties (`FBURL, CALADURI, CALURI`)
+    -   And some extended properties and parameters (begin with `X-` and can be an defined bilaterally between two
+        agents)
+
+I can talk about each one of them individually, but then I will just be making a copy of the spec. So if you have
+questions, I suggest you go through that piece of the spec to clarify your questions.
+
+## Trying to decode a .vcf file, following the spec
