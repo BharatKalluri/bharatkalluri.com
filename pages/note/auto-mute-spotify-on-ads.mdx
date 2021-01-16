@@ -72,3 +72,44 @@ while sleep 1; do mute_ad_spotify; done &
 ```
 
 That's it! Now whenever spotify plays an ad, the audio is muted automatically.
+
+## Iteration two
+
+The previous solution _works_, but is a very bad take. Every second, it checks if the current playing music is named
+"Advertisement" and if it is then mutes it. But the problem is, now the audio can never be manually muted. Since every
+time audio is manually muted, the next second the script runs -> sees the media name is not Advertisement and un-mutes!
+
+So one sanity check to add is to make sure spotify is actually running and then check if the music played by spotify is
+an ad and mute it. This is still a problem, I will explain why later. Let us look at the modified function now.
+
+```sh
+# Mutes audio if spotify ad is playing
+mute_ad_spotify() {
+    MEDIA_TITLE=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata 2>/dev/null | sed -n '/title/{n;p}' | cut -d '"' -f 2)
+
+    IS_MUTE=0
+    [[ $(amixer get Master | sed "5q;d") == *off* ]] && IS_MUTE=1
+
+    IS_SPOTIFY_AD=0
+    [[ $MEDIA_TITLE == *Advertisement* ]] && IS_SPOTIFY_AD=1
+
+    if [ ! -z "$MEDIA_TITLE" ]; then
+        if [[ $IS_MUTE == 0 ]] && [[ $IS_SPOTIFY_AD == 1 ]]; then
+            amixer -q -D pulse sset Master mute
+        elif [[ $IS_MUTE == 1 ]] && [[ $IS_SPOTIFY_AD == 0 ]]; then
+            # unmutes if mixer is muted and no ad is playing, this ensures that after ad the music will continue
+            # But also this means that when spotify is playing, I cannot mute audio!
+            amixer -q -D pulse sset Master unmute
+        fi
+    fi
+
+}
+```
+
+Two booleans, first (IS_MUTE) checks if the audio is muted and second (IS_SPOTIFY_AD) checks if the current playing
+spotify song name is called "Advertisement". First check is if spotify is even playing, later if not muted and spotify
+ad then mute else unmute. This ensures that when spotify is not playing, mute works as expected.
+
+But there are problems to this as well. If spotify is paused and firefox is playing audio, then mute no longer works as
+expected. You also cannot mute a song when spotify is playing 😆. The ideal way would be to just deal with the spotify
+audio stream and manage it, I will refine this later on at some point.
