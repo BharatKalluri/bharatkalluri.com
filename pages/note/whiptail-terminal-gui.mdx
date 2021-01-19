@@ -1,0 +1,142 @@
+---
+author: Bharat Kalluri
+title: Making GUIs in terminal using whiptail
+publishedAt: "2021-01-20"
+tags:
+    - bash
+---
+
+## The "Why"
+
+I have a bash script which installs all the software I use. I try out different linux distributions all the time, and it
+helps to optimize the setup piece for each fresh install.
+
+I've had a script which asks a bunch of questions, each question is mapped to a function.If answered with yes executes that
+corresponding function. If answered with no, skips the function and will ask if the next function should be executed. An example of
+a function would be `setup_zsh`. If yes, it will install zsh and its plugins. Else, it will be skipped.
+
+This works fine, but a neat improvement would be if there was a GUI where I can select options from a check list. And
+based on the selection, execute the corresponding functions. This is what got me looking into `whiptail`. Whiptail is a
+part of a package called [`newt`](<https://en.wikipedia.org/wiki/Newt_(programming_library)>). This is pre-installed in
+debian derivative(ubuntu, elementary OS etc..), but for some reason not pre installed in fedora.
+
+## The "How"
+
+Whiptail's commands are pretty straightforward. To make a message box, all you have to do is
+
+```sh
+whiptail --msgbox --title "Message Box example" "This is an example of a message box" 20 78
+```
+
+I think it is pretty readable, the first argument is the type, second is the title flag with the title which needs to be
+specified, third is the message and the fourth and fifth are the height and the width.
+
+Similarly, a yes/no message box would be
+
+```sh
+if (whiptail --yesno "Yes or no demo" 20 78); then echo "yes";fi
+```
+
+A radio list
+
+```sh
+sampleOptions=("one" "two")
+entries=()
+for o in $sampleOptions;do entries+=("$o" "$o" "OFF");done
+entriesLength=${#entries[@]}
+radioDemoResponse=$(whiptail --radiolist --title "Radio List" "Demo of a radio list" 20 78 $entriesLength --
+"${entries[@]}"  3>&1 1>&2 2>&3)
+echo $radioDemoResponse
+```
+
+This one is slightly more complicated, The idea is that whiptail expects two important parameters after the usual.
+length of the enties and the entries themselves. The entires must be structured in (`<value> <message> <state>`). So if
+two radio buttons are needed, we will be having 6 entries.
+
+In line one, we setup the array. In line two, an empty array is declared, later on the entires array is populated with
+data as whiptail expects it. The fourth line stores the length of the array up until this point. Pay attention to the #
+up front, that will tell bash that we are looking for the length of the array. the `@` symbol tells that it should
+include the entire array. Later on we just setup whiptail with the parameters and retrieve the response. There is a
+`--` before the entries so that whiptail does not mis understand that the array is not program parameters. To understand
+more about bash arrays, I suggest referring to [this article](https://opensource.com/article/18/5/you-dont-know-bash-intro-bash-arrays).
+
+The `3>&1 1>&2 2>&3` talks about data redirection, this topic is too big to cover in this post. I will be doing another
+post talking about redirection.
+
+A Check box list
+
+```sh
+sampleOptions=("one" "two")
+entries=()
+for o in $sampleOptions;do entries+=("$o" "$o" "OFF");done
+entriesLength=${#entries[@]}
+radioDemoResponse=$(whiptail --checklist --title "Radio List" "Demo of a radio list" 20 78 $entriesLength --
+"${entries[@]}"  3>&1 1>&2 2>&3)
+echo $radioDemoResponse
+```
+
+This is exactly similar to the previous example, only the widget type changes from `radiolist` to `checklist`.
+
+Now that we have the toolbox ready, let us dive into the actual implementation.
+
+```sh
+# Whiptail UI
+
+STEP_LIST=(
+    'install_fonts' 'Install fonts'
+    'setup_ubuntu' 'Update and setup ubuntu'
+    'setup_macos' 'Update and setup macOS'
+    'setup_pi' 'Update and setup raspberry pi'
+    'setup_fedora' 'Update and setup fedora'
+    'setup_oh_my_zsh' 'Install oh my ZSH!'
+    'setup_git' 'Setup git email and name'
+    'setup_node' 'Install node using NVM'
+    'setup_rust' 'Install Rust'
+    'setup_docker' 'Install docker'
+    'setup_flutter' 'Install flutter and its toolchain'
+    'setup_miniconda' 'Setup python using miniconda'
+    'setup_albert' 'Install albert plugins'
+    'setup_fzf' 'Setup FZF'
+    'setup_ssh_keys' 'Create and setup ssh keys'
+)
+
+entry_options=()
+entries_count=${#STEP_LIST[@]}
+message='Choose the steps to run!'
+
+for i in ${!STEP_LIST[@]}; do
+    if [ $((i % 2)) == 0 ]; then
+        entry_options+=($(($i / 2)))
+        entry_options+=("${STEP_LIST[$(($i + 1))]}")
+        entry_options+=('OFF')
+    fi
+done
+
+SELECTED_STEPS_RAW=$(
+    whiptail \
+        --checklist \
+        --separate-output \
+        --title 'Setup' \
+        "$message" \
+        40 50 \
+        "$entries_count" -- "${entry_options[@]}" \
+        3>&1 1>&2 2>&3
+)
+
+if [[ ! -z SELECTED_STEPS_RAW ]]; then
+    for STEP_FN_ID in ${SELECTED_STEPS_RAW[@]}; do
+        FN_NAME_ID=$(($STEP_FN_ID * 2))
+        STEP_FN_NAME="${STEP_LIST[$FN_NAME_ID]}"
+        echo "---Running ${STEP_FN_NAME}---"
+        $STEP_FN_NAME
+    done
+fi
+```
+
+Since context has been already set-up, this should be straightforward. Since I personally use this, I wanted the
+messages to be clear. So every even element has the function name and every odd element has its description(I know I
+could have used associative arrays, but for now this is good enough since this is a personal script).
+
+The setup is completely the same as check list example, just that the array population happens with `<fn_name> <message> OFF`. I also divide the index by two so that I get the right numbering, instead of 0, 2, 4 I get 0, 1, 2. After whiptail
+finishes the UI and returns the result, the result is iterated on. Every ID is multiplied by two (since we divided it
+earlier) and the corresponding function is executed.
