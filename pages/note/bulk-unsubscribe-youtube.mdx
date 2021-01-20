@@ -1,0 +1,45 @@
+---
+title: Bulk unsubscribe channels on youtube using javascript
+publishedAt: "2021-01-20"
+tags:
+    - javascript
+---
+
+## Why
+
+I've recently recognized that I am subscribed to _200 channels on youtube!_, 200 channels I have subscribed since I
+started my google account (which is around 10 years back). I think at this point, there is more noise than signal. So I
+thought it's time to hit the reset button.
+
+The idea is that, I will remember the channels which matter to me and re-subscribe.
+
+## How
+
+My initial idea was to do it via a python script using the youtube API. But I thought this is a complex solution for a
+very simple problem. Then I looked into the API requests from youtube websites to see if there is any pattern I can
+observe and take advantage of. Did not find anything easy there as well. The easiest way to achieve this would be just
+to stimulate what I do manually, go click on un-subscribe and confirm the un-subscription. This can be done with a
+simple javascript snippet which can be pasted directly in the JS console.
+
+To see all the channels you are subscribed to, [go to this link](https://www.youtube.com/feed/channels). To unsubscribe,
+first click is on the "SUBSCRIBED" button and after a small animation, a modal pops up. The "UNSUBSCRIBE". Since there
+are two steps, it makes the script slightly complex. Here is the script
+
+```javascript
+unSubBtnList = document.querySelectorAll("[aria-label^='Unsubscribe from']");
+for (let i = 0; i < unSubBtnList.length; i++) {
+    setTimeout(() => {
+        unSubBtnList[i].click();
+    }, 1000);
+
+    setTimeout(() => {
+        document.querySelector('[aria-label="Unsubscribe"]').click();
+    }, 1000);
+}
+```
+
+`aria-label` is used for accessability purposes. I assume this is something youtube does not change often, so this
+script should work for a while. The sample aria label would be `aria-label="Unsubscribe from Lex Fridman."`. The pattern
+here is that they all start with `Unsubscribe from`. So we retrieve all the buttons, iterate over them. Click the
+button, wait for a second for the modal animation to complete, search for another button called Unsubscribe and click
+that button.
