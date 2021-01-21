@@ -1,15 +1,15 @@
 ---
 title: Create Albert extensions in Python
-publishedAt: '2018-06-23'
+publishedAt: "2018-06-23"
 tags:
-- python
-- tutorial
-- albert
+    - python
+    - tutorial
+    - albert
 hero: "https://unsplash.com/photos/afW1hht0NSs/download?force=true&w=1920"
 authors:
-- Bharat Kalluri
-
+    - Bharat Kalluri
 ---
+
 Albert describes itself as:
 
 Albert is a desktop agnostic launcher. Its goals are usability and beauty,
@@ -18,13 +18,13 @@ framework.GPL-licensed, 100% free and open source.
 
 It has a lot of positives
 
-- It is written in C++. So, it is blazing fast.
-- It is written in Qt, So it'll work on all desktops and linux distros.
-- It has a great set of awesome themes installed by default.
+-   It is written in C++. So, it is blazing fast.
+-   It is written in Qt, So it'll work on all desktops and linux distros.
+-   It has a great set of awesome themes installed by default.
 
 And the best part is
 
-- It can be extended using python!
+-   It can be extended using python!
 
 I consider myself as a mediocre developer. but If you ask me to write a
 extension in C++, I would not even try. But python! Sign me up!
@@ -92,6 +92,7 @@ def handleQuery(query):
 ```
 
 Now, showWeather contains the actual logic of calling the API and returning Items.
+
 ```
 http = urllib3.PoolManager()
 def showWeather(query):
@@ -150,6 +151,7 @@ def showWeather(query):
         ]
 
 ```
+
 Let me quickly summarize what's happening in there. Since the function already has a query of a city name, append the
 city name to the url. Before making the request, a instance of pool manager must be created which will make the requests.
 Then, It tries to make a request, if it fails, it returns a item saying 'Check your internet connection'.
@@ -162,6 +164,7 @@ One thing to note is that, extensions can be debbuged by starting albert in term
 test the response. Another thing to note is, all default linux icon sets have weather icons already. So, we take the description from
 the API and find the corresponding icon. Normally, switch works well in this case, since we do not have switch statments in python.
 Create a dictionary of conditions as such.
+
 ```
 weatherDict = {
     "clear sky": "weather-clear",
@@ -178,6 +181,7 @@ weatherDict = {
 
 And use the dictionary to get the icon name for the value in the API. By the way, since farenhiet is also nesscarry for some people.
 Let us make a simple converter from celsius.
+
 ```
 def fahrenheitConverter(celsius):
     return 9 / 5 * celsius + 32

@@ -1,0 +1,25 @@
+---
+title: Notes on Finance and capital markets, A class from khan academy
+publishedAt: "2021-01-21"
+tags:
+    - economics
+    - khan-academy
+authors:
+    - Bharat Kalluri
+---
+
+The initial ideas as of now seem easy since I have already picked them up at school, but its worth revising.
+
+> Most of the code in quotes is basic python.
+
+## Compound interest
+
+-   Simple interest means you earn interest on the invested amount. So for example, Let us say the amount invested is 100
+    and the interest is 10% per year. After one year you will have 110 and after one more year you will have 120, since the
+    interest is on invested amount. Compound interest on the other hand is on the amount (immaterial of the invested
+    amount),so the same example with 10% compounding interest per year would be. `100 + (100*0.1) == 110` after one year,
+    and in the second year it will be `110 + (110*0.1) == 121` or `(100 + (100*0.1)) + ((100 + (100*0.1)) * 0.1) = 110`.
+-   The pattern here is: if the initial amount is a, and interest is i. Then amount earned after one unit of time(could be
+    month/year/day etc..) is `a + (a*i)` => `a*(1+i)`. Now for the next unit of time, `(a*(1+i)) + ((a*(1+i))*i)` =>
+    `a*(1+i)*(1+i)` => `a*((1+i)**2)`. Cool, here is the pattern now. Let us say `n` is the number `a*((1+i)**n)`. So
+    plug in `a=1000`, `i=0.1` and `n=5`, then the amount would be `1610.51`.
