@@ -10,6 +10,7 @@ export const MDXComponents = {
     h1: (props: any) => <Heading as="h1" size="2xl" {...props} />,
     h2: (props: any) => <Heading as="h1" size="xl" {...props} />,
     h3: (props: any) => <Heading as="h1" size="xl" {...props} />,
+    h4: (props: any) => <Heading as="h1" size="md" {...props} />,
     inlineCode: (props: any) => <Code colorScheme="blue" {...props} />,
     code: CustomCodeBlock,
     p: (props: any) => <Text as="p" lineHeight="tall" {...props} />,
