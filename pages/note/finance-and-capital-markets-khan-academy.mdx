@@ -1,6 +1,6 @@
 ---
 title: Notes on Finance and capital markets, A class from khan academy
-publishedAt: "2021-01-21"
+publishedAt: "2020-01-21"
 tags:
     - economics
     - khan-academy
@@ -24,3 +24,21 @@ The initial ideas as of now seem easy since I have already picked them up at sch
     month/year/day etc..) is `a + (a*i)` => `a*(1+i)`. Now for the next unit of time, `(a*(1+i)) + ((a*(1+i))*i)` =>
     `a*(1+i)*(1+i)` => `a*((1+i)**2)`. Cool, here is the pattern now. Let us say `n` is the number `a*((1+i)**n)`. So
     plug in `a=1000`, `i=0.1` and `n=5`, then the amount would be `1610.51`.
+
+## Rule of 72
+
+-   If the question is, how much time does it take to double the amount if the interest is a compound interest of 10%.
+    Then, the rule of 72 says that you can do `(72*0.1) == 7.2`. ie. it takes 7.2 years for the amount to double.
+-   Now the question is, how did we arrive at this number. 72. I think to clearly understand this, a good understand of
+    logarithms is needed. [Helper link](https://betterexplained.com/articles/the-rule-of-72/)
+-   Its very interesting to see how much each percentage of compound interest affects the doubling time. With 1% compound
+    interest per year, it would take 72 years for your money to double. At 2%, its 36. At 3%, its 34. And at 5%, its 14!
+    I think compounding is one such concept for which its harder to develop intuition and its very important to do that
+    math to compare options.
+
+## Simple interest
+
+-   A simpler idea and a simpler formula. The idea is that you pay interest on the initial principle. Which means if you
+    borrow 100 and for a 10% simple interest. Then, after one unit of time, say an year. 110 should be payed back. After two
+    years, 120 should be paid back.
+-   So as you can notice, the formula ends up being `a+(n*i*a)` which is the same as `a*(1+n*i)`
