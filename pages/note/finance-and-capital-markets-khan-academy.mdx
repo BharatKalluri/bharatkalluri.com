@@ -42,3 +42,19 @@ The initial ideas as of now seem easy since I have already picked them up at sch
     borrow 100 and for a 10% simple interest. Then, after one unit of time, say an year. 110 should be payed back. After two
     years, 120 should be paid back.
 -   So as you can notice, the formula ends up being `a+(n*i*a)` which is the same as `a*(1+n*i)`
+
+## _e_ : Euler's number
+
+-   Let us say something compounds or grows by 100% in a unit of time. For example, let us take the classic example of
+    a dollar. Say for suppose, you had a dollar. It is taken from a loan shark at 100% interest per annum. Which means after
+    one year you would have to pay back 2$. Seems fine. What if you want to break the tenure into two pieces, in that
+    case, the interest will also break proportionately. So for 6 months, the interest will be 50% each. In this case,
+    the total amount to be paid is 2.25 (`a*((1+i)**n)` where a=1, i=1, n=2). Let us see what happens if we break the
+    tenure per day. ie. there are 365 days and interest is 1/365. Now the amount to be paid is `2.7145674820219727`.
+    Lets go a step further and say, what if the tenure and interest are broken to each hour? A year has 8760 hours.
+    Interest per hour would be `1/8760`. The amount to be paid at the end of the year is `2.7181266916179077`. Observe
+    that we are slowly closing in around the same number. This happens because the calculation is effectively
+    `1*(1+(1/8760))**8760`. We are raising 1 + _a very small number(1/8760)_ to a very large power, since `1**x` is
+    always 1, it does not make a huge difference. Now what if you extended this to infinity? You will arrive at `e`. The
+    value of `e` is `2.718281....`.
+-   TODO: continuous compounding ([Ref](https://www.khanacademy.org/economics-finance-domain/core-finance/interest-tutorial/cont-comp-int-and-e/v/continuously-compounding-interest-formula-e?modal=1))
