@@ -3,7 +3,6 @@ import Layout from "../components/Layout";
 import LinkCard from "../components/LinkCard";
 import { PROJECT_LIST } from "../constants";
 
-
 const ProjectListComponent = () => (
     <Stack direction="column" spacing={5}>
         {PROJECT_LIST.map((project) => (
@@ -18,9 +17,15 @@ const ProjectListComponent = () => (
 );
 
 const IndexPage = () => (
-    <Layout title="Home" description="Welcome to Bharat's corner of the internet" relativeCanonicalURL="">
+    <Layout
+        title="Home"
+        description="Welcome to Bharat's corner of the internet"
+        relativeCanonicalURL=""
+    >
         <Stack direction="column" spacing={5}>
-            <Heading>Hey, I'm Bharat Kalluri 👋</Heading>
+            <Text fontSize="6xl" fontWeight="extrabold">
+                Hey, I'm Bharat Kalluri 👋
+            </Text>
             <Text>
                 Welcome to my corner of the internet. I make an effort to write
                 everything I know here!
