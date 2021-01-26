@@ -1,4 +1,4 @@
-import { Heading, Stack, Text, useColorMode } from "@chakra-ui/react";
+import { Stack, Text } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 import React from "react";
 import decodeWith from "../utils/ioTsUtils";
