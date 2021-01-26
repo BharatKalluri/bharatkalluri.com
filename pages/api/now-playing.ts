@@ -1,8 +1,12 @@
 import { getNowPlaying } from "../../lib/spotify";
 import { ICurrentlyPlayingInfo } from "../../interfaces";
 import decodeWith from "../../utils/ioTsUtils";
-import { EpisodeInfo, NowPlaying, NowPlayingValidator, TrackInfo } from "../../types";
-
+import {
+    EpisodeInfo,
+    NowPlaying,
+    NowPlayingValidator,
+    TrackInfo,
+} from "../../types";
 
 export default async (_: any, res: any) => {
     const response = await getNowPlaying();
@@ -12,13 +16,14 @@ export default async (_: any, res: any) => {
     }
 
     const rawNowPlayingData: NowPlaying = await response.json();
-    const nowPlayingData: NowPlaying = decodeWith(NowPlayingValidator)(rawNowPlayingData);
+    const nowPlayingData: NowPlaying = decodeWith(NowPlayingValidator)(
+        rawNowPlayingData
+    );
 
     const isPlaying = nowPlayingData.is_playing;
     const currentlyPlayingType = nowPlayingData.currently_playing_type;
 
     if (currentlyPlayingType === "track") {
-
         const nowPlayingItem = nowPlayingData.item as TrackInfo;
         const title = nowPlayingItem.name;
         const artist = nowPlayingItem.artists
@@ -33,13 +38,11 @@ export default async (_: any, res: any) => {
             artist,
             isPlaying,
             mediaURL,
-            title
+            title,
         };
 
         return res.status(200).json(currentlyPlayingInfo);
-
     } else if (currentlyPlayingType == "episode") {
-
         const nowPlayingItem = nowPlayingData.item as EpisodeInfo;
         const showInfo = nowPlayingItem.show;
 
@@ -55,16 +58,13 @@ export default async (_: any, res: any) => {
             artist,
             isPlaying,
             mediaURL,
-            title
+            title,
         };
 
         return res.status(200).json(currentlyPlayingInfo);
-
     } else {
-
         return res.status(500).json({
-            error: "unknown currently_playing_type"
+            error: "unknown currently_playing_type",
         });
-
     }
 };

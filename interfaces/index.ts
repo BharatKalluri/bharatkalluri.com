@@ -5,10 +5,10 @@ export interface IProjectCardProps {
 }
 
 export interface ICurrentlyPlayingInfo {
-    collectionName: string
-    collectionImageUrl: string
-    artist: string
-    isPlaying: boolean
-    mediaURL: string
-    title: string
+    collectionName: string;
+    collectionImageUrl: string;
+    artist: string;
+    isPlaying: boolean;
+    mediaURL: string;
+    title: string;
 }

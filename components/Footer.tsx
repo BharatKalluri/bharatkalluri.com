@@ -1,16 +1,20 @@
 import React from "react";
 import { Flex, IconButton, Link } from "@chakra-ui/react";
-import { FaGithub, FaLinkedin, FaMailBulk, FaTelegramPlane, FaTwitter } from "react-icons/fa";
+import {
+    FaGithub,
+    FaLinkedin,
+    FaMailBulk,
+    FaTelegramPlane,
+    FaTwitter,
+} from "react-icons/fa";
 import NowPlaying from "./NowPlaying";
-
-
-// TODO: Move to constants
-const TWITTER_URL = "https://twitter.com/bharatkalluri";
-const GITHUB_URL = "https://github.com/bharatkalluri";
-const LINKEDIN_URL = "https://linkedin.com/bharatkalluri";
-const TELEGRAM_URL = "https://t.me/bharatkalluri";
-const EMAIL = "bharatkalluri@pm.me";
-
+import {
+    EMAIL,
+    GITHUB_URL,
+    LINKEDIN_URL,
+    TELEGRAM_URL,
+    TWITTER_URL,
+} from "../constants";
 
 const Footer = () => (
     <Flex align="center" py={8} direction="column">
@@ -34,11 +38,7 @@ const Footer = () => (
                     variant="ghost"
                 />
             </Link>
-            <Link
-                href={LINKEDIN_URL}
-                title="LinkedIn"
-                isExternal
-            >
+            <Link href={LINKEDIN_URL} title="LinkedIn" isExternal>
                 <IconButton
                     aria-label="LinkedIn"
                     icon={<FaLinkedin />}
@@ -47,11 +47,7 @@ const Footer = () => (
                     variant="ghost"
                 />
             </Link>
-            <Link
-                href={TELEGRAM_URL}
-                title="Telegram"
-                isExternal
-            >
+            <Link href={TELEGRAM_URL} title="Telegram" isExternal>
                 <IconButton
                     aria-label="Telegram"
                     icon={<FaTelegramPlane />}
