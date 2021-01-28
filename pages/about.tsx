@@ -23,7 +23,7 @@ const AboutPage = () => (
         </Text>
         <Text fontSize="lg">
             A list of topics I am interested to write about are on a{" "}
-            <CustomLink href="https://trello.com/b/oAAGQHp9/topics-to-write-about">
+            <CustomLink href="https://trello.com/b/oAAGQHp9">
                 trello board
             </CustomLink>
         </Text>
