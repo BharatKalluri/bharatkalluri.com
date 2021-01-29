@@ -17,11 +17,11 @@ async function generateRSS() {
     const notesPath = path.join(__dirname, "..", "pages", "note");
     const notes = await fs.readdir(notesPath);
 
-    const addToFeed = (content, name) => {
+    const addToFeed = (content, name, classification) => {
         const front_matter = matter(content);
         feed.item({
             title: front_matter.data.title,
-            url: `${BASE_URL}/blog/` + name.replace(/\.mdx?/, ""),
+            url: `${BASE_URL}/${classification}/` + name.replace(/\.mdx?/, ""),
             date: front_matter.data.publishedAt,
             description: front_matter.data.description,
         });
@@ -30,14 +30,14 @@ async function generateRSS() {
     await Promise.all(
         blogPosts.map(async (name) => {
             const content = await fs.readFile(path.join(blogPostsPath, name));
-            addToFeed(content, name);
+            addToFeed(content, name, "blog");
         })
     );
 
     await Promise.all(
         notes.map(async (name) => {
             const content = await fs.readFile(path.join(notesPath, name));
-            addToFeed(content, name);
+            addToFeed(content, name, "note");
         })
     );
 
