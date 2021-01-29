@@ -1,0 +1,87 @@
+---
+title: Make a terminal based clipboard manager just using bash
+publishedAt: "2021-01-29"
+tags:
+    - bash
+authors:
+    - Bharat Kalluri
+---
+
+## Why
+
+The idea was not actually to make a clipboard manager. I was under the understanding that everything in linux is a file,
+so a clipboard must also be a file somewhere. After reading for a while, I realized that clipboard are actually in
+memory and the display server manager manages it. _Interesting_
+
+Also, I've learnt that fedora manages the clipboard using `xsel`. Looks like fedora uses `xsel` temporarily, until a
+wayland based clipboard manager. `wl-clipboard` is an interesting project, a pure wayland clipboard implementation.
+Also, there are _three_ clipboards in linux.
+
+-   Primary: Whatever you select will be stored here, immaterial of if you copy it or not.
+-   Secondary: This is a custom clipboard applications can use. For example, when you copy text in VS code, this is the
+    clipboard used.
+-   Clipboard: This is the normal clipboard
+
+There are more questions. How do images get copied? How do you copy rich text with formatting?
+
+This is what I love. Something as simple as a OS clipboard has so much depth!
+
+## How
+
+So here's the plan. Have a file at the home directory which will have all the clipboard history. Let us name this
+`~/.clipboard_history`. Monitor the clipboard using `xsel -b` (which will get back the text on the clipboard), see if
+this is the latest entry is the same as the one on the clipboard. If no, then add a line at the end of
+`~/.clipboard_history`. If yes, then ignore and move on. There is one problem though, what happens when you copy with
+something that has new lines. We cannot have new lines in the file, since each line should contain one copied entity.
+The straightforward solution is to encode the data to base64 and store the encoded data in the file.
+
+The clipboard management is done through a simple `fzf` command. On selection, will copy the contents to the primary
+clipboard. Using the same `xsel -b`.
+
+![Using FZF for selecting clipboard history](/static/images/clipboard-manager-bash/clipboard-history-fzf.png)
+
+Now to the implementation
+
+```bash
+CLIPBOARD_HISTORY_FILE="$HOME/.clipboard_history"
+
+populate_clipboard_history() {
+    touch $CLIPBOARD_HISTORY_FILE
+    XSEL_OUT="$(xsel -b | base64 -w 0)"
+    LAST_LINE_IN_HISTORY="$(tail -1 $CLIPBOARD_HISTORY_FILE)"
+
+    if [[ $(expr ${#XSEL_OUT}) > 0 ]]; then
+        if [[ $LAST_LINE_IN_HISTORY != "$XSEL_OUT" ]]; then
+            printf "$XSEL_OUT\n" >>$CLIPBOARD_HISTORY_FILE
+        fi
+    fi
+}
+```
+
+`populate_clipboard_history` is the function to store all copied text to `~/.clipboard_history`. It creates the file, if
+it exists `touch` does not do anything. So there are no problems. Next we store the encoded clipboard contents in
+`XSEL_OUT` and the last line of clipboard history in `LAST_LINE_IN_HISTORY`. If there is something in the clipboard and
+it is not the same as what was last captured, then we write that encoded contents to `~/.clipboard_history`. So, the
+capture piece is sorted.
+
+```bash
+trigger_clipboard_history_search() {
+    while read HISTORY_ITEM; do
+        DECODED_HISTORY_ITEM=$(printf "$HISTORY_ITEM" | base64 --decode | tr "\n" "\t\t")
+        printf "$DECODED_HISTORY_ITEM\n"
+    done <$CLIPBOARD_HISTORY_FILE | fzf --height 40% | tr "\t\t" "\n" | xsel -b
+}
+```
+
+`trigger_clipboard_history_search` gets all the contents from the history file. Decodes them and pipes them to `fzf`.
+`fzf` presents them in a neat form. Once something gets selected, it is transformed and piped back to `xsel` so that it
+gets back to the clipboard.
+
+One thing to notice, I am converting all new line chars to two tabs. This is because `fzf` does not allow entities to
+have new lines. I also understand this messes up with any text which has two tabs (python code). But that is a problem I
+will solve sometime later.
+
+Now, alias a shortcut to trigger this function and you have a functional clipboard manager in the terminal.
+
+One more todo item, we need to run `populate_clipboard_history` every second. This can be simply done by
+`while sleep 1; do populate_clipboard_history; done &`. Run this on startup.
