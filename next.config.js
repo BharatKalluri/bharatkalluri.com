@@ -8,16 +8,16 @@ module.exports = withMdxEnhanced({
     rehypePlugins: [],
     usesSrc: false,
     extendFrontMatter: {
-        process: (mdxContent, frontMatter) => {
-        },
-        phase: "prebuild|loader|both"
+        process: (mdxContent, frontMatter) => {},
+        phase: "prebuild|loader|both",
     },
-    reExportDataFetching: false
+    reExportDataFetching: false,
 })({
     webpack: (config, { isServer }) => {
         if (isServer) {
             require("./scripts/generate-sitemap");
+            require("./scripts/generate-rss");
         }
         return config;
-    }
+    },
 });
