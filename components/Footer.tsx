@@ -6,6 +6,7 @@ import {
     FaMailBulk,
     FaTelegramPlane,
     FaTwitter,
+    FaRss,
 } from "react-icons/fa";
 import NowPlaying from "./NowPlaying";
 import {
@@ -14,6 +15,7 @@ import {
     LINKEDIN_URL,
     TELEGRAM_URL,
     TWITTER_URL,
+    RSS_URL,
 } from "../constants";
 
 const Footer = () => (
@@ -60,6 +62,15 @@ const Footer = () => (
                 <IconButton
                     aria-label="Email"
                     icon={<FaMailBulk />}
+                    size="lg"
+                    color="gray.500"
+                    variant="ghost"
+                />
+            </Link>
+            <Link href={RSS_URL} title="RSS" isExternal>
+                <IconButton
+                    aria-label="RSS"
+                    icon={<FaRss />}
                     size="lg"
                     color="gray.500"
                     variant="ghost"
