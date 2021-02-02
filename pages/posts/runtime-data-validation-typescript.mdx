@@ -1,0 +1,285 @@
+---
+title: Runtime data validation for typescript using io-ts
+publishedAt: "2020-11-25"
+description: External data is unpredictable, Ensure data is always in the expected format using io-ts and typescript.
+tags:
+    - typescript
+    - javascript
+    - api
+authors:
+    - Bharat Kalluri
+isBlogPost: true
+---
+
+Although typescript has types, javascript does not. Since typescript transpiles into javascript to run at the end of the day,
+there is no runtime type checking. If you assume `x` to be a number and added 1 to `x` in your code and save `x` to the DB. But
+to your surprise `x` is returned as a boolean from the API. Then javascript does `True + 1` and stores `2` in the database. Without
+any warnings or errors.
+
+We need to understand that typescript only checks for type errors in the developer land. So it is the responsibility of the developer
+to make sure that the incoming data is satisfying the assumed type. All incoming data to the server must be checked and made sure it
+matches the type assumptions before utilizing that data for anything else.
+
+## Using io-ts for runtime type checking
+
+[io-ts](https://github.com/gcanti/io-ts) is a library written by an italian mathematician `Giulio Canti`. One of the cool features
+of the library is that you can define a structure using the io-ts predefined methods and convert that right into a typescript type for
+further use.
+
+Let us look at an example. Fair warning, io-ts uses another library called FP-TS (Functional programming - typescript). So you will be seeing
+some references from fp. I will try to keep it to the minimum, but we will touch up on the necessary concepts as we encounter them.
+
+## Defining io-ts types
+
+Let us start with an example. Recently I was adding a spotify "currently playing" widget for my blog (the one you see in the footer).
+Here is how spotify supplies the artist information in the API response
+
+```json
+{
+    "external_urls": {
+        "spotify": "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu"
+    },
+    "href": "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+    "id": "0C0XlULifJtAgn6ZNCW2eu",
+    "name": "The Killers",
+    "type": "artist",
+    "uri": "spotify:artist:0C0XlULifJtAgn6ZNCW2eu"
+}
+```
+
+Let us write an io-ts type for the artist information. The first step would be importing all the methods from io-ts and then
+using the helper methods to specify the type.
+
+```typescript
+import * as t from "io-ts";
+
+const ArtistInfoValidator = t.type({
+    external_urls: t.record(t.string, t.string),
+    href: t.string,
+    id: t.string,
+    name: t.string,
+    type: t.literal("artist"),
+    uri: t.string,
+});
+
+type ArtistInfo = t.TypeOf<typeof ArtistInfoValidator>;
+
+const artistInfo = {
+    external_urls: {
+        spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+    },
+    href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+    id: "0C0XlULifJtAgn6ZNCW2eu",
+    name: "The Killers",
+    type: "artist",
+    uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+};
+```
+
+The io-ts validator type is specified by `ArtistInfoValidator`. `href`, `id`, `name` and `url` are straight forward. It gets
+interesting in the `external_urls` key. external_urls is a dictionary (if you are coming from python) or a map (in java) of key value pairs.
+In this case they are always strings. Typescript has a record type, you can [read more here](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeystype).
+io-ts supports majority of the commonly used types in typescript. To see what types are supported by io-ts, [browse this page](https://github.com/gcanti/io-ts/blob/master/index.md#implemented-types--combinators).
+
+Since record is already an established type, let us just use a record for the `external_urls`. One more interesting case is of the `type` key.
+The `type` key can be typed as a string, but more importantly it can only take one value in our `ArtistInfo` type, which is `"artist"`. So
+here we use `t.literal` to specify that the type of the string is literally just `"artist"`.
+
+What if the type could contain either `"artist"` or `"co-singer"`. In that case we could use the `t.union` helper and the type definition becomes
+`t.union([t.literal('artist'), t.literal('co-singer')])`.
+
+Later to extract the typescript type from the validator, use the `t.TypeOf<typeof ArtistInfoValidator>`. Now this type can be exported and used.
+
+## Validating data using io-ts types
+
+The validator object has a method called `decode`, which takes in one argument. The data to be validated. But the way the function
+behaves if the validation fails can be different than other javascript libraries. Let us write some example code
+
+```typescript
+// all the code from the above snippet..
+
+const artistInfo = {
+    external_urls: {
+        spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+    },
+    href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+    id: "0C0XlULifJtAgn6ZNCW2eu",
+    name: "The Killers",
+    type: "artist",
+    uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+};
+
+const decodeInfo = ArtistInfoValidator.decode(artistInfo);
+console.log(JSON.stringify(decodeInfo, null, 4));
+// logged output:
+// {
+//     "_tag": "Right",
+//     "right": {
+//         "external_urls": {
+//             "spotify": "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu"
+//         },
+//         "href": "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+//         "id": "0C0XlULifJtAgn6ZNCW2eu",
+//         "name": "The Killers",
+//         "type": "artist",
+//         "uri": "spotify:artist:0C0XlULifJtAgn6ZNCW2eu"
+//     }
+// }
+```
+
+And now with data which does not pass the rules
+
+```typescript
+const artistInfo = {
+    external_urls: {
+        spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+    },
+    href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+    id: "0C0XlULifJtAgn6ZNCW2eu",
+    // "name": "The Killers",
+    type: "artist",
+    uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+};
+
+const decodeInfo = ArtistInfoValidator.decode(artistInfo);
+console.log(JSON.stringify(decodeInfo, null, 4));
+// Logged output
+// {
+//     "_tag": "Left",
+//     "left": [
+//         {
+//             "context": [
+//                 {
+//                     "key": "",
+//                     "type": {
+//                         "name": "{ external_urls: { [K in string]: string }, href: string, id: string, name: string, type: \"artist\", uri: string }",
+//                         "props": {
+//                             "external_urls": {
+//                                 "name": "{ [K in string]: string }",
+//                                 "domain": {
+//                                     "name": "string",
+//                                     "_tag": "StringType"
+//                                 },
+//                                 "codomain": {
+//                                     "name": "string",
+//                                     "_tag": "StringType"
+//                                 },
+//                                 "_tag": "DictionaryType"
+//                             },
+//                             "href": {
+//                                 "name": "string",
+//                                 "_tag": "StringType"
+//                             },
+//                             "id": {
+//                                 "name": "string",
+//                                 "_tag": "StringType"
+//                             },
+//                             "name": {
+//                                 "name": "string",
+//                                 "_tag": "StringType"
+//                             },
+//                             "type": {
+//                                 "name": "\"artist\"",
+//                                 "value": "artist",
+//                                 "_tag": "LiteralType"
+//                             },
+//                             "uri": {
+//                                 "name": "string",
+//                                 "_tag": "StringType"
+//                             }
+//                         },
+//                         "_tag": "InterfaceType"
+//                     },
+//                     "actual": {
+//                         "external_urls": {
+//                             "spotify": "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu"
+//                         },
+//                         "href": "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+//                         "id": "0C0XlULifJtAgn6ZNCW2eu",
+//                         "type": "artist",
+//                         "uri": "spotify:artist:0C0XlULifJtAgn6ZNCW2eu"
+//                     }
+//                 },
+//                 {
+//                     "key": "name",
+//                     "type": {
+//                         "name": "string",
+//                         "_tag": "StringType"
+//                     }
+//                 }
+//             ]
+//         }
+//     ]
+// }
+```
+
+So the function does not throw errors, instead it returns objects which have a tag. Tag is usually left or right. Left has the error in the
+object and right has the object. This is actually called a `Either` object. An `Either` can take two forms. In success it returns the
+`Right` object and on failure it returns the `Left` object. So if you get back a `Left`, you should understand that it is a failure state
+and work accordingly. This is a pattern observed in [haskell](https://learnyouahaskell.com/for-a-few-monads-more#error) and rust (Rust has
+an entity called [`Result`](https://doc.rust-lang.org/std/result/)). `fold` is another functional programming concept which is very interesting.
+I don't think I can explain it well enough in this post, but for now let us understand that fold gives us a functionality to handle both success and
+failure. I will probably make a different blog post of `fp-ts` explaining `fold`, `either`, `pipe`,`flow` and function composition.
+
+So with that basic knowledge, let us write a simple function which will validate data and return back a value if ok, else throws an error
+with a simple message.
+
+```typescript
+import * as t from "io-ts";
+import { either } from "fp-ts";
+import { PathReporter } from "io-ts/lib/PathReporter";
+import { left } from "fp-ts/lib/Either";
+
+// ... all the code from above examples ...
+
+const artistInfo = {
+    external_urls: {
+        spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+    },
+    href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+    id: "0C0XlULifJtAgn6ZNCW2eu",
+    name: false,
+    type: "artist",
+    uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+};
+
+const decodeRawDataWith = (rawData: any, decodeWith: any) => {
+    const decodeInfoRaw = decodeWith.decode(rawData);
+    const decodeInfo = either.fold(
+        (errors: Array<t.ValidationError>) => {
+            throw new Error(
+                "Type errors in : " +
+                    errors
+                        .map((err) => {
+                            return err.context.map(
+                                (contextInfo) => contextInfo.key
+                            );
+                        })
+                        .join("\n")
+            );
+            // throw new Error(PathReporter.report(left(errors)).join("\n"));
+        },
+        (data) => data
+    )(decodeInfoRaw);
+
+    return decodeInfo;
+};
+
+console.log(decodeRawDataWith(artistInfo, ArtistInfoValidator));
+// Type errors in : ,name
+```
+
+I will give a run through of what happened here. Let's start with the first line of `decodeRawDataWith`. `decodeInfoRaw` is a `Either`
+which can either be a `Left` or a `Right`. To act accordingly we use a function called `fold`. fold's first argument is a function which
+will handle a failure case and the second argument is a success case.
+
+On the failure side, we get back a list of objects (which are `ValidationError`s). We can either iterate and craft our own error messages
+using the metadata or use the built-in `PathReporter` to create a message for us and throw an error using that. One important thing
+to note is that fold is a **higher order function**. Which means this function returns back **another** function instead of a value. That function
+takes in one argument. In `fold`'s case it will be the actual `Either` object. (To understand what all this fuzz is about,
+I suggest reading [a post about decorators in python](/blog/decorators-python). I cover a similar concept using python).
+
+This might seem like a lot, **and it is**. There is actually a better(and more cryptic) way of doing this `decodeRawDataWith` function using `pipe` and higher order functions. I am using
+that style for decoding. [You can find the source code for that in my blog post repo.](https://github.com/BharatKalluri/bharatkalluri.com/blob/197683e9cbf11e67e0bc5e1d7c3f07d40aa812d0/utils/ioTsUtils.ts#L6)
+
+That's it! Now with just a function call, data can be validated at runtime using io-ts.

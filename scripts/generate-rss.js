@@ -12,9 +12,7 @@ async function generateRSS() {
         feed_url: `${BASE_URL}/feed.xml`,
     });
 
-    const blogPostsPath = path.join(__dirname, "..", "pages", "blog");
-    const blogPosts = await fs.readdir(blogPostsPath);
-    const notesPath = path.join(__dirname, "..", "pages", "note");
+    const notesPath = path.join(__dirname, "..", "pages", "posts");
     const notes = await fs.readdir(notesPath);
 
     const addToFeed = (content, name, classification) => {
@@ -28,16 +26,9 @@ async function generateRSS() {
     };
 
     await Promise.all(
-        blogPosts.map(async (name) => {
-            const content = await fs.readFile(path.join(blogPostsPath, name));
-            addToFeed(content, name, "blog");
-        })
-    );
-
-    await Promise.all(
         notes.map(async (name) => {
             const content = await fs.readFile(path.join(notesPath, name));
-            addToFeed(content, name, "note");
+            addToFeed(content, name, "posts");
         })
     );
 

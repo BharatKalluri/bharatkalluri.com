@@ -1,0 +1,93 @@
+---
+title: Theming firefox
+publishedAt: "2018-08-07"
+description: Step by step guide on how to theme firefox browser.!
+tags:
+    - firefox
+    - theming
+    - tutorial
+hero: "https://unsplash.com/photos/LONOlwP2G7Y/download?force=true&w=1920"
+authors:
+    - Bharat Kalluri
+isBlogPost: true
+---
+
+Firefox is heavily customizable. Even after the quantam update, you can theme
+firefox to your liking pretty easily. By editing a file called userchrome.css
+you could hide and rearrange UI items in firefox pretty easily. `userchrome.css` is a
+cascading style sheet that firefox uses to style it's interface. There is a
+common misconception that userchrome.css has something to do with chrome. It
+actually does not. Firefox had this for a long time and it just happens that
+google chrome has the same name.
+
+Now the question is why am I suddenly intrested in tweaking and theming firefox?
+I found out that there is a theme for gnome called [Snow](https://github.com/EliverLara/snow)
+by EliverLara. This is the same awesome person who made [Ant](https://github.com/EliverLara/Ant). Although Ant is the more popular theme, I happen to like snow because it is a gradient based theme. Even after title bar support, firefox looks very much out of place after theming gnome.
+
+![Firefox before theming](https://i.imgur.com/y7oudDZ.png)
+
+So, Let's fix this! And just for understanding how much firefox can be themed, check out this [elementary firefox](https://github.com/harveycabaguio/firefox-elementary-theme) theme.
+
+First, to find where userchrome.css should be, open up `about:support`. There you will find a entry called profile directory. Click on the open directory button to open your mozilla firefox profile folder. Check if there is a folder named chrome. If not, create a folder named chrome. And inside chrome, create an empty file named userchrome.css.
+
+The first problem to fix is that the window controls should be to the left.
+Add the following lines of CSS to userchrome.css ([Source](https://askubuntu.com/a/1035448))
+
+```css
+#titlebar-content {
+    direction: rtl;
+}
+
+#TabsToolbar {
+    direction: rtl;
+}
+
+#tabbrowser-tabs {
+    direction: ltr;
+}
+```
+
+![After right move](https://i.imgur.com/viuzevs.png)
+
+It looks alright, but there is a large gap between the window controls and the
+tabs. Let us fix that too. To edit the userchrome.css and to see changes
+dynamically, there are a couple of steps to be done.
+
+-   Open the developer by pressing ctrl+shift+I.
+-   Go to the hamburger menu to open settings and in advanced settings,
+    and enable browser chrome and add on debugging toolbox and enable remote debugging.
+-   Open the browser toolbox by clicking ctrl+alt+shift+I.
+-   Click on the item selecter and hover over to the place you find the spacing
+    to see which items css should be changed.
+
+![Get element](https://i.imgur.com/ltvO1KL.png)
+
+On the bottom right, notice that there is a parameter which has a width of 40px.
+A width of 15px would be more sutible. Tweak the value to find your sweet spot.
+Now right click there and click on `copy rule`. Paste it into your userchrome.css
+file and change the value and save the file.
+
+```css
+.titlebar-placeholder[type="pre-tabs"],
+.titlebar-placeholder[type="post-tabs"] {
+    width: 15px !important;
+}
+
+#titlebar-content {
+    direction: rtl;
+}
+
+#TabsToolbar {
+    direction: rtl;
+}
+
+#tabbrowser-tabs {
+    direction: ltr;
+}
+```
+
+Restart firefox to see the changes. Now firefox fits well into the desktop.
+
+![After theming firefox](https://i.imgur.com/A0XEq0W.png)
+
+So, that's how you theme firefox using userchrome.css!

@@ -1,0 +1,19 @@
+---
+title: What is Bastion host?
+publishedAt: "2020-11-14"
+tags:
+    - infrastructure
+---
+
+The function of a bastion host is to provide a safe and secure entry point into servers/instances in the private cluster/subnet.
+
+It is not advised for servers to have a public IP. Usually in set ups involving AWS, the server runs on an auto scaling group. And there will
+be a load balancer sitting in front of the auto scaling group serving the website/API's. The servers are placed in a private subnet, none of them
+will get a public IP, which also implies direct SSH is also not possible. This is a good thing. But there is sometimes a need to login into the server to
+check on processes. In that case, there will be a dummy instance in the public subnet which also has a public IP. Since they are in the same VPC,
+SSH can be done from the this dummy instance. This dummy instance is called as a bastion host.
+
+![Bastion host infra illustration](/static/images/bastion-host/bastion_illustration.png)
+So now to SSH into the server, we first SSH into the bastion host and then SSH into the server. Now since this is a single entry point into your private
+subnets, it is very important to make sure that this system is hardened security wise. Have a SSH key with a strong password, allow SSH only through particular
+IP's and make sure the bastion host is shut down when no one is accessing the private systems.

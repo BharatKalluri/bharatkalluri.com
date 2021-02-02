@@ -2,26 +2,19 @@ import { Heading, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 
 // @ts-ignore
-import { frontMatter as blogPosts } from "./blog/*.mdx";
+import { frontMatter as notes } from "./posts/*.mdx";
 import { PostCard } from "../components/PostCard";
 import React, { useState } from "react";
 import { BlogFrontMatter } from "../types";
 import { SearchIcon } from "@chakra-ui/icons";
-import { searchInFrontMatter } from "../utils/postUtils";
+import {
+    searchInFrontMatter,
+    sortByPinnedAndPublishedAt,
+} from "../utils/postUtils";
 
 const Blog = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const sortedPosts = blogPosts.sort(
-        (a: BlogFrontMatter, b: BlogFrontMatter) => {
-            if (a.pinned === true) {
-                return -1;
-            } else if (b.pinned === true) {
-                return 1;
-            } else {
-                return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
-            }
-        }
-    );
+    const sortedPosts = notes.sort(sortByPinnedAndPublishedAt);
     return (
         <Layout
             title="Blog"
@@ -47,11 +40,12 @@ const Blog = () => {
                 .filter((f: BlogFrontMatter) =>
                     searchInFrontMatter(f, searchQuery)
                 )
+                .filter((f: BlogFrontMatter) => f.isBlogPost === true)
                 .map((frontMatter: BlogFrontMatter) => (
                     <PostCard
                         key={frontMatter.title}
                         frontMatter={frontMatter}
-                        folderPrefix="blog/"
+                        folderPrefix="posts/"
                     />
                 ))}
         </Layout>

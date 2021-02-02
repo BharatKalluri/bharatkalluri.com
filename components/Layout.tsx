@@ -61,7 +61,12 @@ const NavBar = () => {
     );
 };
 
-const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutProps) => {
+const Layout = ({
+    children,
+    title,
+    description,
+    relativeCanonicalURL,
+}: LayoutProps) => {
     const canonicalURL = `${BASE_URL}/${relativeCanonicalURL}`;
     return (
         <>
@@ -72,7 +77,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                 openGraph={{
                     url: canonicalURL,
                     title: title,
-                    description: description
+                    description: description,
                 }}
             />
             <div>
@@ -83,13 +88,18 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                         name="viewport"
                         content="initial-scale=1.0, width=device-width"
                     />
-                    <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `
+                    <script
+                        type="text/javascript"
+                        dangerouslySetInnerHTML={{
+                            __html: `
                         (function(c,l,a,r,i,t,y){
                             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
                             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
                             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
                         })(window, document, "clarity", "script", "4g3tskl7lj");
-                    ` }}></script>
+                    `,
+                        }}
+                    ></script>
                 </Head>
                 <header>
                     <NavBar />

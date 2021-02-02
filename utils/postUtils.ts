@@ -12,3 +12,16 @@ export function searchInFrontMatter(
             : true;
     return isFound === true;
 }
+
+export const sortByPinnedAndPublishedAt = (
+    a: BlogFrontMatter,
+    b: BlogFrontMatter
+): number => {
+    if (a.pinned === true) {
+        return -1;
+    } else if (b.pinned === true) {
+        return 1;
+    } else {
+        return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
+    }
+};
