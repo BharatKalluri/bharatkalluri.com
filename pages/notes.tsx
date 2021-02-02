@@ -39,7 +39,7 @@ const Blog = () => {
             </InputGroup>
             {sortedNotes
                 .filter(
-                    (f: BlogFrontMatter) => !f.draft && f.isBlogPost === false
+                    (f: BlogFrontMatter) => !f.draft && f.isBlogPost !== true
                 )
                 .filter((f: BlogFrontMatter) =>
                     searchInFrontMatter(f, searchQuery)
