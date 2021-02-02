@@ -80,13 +80,9 @@ const AudioVisualizer = () => {
 
     return (
         <>
-            <Stack direction="column" style={{ width: "100%" }} >
+            <Stack direction="column" style={{ width: "100%" }}>
                 <Stack direction="row" style={{ width: "100%" }} p={2}>
-                    <input
-                        type="file"
-                        id="audioPicker"
-                        accept="audio/*"
-                    />
+                    <input type="file" id="audioPicker" accept="audio/*" />
                     <audio>No support for audio</audio>
                 </Stack>
                 <canvas

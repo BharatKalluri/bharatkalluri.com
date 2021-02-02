@@ -1,0 +1,157 @@
+---
+author: Bharat Kalluri
+title: Computing - From Abacus to Transistors, the history
+publishedAt: "2020-11-18"
+draft: false
+tags:
+    - computer-science
+    - understanding-computing
+---
+
+> Inspired by [Computer science crash course](https://thecrashcourse.com/courses/computerscience)
+
+Computation or performing operations on numbers big and small is one of the fundamental necessities for humans. There
+are two basic operations, addition and subtraction. Everything else is built on top of these two basic operations.
+
+Multiplication is just repeated addition. 5 multiplied by 2 is the same as 5 + 5.
+
+Division is just repeated subtraction. 12 / 5 is just subtracting 5 from 12 repeatedly until we cannot subtract and then seeing what is the
+reminder. Since, 12 - 5 - 5 = 2. 12 goes into 5 two times with a reminder of 2.
+
+Adding two numbers is one of the most important and basic arithmetic operations. Humans have an intuition for this to some extent.
+If we see 3 apples and 2 apples, we can count and say there are 5 apples in total (assuming counting is known). But once the numbers
+get bigger it will get harder and harder. One of the foremost efforts was abacus.
+
+## Iteration One: Abacus
+
+Abacus uses beads and has levels. Each level will have a finite amount of beads. The lowest string of beads stands for units position,
+the second string stands for tens, third for hundreds etc..
+
+If we had to add 13 + 11 , we first set up 13 in the abacus. By pulling 3 beads in the lowest string and 1 bead in the second level and then
+set up 11, by pulling one more bead in the first level and pulling one bead in the second level. Now if you read the abacus, you can see the
+answer! 24. Obviously there is a lot more to the abacus and it is a lot more capable, but you get the idea.
+
+{{< youtube RvdQfru-yn8 >}}
+
+There are problems to this, one is that people need to know how to use the abacus and the second is that it is still slow. Faster than computing by
+hand but not fast enough. We can do better.
+
+## Iteration Two: Stepped Reckoner
+
+Lets jump in time to 1694, **Gottfried Wilhelm Leibniz** wanted to make computation easier and better. So he invented something called a
+stepped reckoner. A stepped reckoner uses cogs and gears to compute. It is a mechanical calculator. It does addition and subtraction, and
+for multiplication it just does repeated addition and for division it does repeated subtraction. Explaining how it works is really hard
+in text. So here are some videos explaining how it works.
+
+<YoutubeEmbed youtubeID="aDN4s8ElxqE" />
+<small> Video explaining how a mechanical calculator should be used</small>
+
+<YoutubeEmbed youtubeID="nmwSmwNF9XY" />
+<small> Video explaining how the internals work</small>
+
+This is great, but then there are issues with this approach as well. One is that sometimes calculations needed multiple steps, which was hard
+to accomplish using the step reckoner. Also the machines were heavy and expensive. Not everyone could afford a giant metallic mechanical calculator.
+And since it was fully mechanical, maintenance and repair was hard and expensive. We can do better! So we started caching!
+
+## Iteration Three: Pre computed tables
+
+Mechanical calculators were great, but not everyone can afford it. So if you wanted a square root of a huge number, instead of getting a mechanical calculator. You
+could get a huge book which had all the basic, hard to calculate computations. Pre computed tables were especially useful for logarithmic and trigonometric
+functions.
+
+![A log pre computed table](https://upload.wikimedia.org/wikipedia/commons/2/2e/Abramowitz%26Stegun.page97.agr.jpg)
+
+[You can find a lot more pre computed tables of the past here](https://locomat.loria.fr/locomat/reconstructed.html#other)
+
+These tables were heavily used during war time as they needed to calculate trajectories. Understanding trajectories was critical for armies to target and position
+artillery shells. The armies made extensive use of the pre computed tables.
+The army used a tables known as range tables which describe at what angle the machine should be fired based on atmospheric pressure, drift etc..
+
+![An example range table](https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/US_3_inch_field_gun_range_tables_1917.jpeg/800px-US_3_inch_field_gun_range_tables_1917.jpeg)
+
+These were extremely effective and were used until world war two. One of the problem was that if the cannon changed even by a slight bit, the whole book was
+to be recomputed. This was extremely time consuming and led to errors.
+
+## Iteration Four: The Difference engine
+
+Charles Babbage understood that computing and calculating pre computed tables was very expensive and wanted to improve the system. So, he invented a machine
+called the difference engine. The difference engine was designed to tabulate polynomial functions. Polynomial functions are functions which come out with an
+output given a multiple variables. The trajectory calculation is a good example since the angle to position the cannon depends on the wind speed, the air pressure
+and many other variables.
+
+Charles Babbage began constructing a proof of concept difference engine in 1819 and completed it in 1822. [He announced his invention in 1822](https://www.christies.com/lotfinder/Lot/babbage-charles-on-the-application-of-machinery-4443486-details.aspx).
+In 1823 the British government gave Babbage £1700 to start working on the engine. The implementation proved to be very expensive and time consuming. In 1832
+(That is 10 years later!) Babbage produced a small working model, which had one seventh of the promised capacity. Work stopped on 1833.
+
+![The difference engine](https://upload.wikimedia.org/wikipedia/commons/6/6a/LondonScienceMuseumsReplicaDifferenceEngine.jpg)
+
+Meanwhile, Babbage started thinking about the next step. **The Analytical Engine.**
+
+## Iteration Five: The Analytical engine
+
+This was probably the first general purpose computer. It could be used for more than one computation, can store and retrieve
+small amounts of data and even had a printer. But then Babbage could not get the machine working in practise even though he got
+the theory right.
+
+But this was a mechanical system still, using punch cards as input. This will change soon as well.
+
+![Analytical engine](https://upload.wikimedia.org/wikipedia/commons/a/ac/AnalyticalMachine_Babbage_London.jpg)
+
+## Iteration Six: Tabulating machines and International business machines
+
+During 1890s, USA needed to do a census. But most of the census was done by hand and was extremely time consuming.
+So, The government turned to Herman Hollerith. Herman Hollerith invented a machine called a tabulating machine which takes in
+punch cards and adds and maintains census counts.
+
+<YoutubeEmbed youtubeID="9HXjLW7v-II" />
+
+This helped the census system complete its work in around two and half years. It is estimated that, without the technology and just
+human effort. It would take around 12 years! Companies began recognizing the importance of computing in business and started
+extensively using machines for computing. From here after a couple of mergers a new company was formed for making these business
+machines and named itself International business machines or IBM for short.
+
+But these machines were huge, heavy and not fast enough. One of the biggest business machine back then was Harvard Mark I. This
+machine was used by the infamous Manhattan project. This machine was _huge_, [read through the wiki to understand more](https://en.wikipedia.org/wiki/Harvard_Mark_I).
+
+![Harvard Mark One](https://sites.harvard.edu/~chsi/markone/images/Mark1HousingSmall.jpg)
+
+The brains of the machine were [relays](https://en.wikipedia.org/wiki/Relay). The relay has a control wire which generates a electro magnetic field, which in turn pulls
+the switch down thereby completing the circuit. If the control wire is off, then current does not flow. If the current flows, then
+some gear turns on and does some incrementing/counting etc.. The down side is that these relays are heavy and take time to move up and
+down. This means speed is a problem. Also since it is mechanical, it is subject to wear and tear. If a component stopped working in a
+giant machine, you can imagine how hard it would be to fix it and get it back to work. The Mark One almost had 3500 relays!
+
+<YoutubeEmbed youtubeID="n9renPKEtUc" />
+
+## Iteration Seven: Vacuum Tubes
+
+To increase speed and decrease wear and tear, we need ideally get rid of all moving parts. In 1906, Lee De forest invented exactly this, a vacuum
+tube. The idea is to have a two electrodes in a air tight glass bulb. And have another third electrode, which would be called a control
+wire. If the control wire was positively charged, it would allow current through.If it was negative or neutral, then current would not
+pass. So using a control wire, the circuit can be opened or closed.
+
+If this sounds like a relay to you. You are right! This is essentially a relay. But without the moving parts. This is a huge step up
+since there is no moving parts. And _they are fast_, a relay can probably turn on and off around 30 times a second. A vacuum tube
+could turn on and off thousands of times per second!
+
+<YoutubeEmbed youtubeID="nA_tgIygvNo" />
+
+Using vacuum tubes, the first fully electrical computer was made. Designed by Tommy flowers. The computer was called Colossus MK 1.
+It had a whopping 1700 vacuum tubes. It was used to decrypt nazi communications. Programming was done by plugging wires in plug boards.
+
+But vacuum tubes were far from perfect. They were expensive, power hungry and would blow out like light bulbs. We needed something
+smaller and faster. In 1947, three scientists from bell labs made the next leap. _Transistors_.
+
+## Iteration Eight: Transistors
+
+The physics is complicated. But the idea is that there is a gate electrode which is connected to two more electrodes. And when the
+gate has is positively charged. Then current flows through and the transistor switches on, else it switches off.
+
+The earliest version of transistors were small and could switch between on and off around 10,000 times! This was a game changer and
+transformed how computers are made forever. Today, transistors power our processors, which are smaller than 50 nano meters!
+
+---
+
+Enough history, let us get to the meat of the subject.
+
+Now that we can turn switches on and off super fast, how do we make use of this to do calculations? Enter _logic gates_.
