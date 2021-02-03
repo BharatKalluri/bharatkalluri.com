@@ -1,8 +1,4 @@
 {
-  "presets": [
-    "next/babel"
-  ],
-  "plugins": [
-    "import-glob-array"
-  ]
+    "presets": ["next/babel"],
+    "plugins": ["import-glob-array"]
 }

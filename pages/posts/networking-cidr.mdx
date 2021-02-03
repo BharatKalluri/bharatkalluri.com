@@ -1,0 +1,38 @@
+---
+author: Bharat Kalluri
+title: Understanding the CIDR notation for networking
+publishedAt: "2020-11-01"
+tags:
+    - networking
+    - aws
+---
+
+A IP address is a identifier for a system on a network. So when someone says a machine has an IP of 65.1.23.44, this means that you can communicate to
+that machine using that address. IP stands for internet protocol. Currently there are two versions, IPv4 and IPv6. IPv6 came about to handle the problem
+of [exhaustion of IPv4](https://www.wikiwand.com/en/IPv4_address_exhaustion). IPv4 deserves a seperate note altogether since it is complicated.
+
+One interesting point to note is that, some IP address are reserved for special purposes. For example, localhost actually internally maps to 127.0.0.1.
+How does the system know that 127.0.0.1 is localhost? Check /etc/hosts to understand the mapping. To understand how IP addresses are reserved, jump to
+the [Special use addresses section of IPv4 wiki page](https://www.wikiwand.com/en/IPv4). To represent a range of IP addresses, there is a notation used
+there (for example, 192.0.0.0/24 or 0.0.0.0/8 ). This format has an IP address and a slash followed by a number. This format actually represents a
+range of IP addresses and is called the CIDR.
+
+## Understanding the CIDR notation
+
+One IP address can be written in multiple formats, what we use is the normal decimal format and what the system sees is the binary format.
+
+```
+Decimal format: 192      . 168      . 0        . 0
+Binary format : 11000000 . 10101000 . 00000000 . 00000000
+```
+
+So, an IP address is 4 collections of 8 bits each. In the CIDR notion the second part after the slash is called a mask. Which in common speak means
+that those many bits from the beggining are fixed. So when the notation says 192.168.0.0/24, this means that the first 24 bits (which transalates to
+8 bits \* 3 normal digits) starting from the beggining as fixed. 192.168.0.1 , 192.168.0.123 and 192.168.0.255 adhere to this notation. But 192.168.1.2 does not,
+since 1 is in the masked place.
+
+## How is this useful
+
+In networking, dividing the complete network into sub networks (also called subnets) is a common practice. When a subnetwork is defined, it is told a large
+amount of IP's belong to one subnet. And the notation used to describe these rules is CIDR. Defining any network as a group of IP's means CIDR will be used.
+It is important to have an intuition on the notation when working on anything related to networking.

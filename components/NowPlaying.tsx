@@ -1,16 +1,27 @@
 import React from "react";
 import useSWR from "swr";
-import { Box, Icon, Image, Link, Skeleton, Stack, Text, useColorMode } from "@chakra-ui/react";
+import {
+    Box,
+    Icon,
+    Image,
+    Link,
+    Skeleton,
+    Stack,
+    Text,
+    useColorMode,
+} from "@chakra-ui/react";
 import { fetcher } from "../lib/fetcher";
 import { ICurrentlyPlayingInfo } from "../interfaces";
 
-
 const NowPlaying = () => {
-    const { data }: { data?: ICurrentlyPlayingInfo } = useSWR("/api/now-playing", fetcher);
+    const { data }: { data?: ICurrentlyPlayingInfo } = useSWR(
+        "/api/now-playing",
+        fetcher
+    );
     const { colorMode } = useColorMode();
     const borderColor = {
         light: "gray.200",
-        dark: "gray.700"
+        dark: "gray.700",
     };
 
     return (
@@ -31,7 +42,10 @@ const NowPlaying = () => {
                     height="60px"
                     width="60px"
                     borderRadius={8}
-                    src={data?.collectionImageUrl || "/static/images/placeholder.jpg"}
+                    src={
+                        data?.collectionImageUrl ||
+                        "/static/images/placeholder.jpg"
+                    }
                 />
             </Skeleton>
             <Stack

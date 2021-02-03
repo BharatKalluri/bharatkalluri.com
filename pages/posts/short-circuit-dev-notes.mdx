@@ -1,0 +1,82 @@
+---
+title: Short circuit | GTK dev notes
+publishedAt: "2020-09-30"
+tags:
+    - linux
+    - gtk
+---
+
+> You can find the code over at [gitlab Short Circuit repo!](https://gitlab.gnome.org/Bharatkalluri/short-circuit)
+
+So one of my friends and I teamed up to do an developer tool to improve our workflows. Heavily inspired by [Boop on
+mac](https://boop.okat.best/). Since unfortunately it is not on linux and nothing like that exists on linux, we thought
+we will learn GTK dev and do it for ourselves and in turn for the community. This is the first time my friend got
+introduced to the GTK dev space. Although I have some experience, I do not have enough knowledge to give him any kind of
+constructive guidance.
+
+-   Got some skeleton up and running, one thing I noticed is that there is no go to article which tells how to set up a
+    proper GTK application. We are using python and the source of knowledge for us was other python projects. Specifically
+    [Notorious by GabMus](https://gitlab.gnome.org/GabMus/notorious/). This is something todo, write an article about
+    basic project setup and a collection of links to the documentation for GTK and how to traverse this world.
+-   The more I work on this, I personally feel python GTK libs need to have proper auto complete and type support for gtk
+    libraries. I think they are very well designed, but for a beginner like me who has no knowledge of what a method's
+    arguments are, or which arguments exist for a class. I am blind while developing. Like a lot of people, I use
+    [PyCharm](https://www.jetbrains.com/pycharm/) for development. PyCharm did suggest to install stubs for PyObject,
+    which I did. But there was little to no improvement in terms of IntelliSense. It looks like there is an active
+    discussion going on to [add types](https://gitlab.gnome.org/GNOME/pygobject/-/issues/159), this will be a huge boon if
+    it lands! (Although this was opened two years ago 😢)
+-   Added Flatpak support to the application today, which involves setting up meson build system. But fortunately gnome
+    builder has gives a ready made template which sets up Flatpak and meson for you. So, I took all the code and sort of
+    migrated it into the gnome builder python template. Although it did work, it was not an easy task. I think there
+    should be one tutorial which takes you through zero to a meson and flatpak supported GTK app, explaining what each
+    file does and how it is important. This is also something I have todo.
+-   Gnome builder is a fantastic tool, but it lacks strong python autocomplete. I am not sure if there is something wrong
+    with my setup, but there is no linting or error detection. Which means if I make a simple stupid mistake (like missing
+    a bracket) the editor does not show something is wrong. This is also a pain because we hit play and wait for a while
+    only to realize there is a missing bracket. I also need to research how to debug python applications using gnome
+    builder. This is a _must_ for me since I want to strongly type my code and a debugger will help me do it much faster.
+    Pycharm does it really well, I hope we get something similar for gnome builder.
+-   There are two (untold?) patterns which I find are strongly used (at least in the python GTK dev world). One is the
+    idea that all the widgets are usually singleton. And from everywhere you get the singleton and mutate the widget based
+    on class methods. One more principle is that, the complete GTK application should be a python package. Install the
+    application as a python package and make a bin file which just calls the main file of this package.
+-   Once the package idea clicks, it is very easy to run the app just using pycharm. Set your package folder as `sources root`. It essentially adds the folder in `PYTHONPATH` which makes it to be considered as a python package. Create a
+    dev python file which calls the main method of your package and you will have all the conveniences of PyCharm debugger
+    set!
+-   There should be an FAQ which shares recipes for problems like this in different GTK libraries. Since these are not
+    language specific but GNOME specific.
+-   Should we have a App Showcase? I think this makes sense. A new comer would love to see what applications are written
+    in python and dive into the source code if stuck. Interesting idea though.
+-   There is a gnome design channel, I tried submitting my icon but did not receive much feedback (maybe mine was a bad
+    time to post). But the idea of having a gnome design is fantastic. I would like to also submit my UI for a design
+    review and take feedback. I will post it when I see the group has got active (right now it seems silent).
+-   Setting up the complete build system, resource files, schema files etc is a **pain**, It is very hard to debug issues
+    I feel. I have spent almost two nights to figure out why the icon of the app is not showing up. It would be
+    **absolutely awesome** if there is a [cookiecutter template](https://github.com/cookiecutter/cookiecutter) which has a
+    dummy icon setup, all the build system configured and flatpak working out of the box. That would mean developers can
+    just start working on their apps instead of setting up build systems.
+-   There were some more problems I faced which took longer than I expected/did now work out
+-   I was not able to get GTK info-bar working in python. I think it would be awesome if a demo app existed with GTK
+    python sample code. Currently the GTK demo only shows up C code. I should formally put this suggestion forward and
+    see what people have to say.
+-   Although meson is fantastic, some guidance/explanation would help beginners greatly. This is in my todo, I will
+    write about this in the series I plan on publishing.
+-   There should also be a series/tutorial which explains how to package a GTK app, what GResource means, what a desktop
+    file is/what it should contain etc.. (todo)
+-   The icon is blurry, not sure why. I asked for help and am waiting for a reply. Still WIP. If this is a common
+    problem.
+-   After a while, The Authenticator dev (Bilal) helped me out on the icon issue. Apparently it only happens in dev. Once
+    the flatpak is installed. The icon shows up normally. But during development, it does not show up. A very weird
+    behavior in my opinion. He asked me to raise the issue over at gnome discourse. I will do that sometime soon.
+-   It is on [flathub now](https://flathub.org/apps/details/in.bharatkalluri.shortcircuit)!
+
+## Other notes
+
+-   Never hard code user directory paths in code. Always use `GLib` for this.
+-   To use a widget as a template, make sure the `composite` checkbox is checked in the UI designer.
+
+## What does the ecosystem need?
+
+GTK development desperately needs a good developer experience. There is no autocomplete in python, which is a big problem. The whole
+build setup is complicated (flatpak is hugely simplifying this though) and the documentation (blogs/articles etc..) are pretty sparse.
+More readable examples for every widget for every language they have official bindings also would help a lot.

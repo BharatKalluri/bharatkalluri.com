@@ -52,6 +52,7 @@ export const BlogFrontMatterValidator = t.type({
     draft: t.union([t.boolean, t.undefined]),
     tags: t.union([t.array(t.string), t.undefined]),
     pinned: t.union([t.boolean, t.undefined]),
+    isBlogPost: t.union([t.boolean, t.undefined]),
     __resourcePath: t.string,
 });
 export type BlogFrontMatter = t.TypeOf<typeof BlogFrontMatterValidator>;
