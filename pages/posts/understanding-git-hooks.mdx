@@ -1,0 +1,89 @@
+---
+author: Bharat Kalluri
+title: Understanding git hooks to automate your development workflow
+publishedAt: "2021-02-06"
+tags:
+    - git
+---
+
+## Why
+
+Ensuring code quality in projects (Personal or Professional) is very important. Probably the only way to ensure code
+quality long term is by automation. Remember to [make it easy and make it obvious](/post/atomic-habits). Git hooks are
+the simplest and most powerful solution to automate code quality monitoring.
+
+Let's look at a couple of things an organization does with a decent team size. There will be
+
+-   linting on the codebase to check for syntax errors
+-   code formatting to enforce a uniform code style
+-   tests to run to ensure the code has not changed anything
+-   notifications if someone has merged to the base branch
+-   coverage reports for each merge, to make sure a huge change does not go untested
+-   sanity checks on commit messages. To avoid spelling mistakes etc..
+
+These are some of the most common devops tasks we would want to automate. Git gives us a powerful and simple solution to
+automate all of these using hooks.
+
+Hooks allow us to tap into the lifecycle of git and allows us to execute scripts before or after the lifecycle event.
+Hooks can be classified into two buckets, local and remote.
+
+These are some of the common hooks (note that all of the hooks listed below are local)
+
+-   **pre-commit** : this hook runs just before the commit is done. Usually static analysis (`tsc` for example),
+    linting, spell checks and other code formatting checks are usually done here.
+-   **prepare-commit-message** : this hook runs just before the commit message editor is shown to the user, this can be
+    used to edit the default commit message to automatically include the author name, issue ID, maybe even a TODO list.
+-   **commit-msg** : this hook executes before the commit message is saved and a commit is created. Here you can run
+    some sanity checks on the commit message like checking for typos, making sure if follows a format etc..
+-   **post-commit** : executes after a commit is successfully made. This maybe used to notify the team of your commit.
+
+This is _not_ the entire list of hooks, there are a lot more. [Read more
+here](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
+
+## How to install and share git hooks
+
+Git hooks are by default at `.git/hooks/` in the root of the git repository. Jump into that folder to see what are the
+possible hooks. Here is a sample output
+
+```sh
+applypatch-msg.sample  fsmonitor-watchman.sample  pre-applypatch.sample  pre-merge-commit.sample    pre-push.sample    pre-receive.sample
+commit-msg.sample      post-update.sample         pre-commit.sample      prepare-commit-msg.sample  pre-rebase.sample  update.sample
+```
+
+Remove sample from a file name and the hook becomes active. So to have a pre-commit hook, just create a file named
+`pre-commit` and that file will be run before every commit.
+
+But there is a downside to this, hooks cannot be shared since they are in the `.git` folder and `.git` cannot be
+committed and pushed. But there is a way out.
+
+Git exposes a configuration to set the hooks folder. I generally tend to create a folder named `.hooks` in my
+repositories and put all the hooks there. To change the config, just run
+
+```sh
+git config core.hooksPath .hooks
+```
+
+And from now on, instead of looking at `.git/hooks` git will look at `.hooks` for git hooks. Now since the folder is not
+in `.git`, `.hooks` can also be committed and pushed!
+
+## Using the pre commit hook to prettify code and run tsc
+
+Here is a sample `pre-commit` hook to prettify typescript files and run `tsc` to make sure there are no type errors.
+Most of it is just [taken from the prettier docs](https://prettier.io/docs/en/precommit.html)
+
+```sh
+#!/bin/sh
+FILES=$(git diff --cached --name-only --diff-filter=ACMR "*.ts" | sed 's| |\\ |g')
+[ -z "$FILES" ] && exit 0
+
+# Prettify all selected files
+echo "$FILES" | xargs ./node_modules/.bin/prettier --write
+
+# Compile code and check for errors
+tsc
+
+# Add back the modified/prettified files to staging
+echo "$FILES" | xargs git add
+
+exit 0
+```
