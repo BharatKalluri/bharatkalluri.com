@@ -30,7 +30,7 @@ const Now = () => {
                             </NextLink>
                         </Link>
                     </ListItem>
-                    <ListItem>Listening to 1974 (audio book)</ListItem>
+                    <ListItem>Listening to 1984 (audio book)</ListItem>
                     <ListItem>
                         Reading thinking fast and slow by daniel kahneman
                     </ListItem>
