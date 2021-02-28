@@ -1,12 +1,5 @@
 import React from "react";
-import {
-    Button,
-    ButtonGroup,
-    Flex,
-    IconButton,
-    Link,
-    Stack,
-} from "@chakra-ui/react";
+import { Button, Flex, IconButton, Link } from "@chakra-ui/react";
 import {
     FaGithub,
     FaLinkedin,
