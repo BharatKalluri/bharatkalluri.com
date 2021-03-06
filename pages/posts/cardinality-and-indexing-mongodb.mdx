@@ -1,0 +1,58 @@
+---
+title: Understanding indexing and cardinality for mongoDB
+publishedAt: "2021-03-06"
+tags:
+- database
+- mongoDB
+- computer-science
+---
+
+## Cardinality
+
+> The total number of distinct elements in a set is described as the Cardinality of the set
+
+So if a set has 5 elements made of boolean values, then the cardinality of the set is going to be two. So, all sets
+made of booleans will have a max cardinality of two and a min cardinality of one.
+
+## How cardinality impacts indexing
+
+If a boolean field is indexed, there is not much the index will improve on terms of performance. Imagine a column in
+the database to have just booleans with a 50/50 split. The index will allow you to skip 50% of the documents, but still
+be a sequential scan of the rest 50%. If there is a 80/20 split between true and false, then the index is pretty much
+useless when querying over the true part because you will have to do a sequential scan of 80% of the documents (But the
+queries looking for false will benefit from the index).This applies to any field with a low cardinality, if a field has
+an enum of five values and thousands of documents in each category. A similar effect can be observed. Indexes must be
+built carefully in conditions like these. One more side effect of having an index on such fields is that it impacts
+writes as well.
+
+Compound indexes really shine here. One note here is that, a compound index should never start with a field having a
+low cardinality. It defeats the purpose.
+
+## Indexing in MongoDB
+
+MongoDB allows partial indexes, sparse indexes and compound indexes.
+
+#### Partial indexes
+
+Imagine you wanted to have a index where a boolean, if the queries look for false and filter further. Then instead of
+creating a index on the complete field, mongoDB allows us to create a partial index with just the false values. This
+gets us the best of two worlds. Write speed is not impacted for true and false records are easily searchable.
+
+### Sparse indexes
+
+This is one more index types which is really popular (for a good reason), the idea is that sparse index allows to create
+an index where the value of the field is not undefined. This also helps when you have an optional unique fields. This
+helps us if the index is on a field where the majority of the fields are undefined.
+
+### Compound indexes
+
+This is the most common, well established pattern from SQL. The idea is that, based on your queries, create a compound
+index with the field which has the max cardinality first and the least cardinality to the last. So, whenever a query is
+run, it will narrow down the funnel by filtering out the majority of the rows (since the first piece in the compound
+index has the highest cardinality) and progressively narrows down on the result.
+
+
+Analyze all the created indexes and queries periodically to understand if any query can be improved. MongoDB also
+provides a performance advisor in mongoDB atlas, which is really helpful. Keep an eye out for queries which do
+`COLLSCAN` on a large amount of rows. Indexing is a very powerful feature, and used right will prove to massively
+beneficial.
