@@ -2,6 +2,8 @@ const { promises: fs } = require("fs");
 const path = require("path");
 const RSS = require("rss");
 const matter = require("gray-matter");
+const remark = require("remark");
+const html = require("remark-html");
 
 const BASE_URL = "https://bharatkalluri.com";
 
@@ -17,11 +19,12 @@ async function generateRSS() {
 
     const addToFeed = (content, name, classification) => {
         const front_matter = matter(content);
+        const descriptionHtml = remark().use(html).process(front_matter.content);
         feed.item({
             title: front_matter.data.title,
             url: `${BASE_URL}/${classification}/` + name.replace(/\.mdx?/, ""),
             date: front_matter.data.publishedAt,
-            description: front_matter.content,
+            description: descriptionHtml,
         });
     };
 
