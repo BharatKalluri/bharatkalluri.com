@@ -61,12 +61,7 @@ const NavBar = () => {
     );
 };
 
-const Layout = ({
-    children,
-    title,
-    description,
-    relativeCanonicalURL,
-}: LayoutProps) => {
+const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutProps) => {
     const canonicalURL = `${BASE_URL}/${relativeCanonicalURL}`;
     return (
         <>
@@ -84,10 +79,7 @@ const Layout = ({
                 <Head>
                     <title>{title ? `${title} |` : ""} Bharat Kalluri</title>
                     <meta charSet="utf-8" />
-                    <meta
-                        name="viewport"
-                        content="initial-scale=1.0, width=device-width"
-                    />
+                    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                     <script
                         type="text/javascript"
                         dangerouslySetInnerHTML={{
@@ -100,19 +92,12 @@ const Layout = ({
                     `,
                         }}
                     ></script>
+                    <link rel="icon" type="image/png" href="/static/logo.png" />
                 </Head>
                 <header>
                     <NavBar />
                 </header>
-                <Flex
-                    as="main"
-                    justifyContent="center"
-                    flexDirection="column"
-                    px={4}
-                    mx="auto"
-                    mt={8}
-                    maxW="800px"
-                >
+                <Flex as="main" justifyContent="center" flexDirection="column" px={4} mx="auto" mt={8} maxW="800px">
                     <Stack spacing={10}>{children}</Stack>
                 </Flex>
                 <Footer />
