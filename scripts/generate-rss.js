@@ -21,7 +21,7 @@ async function generateRSS() {
             title: front_matter.data.title,
             url: `${BASE_URL}/${classification}/` + name.replace(/\.mdx?/, ""),
             date: front_matter.data.publishedAt,
-            description: front_matter.data.description,
+            description: front_matter.content,
         });
     };
 
