@@ -11,7 +11,7 @@ export const PROJECT_LIST: Array<IProjectCardProps> = [
         link: "https://github.com/BharatKalluri/harmony",
     },
     {
-        name: "Mail Sanatizer",
+        name: "Mail Sanitizer",
         description: "A command line tool written in python to clear up your Email!",
         link: "https://github.com/BharatKalluri/mail-sanitizer",
     },
