@@ -1,23 +1,9 @@
 import React from "react";
 import { Button, Flex, IconButton, Link } from "@chakra-ui/react";
-import {
-    FaGithub,
-    FaLinkedin,
-    FaMailBulk,
-    FaTelegramPlane,
-    FaTwitter,
-    FaRss,
-} from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaMailBulk, FaTelegramPlane, FaTwitter, FaRss } from "react-icons/fa";
 import NextLink from "next/link";
 import NowPlaying from "./NowPlaying";
-import {
-    EMAIL,
-    GITHUB_URL,
-    LINKEDIN_URL,
-    TELEGRAM_URL,
-    TWITTER_URL,
-    RSS_URL,
-} from "../constants";
+import { EMAIL, GITHUB_URL, LINKEDIN_URL, TELEGRAM_URL, TWITTER_URL, RSS_URL } from "../constants";
 
 const FooterButton = (props: { text: string; href: string }) => {
     return (
@@ -32,34 +18,19 @@ const FooterButton = (props: { text: string; href: string }) => {
 const Footer = () => (
     <Flex align="center" py={8} direction="column">
         <NowPlaying />
-        <FooterButton text="Now" href="/now" />
+        <Flex direction={"row"}>
+            <FooterButton text="Now" href="/now" />
+            <FooterButton text="Dashboard" href="/dashboard" />
+        </Flex>
         <div>
             <Link href={TWITTER_URL} title="Twitter" isExternal>
-                <IconButton
-                    aria-label="Twitter"
-                    icon={<FaTwitter />}
-                    size="lg"
-                    color="gray.500"
-                    variant="ghost"
-                />
+                <IconButton aria-label="Twitter" icon={<FaTwitter />} size="lg" color="gray.500" variant="ghost" />
             </Link>
             <Link href={GITHUB_URL} title="GitHub" isExternal>
-                <IconButton
-                    aria-label="GitHub"
-                    icon={<FaGithub />}
-                    size="lg"
-                    color="gray.500"
-                    variant="ghost"
-                />
+                <IconButton aria-label="GitHub" icon={<FaGithub />} size="lg" color="gray.500" variant="ghost" />
             </Link>
             <Link href={LINKEDIN_URL} title="LinkedIn" isExternal>
-                <IconButton
-                    aria-label="LinkedIn"
-                    icon={<FaLinkedin />}
-                    size="lg"
-                    color="gray.500"
-                    variant="ghost"
-                />
+                <IconButton aria-label="LinkedIn" icon={<FaLinkedin />} size="lg" color="gray.500" variant="ghost" />
             </Link>
             <Link href={TELEGRAM_URL} title="Telegram" isExternal>
                 <IconButton
@@ -71,22 +42,10 @@ const Footer = () => (
                 />
             </Link>
             <Link href={`mailto:${EMAIL}`} title="Email" isExternal>
-                <IconButton
-                    aria-label="Email"
-                    icon={<FaMailBulk />}
-                    size="lg"
-                    color="gray.500"
-                    variant="ghost"
-                />
+                <IconButton aria-label="Email" icon={<FaMailBulk />} size="lg" color="gray.500" variant="ghost" />
             </Link>
             <Link href={RSS_URL} title="RSS" isExternal>
-                <IconButton
-                    aria-label="RSS"
-                    icon={<FaRss />}
-                    size="lg"
-                    color="gray.500"
-                    variant="ghost"
-                />
+                <IconButton aria-label="RSS" icon={<FaRss />} size="lg" color="gray.500" variant="ghost" />
             </Link>
         </div>
     </Flex>
