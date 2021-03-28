@@ -1,6 +1,6 @@
 ---
 title: Understanding captioning and subtitles
-description: Implementing an SRT parser in python along the way!
+description: And implementing an SRT parser in python along the way!
 publishedAt: "2021-03-28"
 tags:
 - down-the-rabbit-hole
@@ -8,7 +8,7 @@ tags:
 ---
 
 Subtitles are one of those things which you might think is very simple and straight forward, but dive
-in to the field to only realize it has a lot more complication.
+in to the field to only realize it's a lot more complicated.
 
 Fun fact, The word subtitle is the prefix sub- ("below") followed by title. In some cases, such as
 live opera, the dialogue is displayed above the stage in what are referred to as
@@ -17,9 +17,9 @@ surtitles (sur- meaning "above").
 ## The SRT specification
 
 `srt` files are one of the most popular captioning formats currently. All major video players support
-srt files. If you have added subtitles to a video on VLC, it would have probably been a srt file.
+srt files. If you have added subtitles to a video on VLC, it would have probably been a `srt` file.
 
-The problem is that there is not established standard for srt. Here are the rules a srt file should
+The problem is that there is not established standard for `srt`. Here are the rules a `srt` file should
 follow so that players can read them. First up, let us look at a sample
 
 ```
@@ -33,7 +33,7 @@ our final approach into Coruscant.
 Very good, Lieutenant.
 ```
 
-There are 3 rules an SRT file is expected to follow
+There are 3 rules an `srt` file is expected to follow
 
 - The first line should be an incrementing index
 - Immediately after that, there should be another line which contains two timestamps. in the format HH:MM:SS,MILLSEC
@@ -76,11 +76,11 @@ pprint([m.groupdict() for m in list(re.finditer(CUE_BLOCK_REGEX, sub, re.DOTALL)
 
 ## Parsing issues with Regex
 
-Well, as I was saying. There is no formal specification surrounding srt. So different files follow
+Well, as I was saying. There is no formal specification surrounding `srt`. So different files follow
 different structures. There is a great article on [blog.foolip.org](https://blog.foolip.org/2010/08/20/srt-research/)
-which analyzed around 50,000 srt files from open subtitles. Here are some highlights from that article
+which analyzed around 10000 `srt` files from open subtitles. Here are some highlights from that article
 
-- The ID line is mostly useless, some srt files skip it entirely
+- The ID line is mostly useless, some `srt` files skip it entirely
 - Assuming blank lines separate cue's turns out to be unreliable
 - The timestamps also do not seem to follow a specific format, the padding may not be proper. Assuming
 milliseconds to always be a 3 padded integer would probably cause issues.
@@ -191,10 +191,10 @@ def get_cue_blocks_from_srt_string(srt_string: str):
 
 Let us go through the code of `get_cue_blocks_from_srt_string` step by step
 
-- The input is the raw string from the srt file, the first step is to split them into lines
-- After that, we first filter all the lines which just contain a number. These are the lines which contain ID's
-    we will be populating them manually later on.
-- Next, filter on empty lines. To skip all the new lines which are there to signify cue block end.
+- The input is the raw string from the `srt` file, the first step is to split them into lines
+- After that, we first filter out all the lines which just contain a number. These are the lines which contain ID's.
+    We will be populating them manually later on.
+- Next, filter out empty lines. To skip all the new lines which are there to signify cue block end.
 - Now that we just have timestamps and content. We run a `groupby` on the array to form alternating blocks of timestamps
     and content. If this does not make sense, I suggest putting a print here and seeing what the output of `groupby` is.
 - Remember that `groupby` gives back an iterator, this will prove very useful very soon.
@@ -206,7 +206,7 @@ Let us go through the code of `get_cue_blocks_from_srt_string` step by step
     regex's to figure out the start time and end time and make a CueBlock out of this information
 - And push all these CueBlock objects to an array. At the end, we return this `CueBlock`s array.
 
-That's it! This is a basic SRT parser.
+That's it! This is a basic `srt` parser.
 
 > All the code for this is present on [Github](https://github.com/BharatKalluri/playground/tree/main/srt-parser)
 
@@ -218,7 +218,7 @@ This is where the coding piece ends. I was curious to see how complicated captio
 
 Subtitles are also called as timed tracks. And there are a lot of competing formats in this space. This is what happens
 when there is no standard. Currently [there are over __50 competing formats!__ ](https://wiki.whatwg.org/wiki/Timed_track_formats)
-Looks like srt is the most popular between all of them, most probably because of its simplicity.
+Looks like `srt` is the most popular between all of them, most probably because of its simplicity.
 
 Some formats use frame numbers as a reference, this could be a huge problem since there will be the same video in
 different frame rates and that could break the subtitles.
@@ -226,7 +226,7 @@ different frame rates and that could break the subtitles.
 #### Additional features supported by different Captioning specifications
 
 Also, positioning should be a part of the spec. Subtitles cannot be shown always at the bottom, if there is something
-important going on at the bottom end of the screen. The sub will shadow that. As far as I know SRT does not support this.
+important going on at the bottom end of the screen. The sub will shadow that. As far as I know `srt` does not support this.
 
 Another thing which needs to be included is the color. This can be achieved through html tags. Some players just do
 it in white with a black back shadow. That seems to mostly work as well. All the
