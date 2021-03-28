@@ -1,0 +1,75 @@
+---
+title: Understanding captioning and subtitles
+description: Implementing an SRT parser in python along the way!
+publishedAt: "2021-03-28"
+tags:
+- down-the-rabbit-hole
+- python
+---
+
+Subtitles are one of those things which you might think is very simple and straight forward, but dive
+in to the field to only realize it has a lot more complication.
+
+Fun fact, The word subtitle is the prefix sub- ("below") followed by title. In some cases, such as
+live opera, the dialogue is displayed above the stage in what are referred to as
+surtitles (sur- meaning "above").
+
+## The SRT specification
+
+`srt` files are one of the most popular captioning formats currently. All major video players support
+srt files. If you have added subtitles to a video on VLC, it would have probably been a srt file.
+
+The problem is that there is not established standard for srt. Here are the rules an srt file should
+follow so that players can read them. First up, let us look at a sample
+
+```
+1
+00:02:17,440 --> 00:02:20,375
+Senator, we're making
+our final approach into Coruscant.
+
+2
+00:02:20,476 --> 00:02:22,501
+Very good, Lieutenant.
+```
+
+There are 3 rules a SRT file is expected to follow
+
+- The first line should be an incrementing index
+- Immediately after that, there should be another line which contains two timestamps. in the format HH:MM:SS,MILLSEC
+separated by `-->`.
+Another fun fact, the reason the separator is comma is because the creators were based out of France!
+- After this, there can be one or more lines of text containing the actual contents of the caption
+- A new line is expected to be between each block
+
+These blocks are also called as cues.
+
+The spec sounds very simple, and it is. So, my initial idea is to implement a parser using just RegEx.
+This is how that would look
+
+```python
+from pprint import pprint
+
+CUE_BLOCK_REGEX = r'((?P<index>[0-9]+)\n)?(?P<start_time>[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}) --> (?P<end_time>[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3})\n(?P<content>.*?)(\n\n|$)'
+
+sub_to_parse = '''1
+00:02:17,440 --> 00:02:20,375
+Senator, we're making
+our final approach into Coruscant.
+
+2
+00:02:20,476 --> 00:02:22,501
+Very good, Lieutenant.'''
+
+pprint([m.groupdict() for m in list(re.finditer(CUE_BLOCK_REGEX, sub, re.DOTALL))])
+"""
+[{'content': "Senator, we're making\nour final approach into Coruscant.",
+  'end_time': '00:02:20,375',
+  'index': '1',
+  'start_time': '00:02:17,440'},
+ {'content': 'Very good, Lieutenant.',
+  'end_time': '00:02:22,501',
+  'index': '2',
+  'start_time': '00:02:20,476'}]
+"""
+```
