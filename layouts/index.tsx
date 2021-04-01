@@ -18,11 +18,7 @@ const PostLayout = (props: IPostLayoutProps) => {
 
     return (
         <>
-            <Layout
-                title={postTitle}
-                description={postDescription}
-                relativeCanonicalURL={postLink}
-            >
+            <Layout title={postTitle} description={postDescription} relativeCanonicalURL={postLink}>
                 <Stack
                     as="article"
                     spacing={8}
@@ -36,6 +32,8 @@ const PostLayout = (props: IPostLayoutProps) => {
                     </Text>
                     <Text color="grey">Bharat Kalluri / {publishedAt}</Text>
                     {props.children}
+                    <script defer src="https://commento.cloud.bharatkalluri.com/js/commento.js" />
+                    <div id="commento" />
                 </Stack>
             </Layout>
         </>
