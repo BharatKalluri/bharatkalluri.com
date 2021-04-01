@@ -33,6 +33,12 @@ const AboutPage = () => (
             </CustomLink>
         </Text>
 
+        <iframe
+            src="https://www.google.com/maps/d/u/0/embed?mid=1Ae6HyxxxWSlG43TvQ5HW0FgZRK97ZcW0"
+            width="100%"
+            height="300"
+        />
+
         <ContactForm />
     </Layout>
 );
