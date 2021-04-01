@@ -19,11 +19,15 @@ const UsesPage = () => {
         "Firefox",
         "Fedora",
         "GNOME and corresponding default apps",
-        "VS Code",
+        "VS Code for quick text editing",
         "Jetbrain IDEs (WebStorm, PyCharm and GoLand)",
-        "Slack Desktop",
-        "Spotify Desktop",
-        "LibreOffice"
+        "Slack Desktop for office comms",
+        "Spotify Desktop for music (scrobbles to last.fm)",
+        "LibreOffice",
+        "Bitwarden password manager",
+        "Raindrop for bookmark management",
+        "Github",
+        "TickTick for task tracking"
     ];
 
     return (
