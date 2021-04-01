@@ -3,6 +3,8 @@ import Layout from "../components/Layout";
 
 const UsesPage = () => {
 
+    // TODO: Add an image of the setup here
+
     const computerSetup = [
         "16\" Macbook pro (from office)",
         "Lenovo thinkpad T480 (personal laptop)",
