@@ -1,19 +1,53 @@
+import { ListItem, Stack, Text, UnorderedList } from "@chakra-ui/react";
 import Layout from "../components/Layout";
-import { Stack, Text } from "@chakra-ui/react";
 
 const UsesPage = () => {
+
+    const computerSetup = [
+        "16\" Macbook pro (from office)",
+        "Lenovo thinkpad T480 (personal laptop)",
+        "Logitech G300s Mouse",
+        "Corsair mechanical keyboard",
+        "Assembled system with Ryzen 5 3400g and RX580 (8GB)",
+        "AKG K52 over the ear headphones",
+        "QCY QS2 wireless earbuds"
+    ];
+
+    const softwareAndServices = [
+        "Firefox",
+        "Fedora",
+        "GNOME and corresponding default apps",
+        "VS Code",
+        "Jetbrain IDEs (WebStorm, PyCharm and GoLand)",
+        "Slack Desktop",
+        "Spotify Desktop",
+        "LibreOffice"
+    ];
+
     return (
         <Layout title="Uses" relativeCanonicalURL="/uses">
-            <Stack direction="column" spacing={5}>
+            <Stack direction="column" spacing={5} fontSize="lg">
                 <Text fontSize="6xl" fontWeight="extrabold">
                     Uses
                 </Text>
 
-                <Text fontSize="3xl">Hardware</Text>
                 <Text>
-                    My work laptop is a company provided MacBook Pro 2015. And my personal laptop is a Lenovo Think Pad
-                    480.
+                    Here is the tech and software I use to code, write and get work done in general.
                 </Text>
+
+                <Text fontSize="2xl" fontWeight="extrabold">
+                    Computer / Laptop / Hardware setup
+                </Text>
+                <UnorderedList spacing={3}>
+                    {computerSetup.map(el => <ListItem>{el}</ListItem>)}
+                </UnorderedList>
+
+                <Text fontSize="2xl" fontWeight="extrabold">
+                    Software & Services
+                </Text>
+                <UnorderedList spacing={3}>
+                    {softwareAndServices.map(el => <ListItem>{el}</ListItem>)}
+                </UnorderedList>
             </Stack>
         </Layout>
     );

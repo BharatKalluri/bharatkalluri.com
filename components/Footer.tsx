@@ -8,7 +8,7 @@ import { EMAIL, GITHUB_URL, LINKEDIN_URL, TELEGRAM_URL, TWITTER_URL, RSS_URL } f
 const FooterButton = (props: { text: string; href: string }) => {
     return (
         <NextLink href={props.href} passHref>
-            <Button as="a" variant="ghost" fontWeight="400" fontSize="13px">
+            <Button as="a" variant="ghost" fontWeight="300">
                 {props.text}
             </Button>
         </NextLink>
@@ -18,7 +18,7 @@ const FooterButton = (props: { text: string; href: string }) => {
 const Footer = () => (
     <Flex align="center" py={8} direction="column">
         <NowPlaying />
-        <Flex direction={"row"}>
+        <Flex direction={"row"} fontSize='2xl'>
             <FooterButton text="Now" href="/now" />
             <FooterButton text="Dashboard" href="/dashboard" />
             <FooterButton text="Uses" href="/uses" />
