@@ -23,7 +23,7 @@ const AboutPage = () => (
         </Text>
         <Text fontSize="lg">
             Also, feel free to <CustomLink href={`https://calendly.com/bharatkalluri`}>schedule a call with me</CustomLink>
-            if you want to talk about tech, programming, open source, movies, TV series, philosophy and everything
+            if you want to talk about tech, programming, open source, movies, books, TV series, philosophy and everything
             in between :)
         </Text>
         <Text fontSize="lg">
