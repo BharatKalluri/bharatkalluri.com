@@ -7,8 +7,9 @@ import {
     NowPlayingValidator,
     TrackInfo,
 } from "../../types";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async (_: any, res: any) => {
+export default async (_: NextApiRequest, res: NextApiResponse) => {
     const response = await getNowPlaying();
 
     if (response.status === 204 || response.status > 400) {

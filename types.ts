@@ -5,6 +5,7 @@ const SpotifyImageInfoValidator = t.type({
     height: t.number,
     width: t.number,
 });
+
 const ArtistInfoValidator = t.type({
     href: t.string,
     id: t.string,
@@ -12,17 +13,20 @@ const ArtistInfoValidator = t.type({
     type: t.string,
     external_urls: t.record(t.string, t.string),
 });
+
 const AlbumInfoValidator = t.type({
     name: t.string,
     artists: t.array(ArtistInfoValidator),
     images: t.array(SpotifyImageInfoValidator),
 });
+
 const TrackInfoValidator = t.type({
     name: t.string,
     artists: t.array(ArtistInfoValidator),
     album: AlbumInfoValidator,
     external_urls: t.record(t.string, t.string),
 });
+
 export type TrackInfo = t.TypeOf<typeof TrackInfoValidator>;
 const ShowInfoValidator = t.type({
     publisher: t.string,
@@ -30,6 +34,7 @@ const ShowInfoValidator = t.type({
     description: t.string,
     images: t.array(SpotifyImageInfoValidator),
 });
+
 const EpisodeInfoValidator = t.type({
     name: t.string,
     show: ShowInfoValidator,
@@ -37,6 +42,7 @@ const EpisodeInfoValidator = t.type({
     href: t.string,
 });
 export type EpisodeInfo = t.TypeOf<typeof EpisodeInfoValidator>;
+
 export const NowPlayingValidator = t.type({
     is_playing: t.boolean,
     timestamp: t.number,
