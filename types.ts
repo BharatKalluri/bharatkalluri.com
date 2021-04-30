@@ -56,3 +56,9 @@ export const BlogFrontMatterValidator = t.type({
     __resourcePath: t.string,
 });
 export type BlogFrontMatter = t.TypeOf<typeof BlogFrontMatterValidator>;
+
+export const BookDataValidator = t.type({
+    title: t.string,
+    coverUrl: t.union([t.undefined, t.string]),
+})
+export type BookData = t.TypeOf<typeof BookDataValidator>

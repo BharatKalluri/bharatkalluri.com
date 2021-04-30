@@ -1,15 +1,16 @@
 import Layout from "../components/Layout";
-import { Box, Heading, Text, useColorMode, Flex } from "@chakra-ui/react";
+import { Box, Flex, Heading, Image, Text, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import useSWR from "swr";
 import { fetcher } from "../lib/fetcher";
 import { ITraktTvStats } from "../interfaces";
+import { BookData } from "../types";
 
-const StatBox = (props: { heading: string; data: string | undefined }) => {
+const StatBox = (props: { heading: string; data?: string, imageUrl?: string }) => {
     const { colorMode } = useColorMode();
     const borderColor = {
         light: "gray.200",
-        dark: "gray.700",
+        dark: "gray.700"
     };
     return (
         <Box
@@ -20,33 +21,59 @@ const StatBox = (props: { heading: string; data: string | undefined }) => {
             border="1px"
             borderColor={borderColor[colorMode]}
             borderRadius={8}
-            margin={2}
-            w={"45% "}
+            margin={4}
+            w={"45%"}
+            shadow={"xl"}
         >
             <Text fontSize="lg">{props.heading}</Text>
-            <Text fontSize="2xl" fontWeight={"bold"}>
+            {props.data && <Text fontSize="2xl" fontWeight={"bold"}>
                 {props.data}
-            </Text>
+            </Text>}
+            {props.imageUrl && <Image
+                objectFit="cover"
+                src={props.imageUrl}
+                alt={props.heading}
+                p={2}
+            />}
         </Box>
     );
 };
 
 const DashboardPage = () => {
-    const { data }: { data?: ITraktTvStats } = useSWR("/api/trakt-stats", fetcher);
+    const { data: traktData }: { data?: ITraktTvStats } = useSWR("/api/trakt-stats", fetcher);
+    const { data: nowReadingData }: { data?: Array<BookData> } = useSWR("/api/now-reading", fetcher);
     return (
-        <Layout relativeCanonicalURL="/dashboard" title="Dashboard" description="Bharats self quantification dashboard">
+        <Layout relativeCanonicalURL="/dashboard" title="Dashboard" description="Self quantification dashboard">
             <Heading>
                 <Text size={"2xl"}>Dashboard</Text>
             </Heading>
+
+
+            <Heading>
+                <Text size={"2xl"}>Movies and TV</Text>
+            </Heading>
+
             <Flex direction={"row"} marginInline={0} w={"100%"} wrap={"wrap"} justifyItems={"center"}>
-                <StatBox heading={"Movies watched"} data={data?.movies?.watched?.toString(10)} />
-                <StatBox heading={"Minutes in watched movies"} data={data?.movies?.minutes?.toString(10)} />
+                <StatBox heading={"Movies watched"} data={traktData?.movies?.watched?.toString(10)} />
+                <StatBox heading={"Minutes in watched movies"} data={traktData?.movies?.minutes?.toString(10)} />
 
-                <StatBox heading={"Shows watched"} data={data?.shows?.watched?.toString(10)} />
+                <StatBox heading={"Shows watched"} data={traktData?.shows?.watched?.toString(10)} />
 
-                <StatBox heading={"Episodes in shows watched"} data={data?.episodes?.watched?.toString(10)} />
-                <StatBox heading={"Episodes watched in minutes"} data={data?.episodes?.minutes?.toString(10)} />
+                <StatBox heading={"Episodes in shows watched"} data={traktData?.episodes?.watched?.toString(10)} />
+                <StatBox heading={"Episodes watched in minutes"} data={traktData?.episodes?.minutes?.toString(10)} />
             </Flex>
+
+
+            <Heading>
+                <Text size={"2xl"}>Currently reading</Text>
+            </Heading>
+
+            <Flex direction={"row"} marginInline={0} w={"100%"} wrap={"wrap"} justifyItems={"center"}>
+                {nowReadingData?.map((bookData) => {
+                    return (<StatBox heading={bookData.title} imageUrl={bookData.coverUrl} />);
+                })}
+            </Flex>
+
         </Layout>
     );
 };
