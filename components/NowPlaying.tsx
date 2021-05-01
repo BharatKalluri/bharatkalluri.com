@@ -47,7 +47,7 @@ const NowPlaying = () => {
                     whiteSpace="nowrap"
                     overflow="hidden"
                     textOverflow="ellipsis"
-                    href={data?.collectionImageUrl}
+                    href={data?.mediaURL}
                     isExternal
                 >
                     <Text>{data && (data?.title || "Not Playing")}</Text>
