@@ -18,12 +18,12 @@ const StatBox = (props: { heading: string; data?: string, imageUrl?: string }) =
             flexDirection="column"
             alignItems="flex-start"
             padding={2}
+            margin={4}
             border="1px"
             borderColor={borderColor[colorMode]}
             borderRadius={8}
-            margin={4}
-            w={"45%"}
             shadow={"xl"}
+            w={"40%"}
         >
             <Text fontSize="lg">{props.heading}</Text>
             {props.data && <Text fontSize="2xl" fontWeight={"bold"}>
@@ -34,6 +34,7 @@ const StatBox = (props: { heading: string; data?: string, imageUrl?: string }) =
                 src={props.imageUrl}
                 alt={props.heading}
                 p={2}
+                w={"100%"}
             />}
         </Box>
     );
@@ -53,7 +54,7 @@ const DashboardPage = () => {
                 <Text size={"2xl"}>Movies and TV</Text>
             </Heading>
 
-            <Flex direction={"row"} marginInline={0} w={"100%"} wrap={"wrap"} justifyItems={"center"}>
+            <Flex wrap={"wrap"} justify={"start"}>
                 <StatBox heading={"Movies watched"} data={traktData?.movies?.watched?.toString(10)} />
                 <StatBox heading={"Minutes in watched movies"} data={traktData?.movies?.minutes?.toString(10)} />
 
@@ -68,7 +69,7 @@ const DashboardPage = () => {
                 <Text size={"2xl"}>Currently reading</Text>
             </Heading>
 
-            <Flex direction={"row"} marginInline={0} w={"100%"} wrap={"wrap"} justifyItems={"center"}>
+            <Flex wrap={"wrap"} justify={"start"}>
                 {nowReadingData?.map((bookData) => {
                     return (<StatBox heading={bookData.title} imageUrl={bookData.coverUrl} />);
                 })}
