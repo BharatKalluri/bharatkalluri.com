@@ -1,7 +1,9 @@
 import { BookData, BookDataValidator } from "../types";
 import decodeWith from "../utils/ioTsUtils";
 
-const CURRENTLY_READING_ISBNS = ["9788194446804", "9780374275631"];
+const CURRENTLY_READING_ISBNS = [
+    "9781524763244" // dark matter
+];
 
 const getCoverUrlFromId = (id: number) => {
     return `https://covers.openlibrary.org/b/id/${id}-L.jpg`;
