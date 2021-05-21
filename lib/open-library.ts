@@ -2,7 +2,7 @@ import { BookData, BookDataValidator } from "../types";
 import decodeWith from "../utils/ioTsUtils";
 
 const CURRENTLY_READING_ISBNS = [
-    "9781524763244" // dark matter
+    "1101904224" // dark matter
 ];
 
 const getCoverUrlFromId = (id: number) => {

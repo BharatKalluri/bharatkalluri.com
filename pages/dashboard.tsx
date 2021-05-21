@@ -24,15 +24,13 @@ const StatBox = (props: { heading: string; data?: string, imageUrl?: string }) =
             borderRadius={8}
             w={{ base: "100%", md: "45%" }}
         >
-            <Text fontSize="lg">{props.heading}</Text>
+            <Text fontSize="lg" fontWeight='bold'>{props.heading}</Text>
             {props.data && <Text fontSize="2xl" fontWeight={"bold"}>
                 {props.data}
             </Text>}
             {props.imageUrl && <Image
-                objectFit="cover"
                 src={props.imageUrl}
                 alt={props.heading}
-                p={4}
             />}
         </Box>
     );
@@ -71,6 +69,18 @@ const DashboardPage = () => {
                 {nowReadingData?.map((bookData) => {
                     return (<StatBox heading={bookData.title} imageUrl={bookData.coverUrl} />);
                 })}
+            </Flex>
+
+            <Heading>
+                <Text size={'2xl'}>Travel</Text>
+            </Heading>
+
+            <Flex>
+                <iframe
+                    src="https://www.google.com/maps/d/u/0/embed?mid=1Ae6HyxxxWSlG43TvQ5HW0FgZRK97ZcW0"
+                    width="100%"
+                    height="300"
+                />
             </Flex>
 
         </Layout>
