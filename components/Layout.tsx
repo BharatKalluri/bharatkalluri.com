@@ -2,8 +2,8 @@ import React, { ReactNode } from "react";
 import NextLink from "next/link";
 import Head from "next/head";
 import { Box, Flex, Stack } from "@chakra-ui/layout";
-import { Button, IconButton, useColorMode } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode } from "@chakra-ui/react";
+import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import Footer from "./Footer";
 import { NextSeo } from "next-seo";
 import { BASE_URL } from "../constants";
@@ -22,10 +22,10 @@ interface INavBarButtonProps {
 
 const NavBarButton = (props: INavBarButtonProps) => {
     return (
-        <NextLink href={props.href} passHref>
-            <Button as="a" variant="ghost" fontWeight="400">
+        <NextLink href={props.href} passHref={true}>
+            <MenuItem>
                 {props.text}
-            </Button>
+            </MenuItem>
         </NextLink>
     );
 };
@@ -41,7 +41,8 @@ const NavBar = () => {
             as="nav"
             p={3}
             mx="auto"
-            maxW="900px"
+            maxW="1200px"
+            wrap="wrap"
         >
             <Box flexDirection="row" mt="0.5rem">
                 <IconButton
@@ -51,12 +52,20 @@ const NavBar = () => {
                     icon={colorMode == "dark" ? <SunIcon /> : <MoonIcon />}
                 />
             </Box>
-            <Box flexDirection="row">
-                <NavBarButton text="Blog" href="/blog" />
-                <NavBarButton text="Notes" href="/notes" />
-                <NavBarButton text="About" href="/about" />
-                <NavBarButton text="Home" href="/" />
-            </Box>
+            <Menu>
+                <MenuButton
+                    as={IconButton}
+                    aria-label="Options"
+                    icon={<HamburgerIcon />}
+                    variant="outline"
+                />
+                <MenuList flip={false}>
+                    <NavBarButton text="Home" href="/" />
+                    <NavBarButton text="Blog" href="/blog" />
+                    <NavBarButton text="Notes" href="/notes" />
+                    <NavBarButton text="About" href="/about" />
+                </MenuList>
+            </Menu>
         </Stack>
     );
 };
@@ -97,7 +106,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                 <header>
                     <NavBar />
                 </header>
-                <Flex as="main" justifyContent="center" flexDirection="column" px={4} mx="auto" mt={8} maxW="800px">
+                <Flex as="main" justifyContent="center" flexDirection="column" px={4} mx="auto" mt={8} maxW="1000px">
                     <Stack spacing={10}>{children}</Stack>
                 </Flex>
                 <Footer />
