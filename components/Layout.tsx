@@ -2,11 +2,12 @@ import React, { ReactNode } from "react";
 import NextLink from "next/link";
 import Head from "next/head";
 import { Box, Flex, Stack } from "@chakra-ui/layout";
-import { Button, IconButton, useColorMode } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode } from "@chakra-ui/react";
+import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import Footer from "./Footer";
 import { NextSeo } from "next-seo";
 import { BASE_URL } from "../constants";
+import { Button } from "@chakra-ui/button";
 
 type LayoutProps = {
     children?: ReactNode;
@@ -20,6 +21,39 @@ interface INavBarButtonProps {
     href: string;
 }
 
+const navBarItems: Array<{ href: string, text: string }> = [
+    {
+        href: "/",
+        text: "Home"
+    },
+    {
+        href: "/blog",
+        text: "Blog"
+    },
+    {
+        href: "/notes",
+        text: "Notes"
+    },
+    {
+        href: "/dashboard",
+        text: "Dashboard"
+    },
+    {
+        href: "/about",
+        text: "About"
+    }
+];
+
+const NavBarMenuItem = (props: INavBarButtonProps) => {
+    return (
+        <NextLink href={props.href} passHref={true}>
+            <MenuItem>
+                {props.text}
+            </MenuItem>
+        </NextLink>
+    );
+};
+
 const NavBarButton = (props: INavBarButtonProps) => {
     return (
         <NextLink href={props.href} passHref>
@@ -27,6 +61,36 @@ const NavBarButton = (props: INavBarButtonProps) => {
                 {props.text}
             </Button>
         </NextLink>
+    );
+};
+
+const MobileLeftNavBar = () => {
+    return (
+        <Box display={{ md: "none", lg: "none", xl: "none", base: "block" }}>
+            <Menu>
+                <MenuButton
+                    as={IconButton}
+                    aria-label="Options"
+                    icon={<HamburgerIcon />}
+                    variant="outline"
+                />
+                <MenuList>
+                    {navBarItems.map((item) => (
+                        <NavBarMenuItem text={item.text} href={item.href} />
+                    ))}
+                </MenuList>
+            </Menu>
+        </Box>
+    );
+};
+
+const DesktopLeftNavBar = () => {
+    return (
+        <Box flexDirection="row" display={{ md: "block", lg: "block", xl: "block", base: "none" }}>
+            {navBarItems.map((item) => (
+                <NavBarButton text={item.text} href={item.href} />
+            ))}
+        </Box>
     );
 };
 
@@ -41,7 +105,8 @@ const NavBar = () => {
             as="nav"
             p={3}
             mx="auto"
-            maxW="900px"
+            maxW="1200px"
+            wrap="wrap"
         >
             <Box flexDirection="row" mt="0.5rem">
                 <IconButton
@@ -51,12 +116,8 @@ const NavBar = () => {
                     icon={colorMode == "dark" ? <SunIcon /> : <MoonIcon />}
                 />
             </Box>
-            <Box flexDirection="row">
-                <NavBarButton text="Blog" href="/blog" />
-                <NavBarButton text="Notes" href="/notes" />
-                <NavBarButton text="About" href="/about" />
-                <NavBarButton text="Home" href="/" />
-            </Box>
+            <DesktopLeftNavBar />
+            <MobileLeftNavBar />
         </Stack>
     );
 };
@@ -97,7 +158,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                 <header>
                     <NavBar />
                 </header>
-                <Flex as="main" justifyContent="center" flexDirection="column" px={4} mx="auto" mt={8} maxW="800px">
+                <Flex as="main" justifyContent="center" flexDirection="column" px={4} mx="auto" mt={8} maxW="1000px">
                     <Stack spacing={10}>{children}</Stack>
                 </Flex>
                 <Footer />
