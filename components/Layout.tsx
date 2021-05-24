@@ -7,6 +7,7 @@ import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import Footer from "./Footer";
 import { NextSeo } from "next-seo";
 import { BASE_URL } from "../constants";
+import { Button } from "@chakra-ui/button";
 
 type LayoutProps = {
     children?: ReactNode;
@@ -20,13 +21,76 @@ interface INavBarButtonProps {
     href: string;
 }
 
-const NavBarButton = (props: INavBarButtonProps) => {
+const navBarItems: Array<{ href: string, text: string }> = [
+    {
+        href: "/",
+        text: "Home"
+    },
+    {
+        href: "/blog",
+        text: "Blog"
+    },
+    {
+        href: "/notes",
+        text: "Notes"
+    },
+    {
+        href: "/dashboard",
+        text: "Dashboard"
+    },
+    {
+        href: "/about",
+        text: "About"
+    }
+];
+
+const NavBarMenuItem = (props: INavBarButtonProps) => {
     return (
         <NextLink href={props.href} passHref={true}>
             <MenuItem>
                 {props.text}
             </MenuItem>
         </NextLink>
+    );
+};
+
+const NavBarButton = (props: INavBarButtonProps) => {
+    return (
+        <NextLink href={props.href} passHref>
+            <Button as="a" variant="ghost" fontWeight="400">
+                {props.text}
+            </Button>
+        </NextLink>
+    );
+};
+
+const MobileLeftNavBar = () => {
+    return (
+        <Box display={{ md: "none", lg: "none", xl: "none", base: "block" }}>
+            <Menu>
+                <MenuButton
+                    as={IconButton}
+                    aria-label="Options"
+                    icon={<HamburgerIcon />}
+                    variant="outline"
+                />
+                <MenuList>
+                    {navBarItems.map((item) => (
+                        <NavBarMenuItem text={item.text} href={item.href} />
+                    ))}
+                </MenuList>
+            </Menu>
+        </Box>
+    );
+};
+
+const DesktopLeftNavBar = () => {
+    return (
+        <Box flexDirection="row" display={{ md: "block", lg: "block", xl: "block", base: "none" }}>
+            {navBarItems.map((item) => (
+                <NavBarButton text={item.text} href={item.href} />
+            ))}
+        </Box>
     );
 };
 
@@ -52,20 +116,8 @@ const NavBar = () => {
                     icon={colorMode == "dark" ? <SunIcon /> : <MoonIcon />}
                 />
             </Box>
-            <Menu>
-                <MenuButton
-                    as={IconButton}
-                    aria-label="Options"
-                    icon={<HamburgerIcon />}
-                    variant="outline"
-                />
-                <MenuList flip={false}>
-                    <NavBarButton text="Home" href="/" />
-                    <NavBarButton text="Blog" href="/blog" />
-                    <NavBarButton text="Notes" href="/notes" />
-                    <NavBarButton text="About" href="/about" />
-                </MenuList>
-            </Menu>
+            <DesktopLeftNavBar />
+            <MobileLeftNavBar />
         </Stack>
     );
 };
