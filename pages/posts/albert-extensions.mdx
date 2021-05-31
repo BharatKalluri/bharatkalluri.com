@@ -1,5 +1,5 @@
 ---
-title: Create Albert extensions in Python
+title: Create an Albert extension using Python
 publishedAt: "2018-06-23"
 tags:
     - python
@@ -8,6 +8,7 @@ tags:
 hero: "https://unsplash.com/photos/afW1hht0NSs/download?force=true&w=1920"
 authors:
     - Bharat Kalluri
+isBlogPost: true
 ---
 
 Albert describes itself as:
@@ -22,27 +23,24 @@ It has a lot of positives
 -   It is written in Qt, So it'll work on all desktops and linux distros.
 -   It has a great set of awesome themes installed by default.
 
-And the best part is
+The best part is that, it can be extended using python!
 
--   It can be extended using python!
+I consider myself as a mediocre developer. I would not have tried writing extensions
+using C++, but I can certainly write extensions using python!
 
-I consider myself as a mediocre developer. but If you ask me to write a
-extension in C++, I would not even try. But python! Sign me up!
-
-So, I thought I would start developing albert extensions to make my life simple
-. Let us develop a extension which just shows the weather of a city with a
+Let us develop an extension which just shows the weather of a city with a
 trigger word like `weather`.
 
 `weather bangalore`
 
 should return weather of bangalore(high and low) and humidity. We will get data
-from openweathermap api. So, signup for an account and get a key from
+from [openweathermap](https://openweathermap.org/) api. So, signup for an account and get a key from
 openweathermap api. If I say `<API_KEY>`, replace it with your own API
 key.
 
 ### Let's Dive in!
 
-Albert gives you a library called albertv0. To use it, the script needs to be
+Albert gives you a library called `albert`. To use it, the script needs to be
 inside the path of default python extension.
 
 Some basic concepts to understand are that, the python library gives you a function
@@ -50,27 +48,25 @@ called handleQuery which takes in a argument, which will be the query you type a
 the trigger. The metadata of the program will contain the trigger word, name and author.
 Finally, everything which pops under albert is an `Item` object. An Item object takes in
 a couple of arguments. It'll take an Id, icons which can take system icons using a helper
-function called `iconLookup`, text which is the heading for each item and a subtext which
+function called `iconLookup`, text which is the heading for each item, and a subtext which
 will be the subtitle.
 
-So, If you bundle all the data into an array of items and return the array of `Item`, We
-are done! The simplicity of the API is extremly appeling!
-
-Let's start off by importing albertv0 library and since we are using python 3, urllib3
-will be great for making API requests. We should setup some metadata before starting
-the program.
+Let's start off by importing `albert` library and since we are using python 3, urllib3
+will be great for making API requests. We should set up some metadata before starting
+to program.
 
 ```
-from albertv0 import *
+from albert import *
 
 import urllib3
 import json
 
-__iid__ = "PythonInterface/v0.1"
+__iid__ = "PythonInterface/v0.4"
+__title__ = "Weather"
 __prettyname__ = "Weather"
 __version__ = "0.1"
-__trigger__ = "weather "
-__author__ = "Bharat Kalluri"
+__triggers__ = "weather "
+__authors__ = "Bharat Kalluri"
 __dependencies__ = []
 ```
 
@@ -153,16 +149,16 @@ def showWeather(query):
 ```
 
 Let me quickly summarize what's happening in there. Since the function already has a query of a city name, append the
-city name to the url. Before making the request, a instance of pool manager must be created which will make the requests.
-Then, It tries to make a request, if it fails, it returns a item saying 'Check your internet connection'.
+city name to the url. Before making the request, an instance of pool manager must be created which will make the requests.
+Then, It tries to make a request, if it fails, it returns an item saying 'Check your internet connection'.
 
-Now, since we have the API response. Check if the code is 200, if not the city does not exist in the database. So, show an
-item saying the city does not exist in the database. If it does, then the code will be 200. Now parse the json for relevent data
+Now, since we have the API response. Check if the status code is 200, if not the city does not exist in the database. So, show an
+item saying the city does not exist in the database. If it does, then the code will be 200. Now parse the json for relevant data
 and format the data into an item and return it.
 
-One thing to note is that, extensions can be debbuged by starting albert in terminal and putting critical() or debug() to
+One thing to note is that, extensions can be debugged by starting albert in terminal and putting critical() or debug() to
 test the response. Another thing to note is, all default linux icon sets have weather icons already. So, we take the description from
-the API and find the corresponding icon. Normally, switch works well in this case, since we do not have switch statments in python.
+the API and find the corresponding icon. Normally, switch works well in this case, since we do not have switch statements in python.
 Create a dictionary of conditions as such.
 
 ```
@@ -179,7 +175,7 @@ weatherDict = {
 }
 ```
 
-And use the dictionary to get the icon name for the value in the API. By the way, since farenhiet is also nesscarry for some people.
+Use the dictionary to get the icon name for the value in the API. By the way, since fahrenheit is also necessary for some people.
 Let us make a simple converter from celsius.
 
 ```
@@ -187,10 +183,7 @@ def fahrenheitConverter(celsius):
     return 9 / 5 * celsius + 32
 ```
 
-In less than 100 lines of code, a simple albert extension was made! In the future, I will add 5 day forecast and let the user input their API key and preffered default city.
+In less than 100 lines of code, a simple albert extension was made! In the future, I will add 5-day forecast and let the user
+input their API key and preferred default city.
 
-All my extensions are curated at [Albert-extras](https://github.com/BharatKalluri/Albert-Extras).
-
-So, that's it for now.
-
-Cheers!
+Many more extensions can be found at [Albert hub](https://alberthub.netlify.app/).
