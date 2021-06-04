@@ -39,6 +39,10 @@ const navBarItems: Array<{ href: string, text: string }> = [
         text: "Dashboard"
     },
     {
+        href: "/reading-log",
+        text: "Reading log"
+    },
+    {
         href: "/about",
         text: "About"
     }
@@ -76,7 +80,7 @@ const MobileLeftNavBar = () => {
                 />
                 <MenuList>
                     {navBarItems.map((item) => (
-                        <NavBarMenuItem text={item.text} href={item.href} />
+                        <NavBarMenuItem text={item.text} href={item.href} key={item.href} />
                     ))}
                 </MenuList>
             </Menu>
