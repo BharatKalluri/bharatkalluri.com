@@ -92,7 +92,7 @@ const DesktopLeftNavBar = () => {
     return (
         <Box flexDirection="row" display={{ md: "block", lg: "block", xl: "block", base: "none" }}>
             {navBarItems.map((item) => (
-                <NavBarButton text={item.text} href={item.href} />
+                <NavBarButton text={item.text} href={item.href} key={item.href} />
             ))}
         </Box>
     );
