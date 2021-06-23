@@ -6,11 +6,11 @@ import { fetcher } from "../lib/fetcher";
 import { ITraktTvStats } from "../interfaces";
 import { BookData } from "../types";
 
-const StatBox = (props: { heading: string; data?: string, imageUrl?: string }) => {
+const StatBox = (props: { heading: string; data?: string; imageUrl?: string }) => {
     const { colorMode } = useColorMode();
     const borderColor = {
         light: "gray.200",
-        dark: "gray.700"
+        dark: "gray.700",
     };
     return (
         <Box
@@ -24,14 +24,15 @@ const StatBox = (props: { heading: string; data?: string, imageUrl?: string }) =
             borderRadius={8}
             w={{ base: "100%", md: "45%" }}
         >
-            <Text fontSize="lg" fontWeight='bold'>{props.heading}</Text>
-            {props.data && <Text fontSize="2xl" fontWeight={"bold"}>
-                {props.data}
-            </Text>}
-            {props.imageUrl && <Image
-                src={props.imageUrl}
-                alt={props.heading}
-            />}
+            <Text fontSize="lg" fontWeight="bold">
+                {props.heading}
+            </Text>
+            {props.data && (
+                <Text fontSize="2xl" fontWeight={"bold"}>
+                    {props.data}
+                </Text>
+            )}
+            {props.imageUrl && <Image src={props.imageUrl} alt={props.heading} />}
         </Box>
     );
 };
@@ -44,7 +45,6 @@ const DashboardPage = () => {
             <Heading>
                 <Text size={"2xl"}>Dashboard</Text>
             </Heading>
-
 
             <Heading>
                 <Text size={"2xl"}>Movies and TV</Text>
@@ -60,19 +60,18 @@ const DashboardPage = () => {
                 <StatBox heading={"Episodes watched in minutes"} data={traktData?.episodes?.minutes?.toString(10)} />
             </Flex>
 
-
             <Heading>
                 <Text size={"2xl"}>Currently reading</Text>
             </Heading>
 
             <Flex wrap={"wrap"}>
                 {nowReadingData?.map((bookData) => {
-                    return (<StatBox heading={bookData.title} imageUrl={bookData.coverUrl} />);
+                    return <StatBox heading={bookData.title} imageUrl={bookData.coverUrl} key={bookData.title} />;
                 })}
             </Flex>
 
             <Heading>
-                <Text size={'2xl'}>Travel</Text>
+                <Text size={"2xl"}>Travel</Text>
             </Heading>
 
             <Flex>
@@ -82,7 +81,6 @@ const DashboardPage = () => {
                     height="300"
                 />
             </Flex>
-
         </Layout>
     );
 };
