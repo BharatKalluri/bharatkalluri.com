@@ -7,18 +7,40 @@ import AudioVisualizer from "./AudioVisualizer";
 
 // TODO: I have no clue how to type this stuff
 export const MDXComponents = {
-    h1: (props: any) => <Heading as="h1" size="2xl" {...props} />,
-    h2: (props: any) => <Heading as="h1" size="xl" {...props} />,
-    h3: (props: any) => <Heading as="h1" size="xl" {...props} />,
-    h4: (props: any) => <Heading as="h4" size="md" {...props} />,
-    inlineCode: (props: any) => <Code colorScheme="blue" {...props} />,
+    h1: function HeadingFn(props: any) {
+        return <Heading as="h1" size="2xl" {...props} displayName={"heading1"} />;
+    },
+    h2: function HeadingFn(props: any) {
+        return <Heading as="h1" size="xl" {...props} />;
+    },
+    h3: function HeadingFn(props: any) {
+        return <Heading as="h1" size="xl" {...props} />;
+    },
+    h4: function HeadingFn(props: any) {
+        return <Heading as="h4" size="md" {...props} />;
+    },
+    inlineCode: function CodeFn(props: any) {
+        return <Code colorScheme="blue" {...props} />;
+    },
     code: CustomCodeBlock,
-    p: (props: any) => <Text as="p" lineHeight="tall" {...props} />,
-    ul: (props: any) => <Box as="ul" pl={4} ml={2} {...props} />,
-    ol: (props: any) => <Box as="ol" pl={4} {...props} />,
-    li: (props: any) => <Box as="li" pb={1} {...props} />,
-    blockquote: (props: any) => <Alert w="100%" variant="left-accent" status="info" {...props} />,
-    hr: () => <Divider />,
+    p: function TextFn(props: any) {
+        return <Text as="p" lineHeight="tall" {...props} />;
+    },
+    ul: function BoxFn(props: any) {
+        return <Box as="ul" pl={4} ml={2} {...props} />;
+    },
+    ol: function BoxFn(props: any) {
+        return <Box as="ol" pl={4} {...props} />;
+    },
+    li: function BoxFn(props: any) {
+        return <Box as="li" pb={1} {...props} />;
+    },
+    blockquote: function AlertFn(props: any) {
+        return <Alert w="100%" variant="left-accent" status="info" {...props} />;
+    },
+    hr: function DividerFn() {
+        return <Divider />;
+    },
     a: CustomLink,
     YoutubeEmbed: YoutubeEmbed,
     AudioVisualizer: AudioVisualizer,

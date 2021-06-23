@@ -1,14 +1,9 @@
 import { getNowPlaying } from "../../lib/spotify";
 import { ICurrentlyPlayingInfo } from "../../interfaces";
 import decodeWith from "../../utils/ioTsUtils";
-import {
-    EpisodeInfo,
-    NowPlaying,
-    NowPlayingValidator,
-    TrackInfo,
-} from "../../types";
+import { EpisodeInfo, NowPlaying, NowPlayingValidator, TrackInfo } from "../../types";
 
-export default async (_: any, res: any) => {
+const getNowPlayingController = async (_: any, res: any) => {
     const response = await getNowPlaying();
 
     if (response.status === 204 || response.status > 400) {
@@ -16,9 +11,7 @@ export default async (_: any, res: any) => {
     }
 
     const rawNowPlayingData: NowPlaying = await response.json();
-    const nowPlayingData: NowPlaying = decodeWith(NowPlayingValidator)(
-        rawNowPlayingData
-    );
+    const nowPlayingData: NowPlaying = decodeWith(NowPlayingValidator)(rawNowPlayingData);
 
     const isPlaying = nowPlayingData.is_playing;
     const currentlyPlayingType = nowPlayingData.currently_playing_type;
@@ -26,9 +19,7 @@ export default async (_: any, res: any) => {
     if (currentlyPlayingType === "track") {
         const nowPlayingItem = nowPlayingData.item as TrackInfo;
         const title = nowPlayingItem.name;
-        const artist = nowPlayingItem.artists
-            .map((_artist) => _artist.name)
-            .join(", ");
+        const artist = nowPlayingItem.artists.map((_artist) => _artist.name).join(", ");
         const collectionName = nowPlayingItem.album.name;
         const collectionImageUrl = nowPlayingItem.album.images[0].url;
         const mediaURL = nowPlayingItem.external_urls.spotify;
@@ -68,3 +59,5 @@ export default async (_: any, res: any) => {
         });
     }
 };
+
+export default getNowPlayingController;
