@@ -6,30 +6,18 @@ import { PROJECT_LIST } from "../constants";
 const ProjectListComponent = () => (
     <Stack direction="column" spacing={5}>
         {PROJECT_LIST.map((project) => (
-            <LinkCard
-                key={project.name}
-                name={project.name}
-                description={project.description}
-                link={project.link}
-            />
+            <LinkCard key={project.name} name={project.name} description={project.description} link={project.link} />
         ))}
     </Stack>
 );
 
 const IndexPage = () => (
-    <Layout
-        title="Home"
-        description="Welcome to Bharat's corner of the internet"
-        relativeCanonicalURL=""
-    >
+    <Layout title="Home" description="Welcome to Bharat's corner of the internet" relativeCanonicalURL="">
         <Stack direction="column" spacing={5}>
             <Text fontSize="6xl" fontWeight="extrabold">
-                Hey, I'm Bharat Kalluri 👋
+                Hey, I&apos;m Bharat Kalluri 👋
             </Text>
-            <Text>
-                Welcome to my corner of the internet. I make an effort to write
-                everything I know here!
-            </Text>
+            <Text>Welcome to my corner of the internet. I make an effort to write everything I know here!</Text>
             <Stack py={5} spacing={5}>
                 <Heading>Projects</Heading>
                 <ProjectListComponent />
