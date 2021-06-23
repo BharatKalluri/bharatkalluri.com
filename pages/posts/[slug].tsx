@@ -7,6 +7,7 @@ import { getNoteMetadata, postFilePaths } from "../../utils/mdxUtils";
 import decodeWith from "../../utils/ioTsUtils";
 import { Stack, Text } from "@chakra-ui/react";
 import React from "react";
+import Script from "next/script";
 
 export default function PostPage(props: { source: any; frontMatter: BlogFrontMatter; postFileName: string }) {
     const frontMatter = decodeWith(BlogFrontMatterValidator)(props.frontMatter);
@@ -31,7 +32,7 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
                     </Text>
                     <Text color="grey">Bharat Kalluri / {publishedAt}</Text>
                     <MDXRemote {...props.source} components={MDXComponents} />
-                    <script defer src="https://commento.cloud.bharatkalluri.com/js/commento.js" />
+                    <Script src="https://commento.cloud.bharatkalluri.com/js/commento.js" strategy="lazyOnload" />
                     <div id="commento" />
                 </Stack>
             </Layout>
