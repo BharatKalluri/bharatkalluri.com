@@ -139,19 +139,13 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                     <title>{title ? `${title} |` : ""} Bharat Kalluri</title>
                     <meta charSet="utf-8" />
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                    <Script
-                        type="text/javascript"
-                        dangerouslySetInnerHTML={{
-                            __html: `
-                                (function(c,l,a,r,i,t,y){
-                                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                                })(window, document, "clarity", "script", "4g3tskl7lj");
-                            `,
-                        }}
-                        strategy="afterInteractive"
-                    />
+                    <Script strategy="afterInteractive">
+                        {`(function(c,l,a,r,i,t,y){
+                            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                        })(window, document, "clarity", "script", "4g3tskl7lj");`}
+                    </Script>
                     <link rel="icon" type="image/png" href="/static/logo.png" />
                 </Head>
                 <header>

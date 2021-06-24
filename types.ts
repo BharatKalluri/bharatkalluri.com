@@ -60,5 +60,18 @@ export type BlogFrontMatter = t.TypeOf<typeof BlogFrontMatterValidator>;
 export const BookDataValidator = t.type({
     title: t.string,
     coverUrl: t.union([t.undefined, t.string]),
-})
-export type BookData = t.TypeOf<typeof BookDataValidator>
+});
+
+export const PocketArticleInfoValidator = t.type({
+    resolved_title: t.string,
+    resolved_url: t.string,
+    excerpt: t.string,
+});
+export type PocketArticleInfo = t.TypeOf<typeof PocketArticleInfoValidator>;
+
+export const PocketRetrieveResponseValidator = t.type({
+    list: t.record(t.string, PocketArticleInfoValidator),
+});
+export type PocketRetrieveResponse = t.TypeOf<typeof PocketRetrieveResponseValidator>;
+
+export type BookData = t.TypeOf<typeof BookDataValidator>;
