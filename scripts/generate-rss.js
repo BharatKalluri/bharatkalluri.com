@@ -6,6 +6,7 @@ const remark = require("remark");
 const html = require("remark-html");
 
 const BASE_URL = "https://bharatkalluri.com";
+const POSTS_PATH = path.join(process.cwd(), "posts");
 
 async function generateRSS() {
     const feed = new RSS({
@@ -13,9 +14,7 @@ async function generateRSS() {
         site_url: BASE_URL,
         feed_url: `${BASE_URL}/feed.xml`,
     });
-
-    const notesPath = path.join(__dirname, "..", "pages", "posts");
-    const notes = await fs.readdir(notesPath);
+    const notes = await fs.readdir(POSTS_PATH);
 
     const addToFeed = async (content, name, classification) => {
         const front_matter = matter(content);
@@ -30,7 +29,7 @@ async function generateRSS() {
 
     await Promise.all(
         notes.map(async (name) => {
-            const content = await fs.readFile(path.join(notesPath, name));
+            const content = await fs.readFile(path.join(POSTS_PATH, name));
             await addToFeed(content, name, "posts");
         })
     );
