@@ -8,7 +8,6 @@ import Footer from "./Footer";
 import { NextSeo } from "next-seo";
 import { BASE_URL } from "../constants";
 import { Button } from "@chakra-ui/button";
-import Script from "next/script";
 
 type LayoutProps = {
     children?: ReactNode;
@@ -25,28 +24,28 @@ interface INavBarButtonProps {
 const navBarItems: Array<{ href: string; text: string }> = [
     {
         href: "/",
-        text: "Home",
+        text: "Home"
     },
     {
         href: "/blog",
-        text: "Blog",
+        text: "Blog"
     },
     {
         href: "/notes",
-        text: "Notes",
+        text: "Notes"
     },
     {
         href: "/dashboard",
-        text: "Dashboard",
+        text: "Dashboard"
     },
     {
         href: "/reading-log",
-        text: "Reading log",
+        text: "Reading log"
     },
     {
         href: "/about",
-        text: "About",
-    },
+        text: "About"
+    }
 ];
 
 const NavBarMenuItem = (props: INavBarButtonProps) => {
@@ -131,7 +130,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                 openGraph={{
                     url: canonicalURL,
                     title: title,
-                    description: description,
+                    description: description
                 }}
             />
             <div>
@@ -139,13 +138,18 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                     <title>{title ? `${title} |` : ""} Bharat Kalluri</title>
                     <meta charSet="utf-8" />
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                    <Script strategy="afterInteractive">
-                        {`(function(c,l,a,r,i,t,y){
-                            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                        })(window, document, "clarity", "script", "4g3tskl7lj");`}
-                    </Script>
+                    <script
+                        type="text/javascript"
+                        dangerouslySetInnerHTML={{
+                            __html: `
+                                (function(c,l,a,r,i,t,y){
+                                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                                })(window, document, "clarity", "script", "4g3tskl7lj");
+                            `
+                        }}
+                    />
                     <link rel="icon" type="image/png" href="/static/logo.png" />
                 </Head>
                 <header>
