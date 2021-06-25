@@ -1,5 +1,5 @@
-import { Divider, Link, ListItem, Stack, Text, UnorderedList } from "@chakra-ui/react";
-import NextLink from "next/link";
+import { Divider, ListItem, Stack, Text, UnorderedList } from "@chakra-ui/react";
+import { CustomLink } from "../components/CustomLink";
 import Layout from "../components/Layout";
 
 const Now = () => {
@@ -10,17 +10,21 @@ const Now = () => {
                     Now
                 </Text>
 
+                <Text>
+                    This is where I document what I am up to now. Inspired
+                    by <CustomLink href='https://sive.rs/now'>Derek siver's now page</CustomLink>
+                </Text>
+
                 <UnorderedList>
                     <ListItem>
-                        Working on revamping how people see and manage money at{" "}
-                        <Link as="a" textDecoration="underline">
-                            <NextLink href="https://refyne.co.in">Refyne</NextLink>
-                        </Link>
+                        Working on revamping how people see and manage money
+                        at <CustomLink href="https://refyne.co.in">Refyne</CustomLink>
                     </ListItem>
-                    <ListItem>Reading thinking fast and slow by daniel kahneman</ListItem>
                     <ListItem>Trying to deeply understand Typescript</ListItem>
-                    <ListItem>Currently not working on any side projects, exploring what I can do</ListItem>
-                    <ListItem>Trying out time tracking</ListItem>
+                    <ListItem>
+                        Thinking about working on small, short, fun projects.
+                        (like <CustomLink href='https://lifecounter.vercel.app/'>Life counter</CustomLink>)
+                    </ListItem>
                     <ListItem>
                         Trying to meet and talk to people who are not in technology, to get different perspectives
                     </ListItem>

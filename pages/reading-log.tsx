@@ -15,6 +15,11 @@ const ReadingLogPage = () => {
                 <Text fontSize="6xl" fontWeight="extrabold">
                     Reading Log
                 </Text>
+
+                <Text>
+                    These are some of my favorite articles and videos I have come across!
+                </Text>
+
                 {readingLogData &&
                     readingLogData.map((el: PocketArticleInfo) => {
                         return (

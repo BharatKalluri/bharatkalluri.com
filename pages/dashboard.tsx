@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { fetcher } from "../lib/fetcher";
 import { ITraktTvStats } from "../interfaces";
 import { BookData } from "../types";
+import { CustomLink } from "../components/CustomLink";
 
 const StatBox = (props: { heading: string; data?: string; imageUrl?: string }) => {
     const { colorMode } = useColorMode();
@@ -50,6 +51,10 @@ const DashboardPage = () => {
                 <Text size={"2xl"}>Movies and TV</Text>
             </Heading>
 
+            <Text>
+                All the movies and series I watch are recorded in <CustomLink href='https://trakt.tv/users/bharatkalluri'>Trakt</CustomLink>
+            </Text>
+
             <Flex wrap={"wrap"} justify={"start"} alignItems={"baseline"}>
                 <StatBox heading={"Movies watched"} data={traktData?.movies?.watched?.toString(10)} />
                 <StatBox heading={"Minutes in watched movies"} data={traktData?.movies?.minutes?.toString(10)} />
@@ -64,6 +69,10 @@ const DashboardPage = () => {
                 <Text size={"2xl"}>Currently reading</Text>
             </Heading>
 
+            <Text>
+                All the books I read are recorded at <CustomLink href='https://www.goodreads.com/user/show/84034305-bharat-kalluri'>Goodreads</CustomLink>
+            </Text>
+
             <Flex wrap={"wrap"}>
                 {nowReadingData?.map((bookData) => {
                     return <StatBox heading={bookData.title} imageUrl={bookData.coverUrl} key={bookData.title} />;
@@ -73,6 +82,10 @@ const DashboardPage = () => {
             <Heading>
                 <Text size={"2xl"}>Travel</Text>
             </Heading>
+
+            <Text>
+                Places I've been to!
+            </Text>
 
             <Flex>
                 <iframe

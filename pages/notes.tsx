@@ -1,4 +1,4 @@
-import { Heading, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { Heading, Input, InputGroup, InputLeftElement, Text } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 import { PostCard } from "../components/PostCard";
 import React, { useState } from "react";
@@ -23,6 +23,11 @@ const Blog = ({ notes }: { notes: BlogFrontMatter[] }) => {
             <Heading letterSpacing="tight" mb={2} as="h1">
                 Notes
             </Heading>
+            <Text>
+                Random learnings to interesting facts, these are notes which are not comprehensive enough to be a blog
+                post but usually provide value by themselves. Some of these notes graduate to a blog post if I
+                think they are flushed out enough.
+            </Text>
             <InputGroup>
                 <InputLeftElement pointerEvents="none">
                     <SearchIcon color="gray.300" />

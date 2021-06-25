@@ -26,7 +26,7 @@ const UsesPage = () => {
         "Bitwarden password manager",
         "Raindrop for bookmark management",
         "Github",
-        "TickTick for task tracking",
+        "Todoist for task tracking",
         "Telegram and Whatsapp for messaging",
     ];
 
