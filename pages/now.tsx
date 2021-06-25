@@ -12,7 +12,7 @@ const Now = () => {
 
                 <Text>
                     This is where I document what I am up to now. Inspired
-                    by <CustomLink href='https://sive.rs/now'>Derek siver's now page</CustomLink>
+                    by <CustomLink href='https://sive.rs/now'>Derek siver&apos;s now page</CustomLink>
                 </Text>
 
                 <UnorderedList>

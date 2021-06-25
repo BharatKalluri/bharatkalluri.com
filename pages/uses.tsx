@@ -49,7 +49,7 @@ const UsesPage = () => {
                 </UnorderedList>
 
                 <Text fontSize="2xl" fontWeight="extrabold">
-                    Software & Services
+                    Software and Services
                 </Text>
                 <UnorderedList spacing={3}>
                     {softwareAndServices.map((el) => (

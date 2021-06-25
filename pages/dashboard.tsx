@@ -84,7 +84,7 @@ const DashboardPage = () => {
             </Heading>
 
             <Text>
-                Places I've been to!
+                Places I&apos;ve been to!
             </Text>
 
             <Flex>
