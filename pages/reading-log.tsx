@@ -17,6 +17,7 @@ const ReadingLogLoadingState = () => {
                         link={num.toString()}
                         description={num.toString()}
                         isLoading={true}
+                        key={num}
                     />
                 );
             })}
