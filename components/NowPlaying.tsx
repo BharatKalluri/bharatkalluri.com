@@ -3,6 +3,7 @@ import useSWR from "swr";
 import { Box, Icon, Image, Link, Skeleton, Stack, Text, useColorMode } from "@chakra-ui/react";
 import { fetcher } from "../lib/fetcher";
 import { ICurrentlyPlayingInfo } from "../interfaces";
+import { FaSpotify } from "react-icons/fa";
 
 const NowPlaying = () => {
     const { data }: { data?: ICurrentlyPlayingInfo } = useSWR("/api/now-playing", fetcher);
@@ -63,7 +64,7 @@ const NowPlaying = () => {
                     {data && (data?.artist || "Spotify")}
                 </Text>
             </Stack>
-            <Icon name="spotify" ml="auto" mt={1} />
+            <Icon name="spotify" ml="auto" mt={1} as={FaSpotify} />
         </Box>
     );
 };
