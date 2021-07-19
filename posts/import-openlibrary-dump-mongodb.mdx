@@ -1,0 +1,114 @@
+---
+title: Loading open library dumps into MongoDB for exploration
+publishedAt: "2021-07-19"
+tags:
+- open-library
+authors:
+- Bharat Kalluri
+---
+
+Open library is probably one of the biggest, if not _the biggest_ open access book database on the internet. It takes
+the wikipedia approach in that everyone can contribute to the data. Similarly everyone can download a dump of the
+database and play around with the database.
+
+Recently I have started contributing to the Open library project. I've wanted to load the data into a local database
+so that I can play around with the data and see if I can find inconsistencies or wrong data in the process. There are
+two approaches I can take here. One is loading the data into an SQL database (like postgres) or another is loading it
+into a NoSQL database (like mongodb). Before deciding, we need to first understand how the data dump looks like.
+
+Open library publishes three dumps as of now every month start. Editions, Works and Authors. An Author (Stephen king)
+will have works (IT), each work will have editions (IT: kindle edition, IT: Paperback by Penguin). All the dumps follow
+a common format. All the dumps are gzipped TSV (tab seperated values) with 5 columns
+
+- key : the type of document. For example, authors dump key would be `/type/author`
+- identifier : the identifier for the row, a sample authors dump key would be `/authors/OL1000078A`
+- latest_version : every edit a user makes to the open library creates a new version of the document. This number
+    indicates what's the latest version number of this particular document
+- updated : the latest updated at timestamp in ISO format
+- data : the json document itself. all the above fields can be inferred from this document too.
+
+Since we already have json objects in the TSV file, it would be easier to dump all the data in MongoDB for analysis.
+There are more reasons why MongoDB is suited for this particular use case. Open library uses a server called infogami,
+which uses a database called Infobase. Infobase in turn is based on ThingDB. ThingDB was developed by Aaron Swartz and
+others, this was used in reddit, open library etc. ThingDB was way ahead of its time, ThingDB is closer to the current
+day MongoDB. Since ThingDB is similar to MongoDB, it makes sense to dump this data in MongoDB. I will be writing another
+article exploring the ideas of ThingDB!
+
+### Preparing data for MongoDB import
+
+Let's work with the author's data dump as a starting point. This method will work for any Open library dump.
+
+MongoDB import works either from json or CSV. Fortunately MongoDB allows [JSONL](https://jsonlines.org/) imports.
+Our dumps are a TSV files where the fifth column of the TSV file is the json data we want to move to MongoDB. Let us
+write a small cli one liner to convert the TSV file into JSONL.
+
+```shell
+rg -z . ./ol_dump_authors_latest.txt.gz | cut -f5 -d$'\t' >> authors.jsonl
+```
+
+Let's break this down
+
+- [rg is short for ripgrep](https://github.com/BurntSushi/ripgrep). Ripgrep is a superfast alternative to grep
+    written in Rust, which can also work with gzipped files.
+- `-z/--search-zip` flag denotes that the file we are passing in a zipped file for search
+- `cut` is a very powerful linux utility which breaks a line of text based on a delimiter
+- `-f5` denotes to cut that we are attempting to get the fifth element after the split
+- `-d$'\t'` denotes to cut that the delimiter we want to use is a tab character
+- `>> authors.jsonl` finally, we forward the output to a file named `authors.jsonl`
+
+It takes around 144 seconds to convert a _2.2 GB gzipped author dump(containing around 8.5 million authors data)_ from
+TSV to JSONL!
+
+### Importing the JSONL file into MongoDB
+
+MongoDB provides an official GUI called MongoDB compass. Create a database called `openlibrary` and a collection called
+`authors`. The start page will have a button called `Import data`.
+
+![Import screen in MongoDB compass](/static/images/import-openlibrary-dump-mongodb/compass-import-screen.png)
+
+Click on that, a popup opens where you can select a file. Select the generated JSONL file, the input type should be
+auto set to JSON. Check the box which says `Stop on errors` (so that we know if any row is malformed)
+
+![Import dialog in MongoDB compass](/static/images/import-openlibrary-dump-mongodb/compass-import-dialog.png)
+
+It takes _12 minutes to import the entire 8.5 million authors_ into MongoDB. I think that's impressive. Maybe there
+are ways to improve the performance by disabling the error check etc. I'll explore this later on.
+
+### Running aggregation queries
+
+Since the data is now available locally, we can run aggregation pipelines to explore.
+
+For example, here is how we can search and find all the authors who do not have both `name` and a `personal_name`
+
+![aggregation pipeline](/static/images/import-openlibrary-dump-mongodb/name-and-personal-name-missing-count.png)
+
+Looks like there are 246 of these!
+
+One more example, the attribute `wikipedia` is [deprecated in author schema](https://github.com/internetarchive/openlibrary-client/blob/b3b2351838c983bea011a63781d4a35af8a85434/olclient/schemata/author.schema.json#L68)
+A simple aggregation pipeline tells that the count of authors who still have the wikipedia field in 1815 authors!
+
+```
+[{$match: {
+  'wikipedia': {
+    '$exists': true
+  }
+}}, {$count: 'count'}]
+```
+
+Another aggregation pipeline to discover authors with identical personal names. Looks like 137 authors with the same
+exact personal name duplicated two or more times!
+```
+[{$group: {
+  _id: '$name',
+  'count': {
+    '$sum': 1
+  }
+}}, {$match: {
+  'count': {
+    '$gt': 1
+  }
+}}, {$count: 'count'}]
+```
+
+We can do lookups cross collections once we import editions and works into the same database. Using this, a lot of data
+related questions can be answered.

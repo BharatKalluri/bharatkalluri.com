@@ -5,7 +5,8 @@
         "dev": "next",
         "build": "next build",
         "start": "next start",
-        "type-check": "tsc"
+        "type-check": "tsc",
+        "vc-dev": "./node_modules/.bin/vc dev"
     },
     "dependencies": {
         "@chakra-ui/icons": "^1.0.13",
