@@ -1,15 +1,22 @@
 import React from "react";
 import { AppProps } from "next/app";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import "../styles/main.css";
 import { DefaultSeo } from "next-seo";
 import { DEFAULT_SEO_CONFIG } from "../constants";
+import "@fontsource/abeezee/400.css";
+
+const theme = extendTheme({
+    fonts: {
+        heading: "ABeeZee",
+    },
+});
 
 function App({ Component, pageProps }: AppProps): React.ReactNode {
     return (
         <>
             <DefaultSeo {...DEFAULT_SEO_CONFIG} />
-            <ChakraProvider>
+            <ChakraProvider theme={theme}>
                 <Component {...pageProps} />
             </ChakraProvider>
         </>
