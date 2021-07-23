@@ -8,7 +8,7 @@ authors:
 ---
 
 This note will be in a form of questions and answers. I'll try to answer whatever questions I had when I was starting
-out. Lets begin.
+out. Let's begin!
 
 ### How do I set up Open library and run it locally?
 
@@ -37,11 +37,14 @@ docker-compose up
 ```
 to run all the services needed for docker. You should be seeing a lot of logs in the terminal. Give it 5 minutes and it should also pull down some books as seed data. (even if this fails, thats okay. we can pull in sample data later on)
 
-Now open `http://localhost:8080` to visit openlibrary locally. To login, use `openlibrary@example.com` and password
-as `admin123`. You should now be able to edit books, add books etc. This will give you admin privileges.
+Now open [`http://localhost:8080`](http://localhost:8080) to visit open library locally. To login, use
+`openlibrary@example.com` as username and `admin123` as password. You should now be able to edit books, add books etc.
+This will give you admin privileges.
 
 Note that everything I just described is already neatly structured as a part of
 [Open library documentation](https://github.com/internetarchive/openlibrary/blob/master/docker/README.md)
+
+> All commands below should be run inside the `openlibrary` folder
 
 ### I want to only look at the database logs/web logs. How do I do that?
 
@@ -76,10 +79,11 @@ run a script
 ```
 ./scripts/copydocs.py /books/OL17948330M --recursive
 ```
-After this, search for `digital fortress` in the locally running open library instance and it should show up!
+This should import the work, book and the author. After this, search for `digital fortress` in the locally running open
+library instance, and it should show up!
 
 
-### Why is it that the reading log is not working on my local OL(Openlibrary) instance?
+### Why is it that the reading log is not working on my local OL instance?
 That is an issue in the pipeline, here is a
 [fix for now](https://github.com/internetarchive/openlibrary/issues/4989#issuecomment-850566888)
 

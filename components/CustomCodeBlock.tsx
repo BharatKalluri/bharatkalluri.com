@@ -7,9 +7,7 @@ interface ICustomCodeBlockProps {
 }
 
 function CustomCodeBlock({ children, className }: ICustomCodeBlockProps) {
-    const language: unknown = className
-        ? className.replace(/language-/, "")
-        : "";
+    const language: unknown = className ? className.replace(/language-/, "") : "";
     return (
         <Highlight
             {...defaultProps}
@@ -23,19 +21,14 @@ function CustomCodeBlock({ children, className }: ICustomCodeBlockProps) {
                     className={className}
                     style={{
                         ...style,
-                        marginTop: 20,
-                        marginBottom: 20,
-                        padding: 16,
+                        padding: 10,
                         overflowX: "auto",
                     }}
                 >
                     {tokens.map((line, i) => (
                         <div key={i} {...getLineProps({ line, key: i })}>
                             {line.map((token, key) => (
-                                <span
-                                    key={key}
-                                    {...getTokenProps({ token, key })}
-                                />
+                                <span key={key} {...getTokenProps({ token, key })} />
                             ))}
                         </div>
                     ))}
