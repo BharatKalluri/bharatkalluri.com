@@ -13,7 +13,7 @@ const StatBox = (props: {
     imageUrl?: string;
     imageLink?: string;
     isLoading?: boolean;
-    customWidth?: string;
+    customWidth?: string | Record<any, any>;
 }) => {
     const { colorMode } = useColorMode();
     const borderColor = {
@@ -52,7 +52,7 @@ const StatBox = (props: {
                         <Image
                             src={props.imageUrl}
                             alt={props.heading}
-                            height={"300px"}
+                            maxHeight={"300px"}
                             shadow={"xl"}
                             borderRadius={10}
                         />
@@ -128,7 +128,7 @@ const DashboardPage = () => {
                         <StatBox
                             imageUrl={bookData.coverUrl}
                             key={bookData.title}
-                            customWidth={"auto"}
+                            customWidth={{ base: "45%", sm: "auto", md: "auto", lg: "auto" }}
                             imageLink={bookData.url}
                         />
                     );
