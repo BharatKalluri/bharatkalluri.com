@@ -48,7 +48,7 @@ const StatBox = (props: {
             </Flex>
             {props.imageUrl && (
                 <Skeleton isLoaded={!isLoadingFromProps}>
-                    <a href={props.imageLink} target={"_blank"}>
+                    <a href={props.imageLink} target={"_blank"} rel={"noreferrer"}>
                         <Image
                             src={props.imageUrl}
                             alt={props.heading}
