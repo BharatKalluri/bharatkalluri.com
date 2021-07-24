@@ -24,28 +24,28 @@ interface INavBarButtonProps {
 const navBarItems: Array<{ href: string; text: string }> = [
     {
         href: "/",
-        text: "Home"
+        text: "Home",
     },
     {
         href: "/blog",
-        text: "Blog"
+        text: "Blog",
     },
     {
         href: "/notes",
-        text: "Notes"
+        text: "Notes",
     },
     {
         href: "/dashboard",
-        text: "Dashboard"
+        text: "Dashboard",
     },
     {
         href: "/reading-log",
-        text: "Reading log"
+        text: "Reading log",
     },
     {
         href: "/about",
-        text: "About"
-    }
+        text: "About",
+    },
 ];
 
 const NavBarMenuItem = (props: INavBarButtonProps) => {
@@ -130,7 +130,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                 openGraph={{
                     url: canonicalURL,
                     title: title,
-                    description: description
+                    description: description,
                 }}
             />
             <div>
@@ -147,7 +147,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                                     t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
                                     y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
                                 })(window, document, "clarity", "script", "4g3tskl7lj");
-                            `
+                            `,
                         }}
                     />
                     <link rel="icon" type="image/png" href="/static/logo.png" />
@@ -156,7 +156,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                     <NavBar />
                 </header>
                 <Flex as="main" justifyContent="center" flexDirection="column" px={4} mx="auto" mt={8} maxW="1000px">
-                    <Stack spacing={10}>{children}</Stack>
+                    <Stack spacing={7}>{children}</Stack>
                 </Flex>
                 <Footer />
             </div>

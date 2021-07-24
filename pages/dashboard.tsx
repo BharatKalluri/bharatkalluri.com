@@ -7,7 +7,14 @@ import { ITraktTvStats } from "../interfaces";
 import { BookData } from "../types";
 import { CustomLink } from "../components/CustomLink";
 
-const StatBox = (props: { heading: string; data?: string; imageUrl?: string; isLoading?: boolean }) => {
+const StatBox = (props: {
+    heading?: string;
+    data?: string;
+    imageUrl?: string;
+    imageLink?: string;
+    isLoading?: boolean;
+    customWidth?: string | Record<any, any>;
+}) => {
     const { colorMode } = useColorMode();
     const borderColor = {
         light: "gray.200",
@@ -24,19 +31,34 @@ const StatBox = (props: { heading: string; data?: string; imageUrl?: string; isL
             border="1px"
             borderColor={borderColor[colorMode]}
             borderRadius={8}
-            w={{ base: "100%", md: "45%" }}
+            shadow={"md"}
+            width={props.customWidth || { base: "100%", sm: "45%", md: "30%", lg: "200px" }}
         >
-            <Skeleton isLoaded={!isLoadingFromProps}>
-                <Text fontSize="lg" fontWeight="bold">
-                    {props.heading}
-                </Text>
-                {props.data && (
-                    <Text fontSize="2xl" fontWeight={"bold"}>
-                        {props.data}
+            <Flex flexDirection={"column"} alignItems={"space-between"}>
+                {props.heading && (
+                    <Text pb={2} minHeight={"60px"}>
+                        {props.heading}
                     </Text>
                 )}
-                {props.imageUrl && <Image src={props.imageUrl} alt={props.heading} />}
-            </Skeleton>
+                <Skeleton isLoaded={!isLoadingFromProps}>
+                    <Text fontSize="4xl" bottom={"10px"} fontWeight={"extrabold"}>
+                        {props.data}
+                    </Text>
+                </Skeleton>
+            </Flex>
+            {props.imageUrl && (
+                <Skeleton isLoaded={!isLoadingFromProps}>
+                    <a href={props.imageLink} target={"_blank"} rel={"noreferrer"}>
+                        <Image
+                            src={props.imageUrl}
+                            alt={props.heading}
+                            maxHeight={"300px"}
+                            shadow={"xl"}
+                            borderRadius={10}
+                        />
+                    </a>
+                </Skeleton>
+            )}
         </Box>
     );
 };
@@ -97,12 +119,19 @@ const DashboardPage = () => {
 
             <Text>
                 All the books I read are recorded at{" "}
-                <CustomLink href="https://www.goodreads.com/user/show/84034305-bharat-kalluri">Goodreads</CustomLink>
+                <CustomLink href="https://openlibrary.org/people/bharatkalluri">Openlibrary</CustomLink>
             </Text>
 
             <Flex wrap={"wrap"}>
-                {nowReadingData?.map((bookData) => {
-                    return <StatBox heading={bookData.title} imageUrl={bookData.coverUrl} key={bookData.title} />;
+                {nowReadingData?.map((bookData: BookData) => {
+                    return (
+                        <StatBox
+                            imageUrl={bookData.coverUrl}
+                            key={bookData.title}
+                            customWidth={{ base: "45%", sm: "auto", md: "auto", lg: "auto" }}
+                            imageLink={bookData.url}
+                        />
+                    );
                 })}
             </Flex>
 
