@@ -7,7 +7,13 @@ import { ITraktTvStats } from "../interfaces";
 import { BookData } from "../types";
 import { CustomLink } from "../components/CustomLink";
 
-const StatBox = (props: { heading: string; data?: string; imageUrl?: string; isLoading?: boolean }) => {
+const StatBox = (props: {
+    heading: string;
+    data?: string;
+    imageUrl?: string;
+    isLoading?: boolean;
+    customWidth?: string;
+}) => {
     const { colorMode } = useColorMode();
     const borderColor = {
         light: "gray.200",
@@ -25,21 +31,26 @@ const StatBox = (props: { heading: string; data?: string; imageUrl?: string; isL
             borderColor={borderColor[colorMode]}
             borderRadius={8}
             shadow={"md"}
+            width={props.customWidth || { base: "100%", sm: "45%", md: "30%", lg: "200px" }}
+            minHeight={{ base: "200px" }}
         >
-            <Skeleton isLoaded={!isLoadingFromProps}>
-                <Text fontSize="lg" fontWeight="bold">
+            <Flex flexDirection={"column"} justifyItems={"space-between"} height={"100%"}>
+                <Text fontSize="md" pb={2} fontWeight={"bold"}>
                     {props.heading}
                 </Text>
-                {props.data && (
-                    <Text fontSize="2xl" fontWeight={"bold"}>
+                <Skeleton isLoaded={!isLoadingFromProps}>
+                    <Text fontSize="4xl" bottom={"10px"}>
                         {props.data}
                     </Text>
-                )}
-                {props.imageUrl && (
-                    <Image src={props.imageUrl} alt={props.heading} height={"250px"} shadow={"xl"} borderRadius={10} />
-                )}
-            </Skeleton>
+                </Skeleton>
+            </Flex>
+            {props.imageUrl && (
+                <Skeleton isLoaded={!isLoadingFromProps}>
+                    <Image src={props.imageUrl} alt={props.heading} height={"300px"} shadow={"xl"} borderRadius={10} />
+                </Skeleton>
+            )}
         </Box>
+        // </Skeleton>
     );
 };
 
@@ -104,7 +115,14 @@ const DashboardPage = () => {
 
             <Flex wrap={"wrap"}>
                 {nowReadingData?.map((bookData) => {
-                    return <StatBox heading={bookData.title} imageUrl={bookData.coverUrl} key={bookData.title} />;
+                    return (
+                        <StatBox
+                            heading={bookData.title}
+                            imageUrl={bookData.coverUrl}
+                            key={bookData.title}
+                            customWidth={"auto"}
+                        />
+                    );
                 })}
             </Flex>
 
