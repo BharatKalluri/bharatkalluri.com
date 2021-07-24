@@ -1,28 +1,34 @@
 import { BookData, BookDataValidator } from "../types";
 import decodeWith from "../utils/ioTsUtils";
 
-const CURRENTLY_READING_ISBNS = [
-    "1101904224" // dark matter
-];
+interface OLWork {
+    cover_edition_key?: string;
+    title: string;
+}
 
-const getCoverUrlFromId = (id: number) => {
-    return `https://covers.openlibrary.org/b/id/${id}-L.jpg`;
+const getCoverUrlFromId = (id: string) => {
+    return `https://covers.openlibrary.org/b/olid/${id}-L.jpg`;
 };
 
-export const getBookDataFromIsbn: (isbn: string) => Promise<BookData> = async (isbn: string) => {
-    const response = await fetch(`https://openlibrary.org/isbn/${isbn}.json`, {
-        method: "GET"
-    });
-    const responseJson = await response.json();
+export const getBookDataFromId = async (el: { work: OLWork }) => {
+    const coverEditionKey = el?.work?.cover_edition_key;
+    const title = el.work.title;
     const bookData = {
-        title: responseJson.title,
-        coverUrl: responseJson.covers?.length && responseJson.covers?.length > 0 ? getCoverUrlFromId(responseJson.covers[0]) : undefined
+        title: title,
+        coverUrl: coverEditionKey ? getCoverUrlFromId(coverEditionKey) : undefined,
     };
     return decodeWith(BookDataValidator)(bookData);
 };
 
 export const getNowReading: () => Promise<BookData[]> = async () => {
-    return await Promise.all(CURRENTLY_READING_ISBNS.map((isbn) => {
-        return getBookDataFromIsbn(isbn);
-    }));
+    const currentlyReadingRaw = await fetch(
+        `https://openlibrary.org/people/bharatkalluri/books/currently-reading.json`
+    );
+    const currentlyReadingJson = await currentlyReadingRaw.json();
+    const currentlyReadingArr: Array<any> = currentlyReadingJson?.reading_log_entries;
+    return await Promise.all(
+        currentlyReadingArr.map((el: { work: OLWork }) => {
+            return getBookDataFromId(el);
+        })
+    );
 };

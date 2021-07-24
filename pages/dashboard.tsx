@@ -24,7 +24,7 @@ const StatBox = (props: { heading: string; data?: string; imageUrl?: string; isL
             border="1px"
             borderColor={borderColor[colorMode]}
             borderRadius={8}
-            w={{ base: "100%", md: "45%" }}
+            shadow={"md"}
         >
             <Skeleton isLoaded={!isLoadingFromProps}>
                 <Text fontSize="lg" fontWeight="bold">
@@ -35,7 +35,9 @@ const StatBox = (props: { heading: string; data?: string; imageUrl?: string; isL
                         {props.data}
                     </Text>
                 )}
-                {props.imageUrl && <Image src={props.imageUrl} alt={props.heading} />}
+                {props.imageUrl && (
+                    <Image src={props.imageUrl} alt={props.heading} height={"250px"} shadow={"xl"} borderRadius={10} />
+                )}
             </Skeleton>
         </Box>
     );
@@ -97,7 +99,7 @@ const DashboardPage = () => {
 
             <Text>
                 All the books I read are recorded at{" "}
-                <CustomLink href="https://www.goodreads.com/user/show/84034305-bharat-kalluri">Goodreads</CustomLink>
+                <CustomLink href="https://openlibrary.org/people/bharatkalluri">Openlibrary</CustomLink>
             </Text>
 
             <Flex wrap={"wrap"}>
