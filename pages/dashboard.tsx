@@ -8,9 +8,10 @@ import { BookData } from "../types";
 import { CustomLink } from "../components/CustomLink";
 
 const StatBox = (props: {
-    heading: string;
+    heading?: string;
     data?: string;
     imageUrl?: string;
+    imageLink?: string;
     isLoading?: boolean;
     customWidth?: string;
 }) => {
@@ -32,21 +33,30 @@ const StatBox = (props: {
             borderRadius={8}
             shadow={"md"}
             width={props.customWidth || { base: "100%", sm: "45%", md: "30%", lg: "200px" }}
-            minHeight={{ base: "200px" }}
         >
-            <Flex flexDirection={"column"} justifyItems={"space-between"} height={"100%"}>
-                <Text fontSize="md" pb={2} fontWeight={"bold"}>
-                    {props.heading}
-                </Text>
+            <Flex flexDirection={"column"} alignItems={"space-between"}>
+                {props.heading && (
+                    <Text pb={2} minHeight={"60px"}>
+                        {props.heading}
+                    </Text>
+                )}
                 <Skeleton isLoaded={!isLoadingFromProps}>
-                    <Text fontSize="4xl" bottom={"10px"}>
+                    <Text fontSize="4xl" bottom={"10px"} fontWeight={"extrabold"}>
                         {props.data}
                     </Text>
                 </Skeleton>
             </Flex>
             {props.imageUrl && (
                 <Skeleton isLoaded={!isLoadingFromProps}>
-                    <Image src={props.imageUrl} alt={props.heading} height={"300px"} shadow={"xl"} borderRadius={10} />
+                    <a href={props.imageLink} target={"_blank"}>
+                        <Image
+                            src={props.imageUrl}
+                            alt={props.heading}
+                            height={"300px"}
+                            shadow={"xl"}
+                            borderRadius={10}
+                        />
+                    </a>
                 </Skeleton>
             )}
         </Box>
@@ -113,13 +123,13 @@ const DashboardPage = () => {
             </Text>
 
             <Flex wrap={"wrap"}>
-                {nowReadingData?.map((bookData) => {
+                {nowReadingData?.map((bookData: BookData) => {
                     return (
                         <StatBox
-                            heading={bookData.title}
                             imageUrl={bookData.coverUrl}
                             key={bookData.title}
                             customWidth={"auto"}
+                            imageLink={bookData.url}
                         />
                     );
                 })}

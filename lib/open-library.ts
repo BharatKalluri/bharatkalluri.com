@@ -4,6 +4,7 @@ import decodeWith from "../utils/ioTsUtils";
 interface OLWork {
     cover_edition_key?: string;
     title: string;
+    key: string;
 }
 
 const getCoverUrlFromId = (id: string) => {
@@ -13,9 +14,11 @@ const getCoverUrlFromId = (id: string) => {
 export const getBookDataFromId = async (el: { work: OLWork }) => {
     const coverEditionKey = el?.work?.cover_edition_key;
     const title = el.work.title;
+    const editionKey = el?.work.key;
     const bookData = {
         title: title,
         coverUrl: coverEditionKey ? getCoverUrlFromId(coverEditionKey) : undefined,
+        url: `https://openlibrary.org${editionKey}`,
     };
     return decodeWith(BookDataValidator)(bookData);
 };
