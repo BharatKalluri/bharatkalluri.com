@@ -50,7 +50,6 @@ const StatBox = (props: {
                 </Skeleton>
             )}
         </Box>
-        // </Skeleton>
     );
 };
 
