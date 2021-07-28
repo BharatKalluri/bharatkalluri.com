@@ -7,6 +7,7 @@ import { getNoteMetadata, postFilePaths } from "../../utils/mdxUtils";
 import decodeWith from "../../utils/ioTsUtils";
 import { Stack, Text } from "@chakra-ui/react";
 import React from "react";
+import { Flex, Heading } from "@chakra-ui/layout";
 
 export default function PostPage(props: { source: any; frontMatter: BlogFrontMatter; postFileName: string }) {
     const frontMatter = decodeWith(BlogFrontMatterValidator)(props.frontMatter);
@@ -26,10 +27,14 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
                     m="0 auto 4rem auto"
                     w="100%"
                 >
-                    <Text fontSize="6xl" fontWeight="extrabold">
-                        {frontMatter.title}
-                    </Text>
-                    <Text color="grey">Bharat Kalluri / {publishedAt}</Text>
+                    <Flex direction={"column"} py={5} width={"100%"}>
+                        <Heading as={"h1"} size={"3xl"} textAlign={"center"} paddingY={2} overflowWrap={"normal"}>
+                            {frontMatter.title}
+                        </Heading>
+                        <Text color="grey" textAlign={"center"}>
+                            Bharat Kalluri / {publishedAt}
+                        </Text>
+                    </Flex>
                     <MDXRemote {...props.source} components={MDXComponents} />
                 </Stack>
             </Layout>
