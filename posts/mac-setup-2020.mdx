@@ -1,5 +1,5 @@
 ---
-title: "Setting up a brand new MacBook for development : 2020 edition"
+title: "Setting up a brand new MacBook for development"
 publishedAt: "2020-04-18"
 hero: "https://unsplash.com/photos/v_1t1DzfAUA/download?force=true&w=1920"
 description: A step by step guide to setup your MacBook for supercharged python development
@@ -10,7 +10,6 @@ authors:
 isBlogPost: true
 ---
 
-When I started working for my new company (JiTFin co), they gave me a MacBook Pro 2019 model. This article will detail what I do to setup my MacBook pro for day to day dev usage.
 This article also evolves as my job evolves. Currently I do mostly Python and Typescript, So all the tooling will be focused on those languages.
 
 ### Getting started
@@ -33,30 +32,25 @@ Brew broadly has two types of apps, normal open source applications like git etc
 ```shell
 brew install \
   git \
-  yarn \
-  postgresql \
-  redis \
   fzf \
+  nvm \
   make
 ```
 
 Now let us install casks
 
 ```shell
-brew cask install \
+brew install --cask \
   visual-studio-code \
   firefox \
   rectangle \
   iterm2 \
   docker \
   vlc \
-  flock \
   spotify \
-  postico \
   postman \
   jetbrains-toolbox \
   zoom \
-  ticktick \
   anaconda \
   bitwarden \
   whatsapp
