@@ -1,0 +1,71 @@
+---
+title: Book identifiers
+draft: true
+publishedAt: "2021-11-11"
+---
+
+Books have been around for a _very, very long time_. Identifying books using a unique identifier is very beneficial
+for a lot of reasons. In identifying duplicates in a library/catalog, querying if a book exists etc… So naturally,
+organizations around the world have tried to standardize this identification process.
+
+> Quickly setting up some nomenclature, a book/work (Angels and demons) can have multiple editions (hard copy,
+audiobook). Each edition technically needs to have its own identifier. Apart from books, there are many more types
+of print media(text books, magazines, newspapers etc…)
+
+## ISBN
+
+The infamous original standard for book identification. ISBN stands for International Standard Book Number, the
+International ISBN agency assigns the unique identifier. Every edition gets its own ISBN, which means a paperback,
+hard cover, PDF e-book and an epub e-book of the same book will have different ISBNs. But re printings will not be
+assigned with a new ISBN.Method of assigning ISBNs is also country specific. Organizations might need to
+[pay to get a ISBN](https://www.isbn-international.org/content/how-get-isbn). Apparently to get one ISBN, it costs
+$125 and 10 costs $295 ([source](https://www.myidentifiers.com/identify-protect-your-book/isbn/buy-isbn)).
+Getting one ISBN does not make sense since usually any published book will at least have a
+paperback and a couple of ebook versions (pdf, epub, mobi etc...), so I think 10 is the default sensible choice for
+publishers.
+
+In 1970, ISO came up with the first version of ISBN called ISBN 10 informally, since it used to contain 10 digits.
+Later on, there was a revision and every ISBN after 2007 Jan 1 has 13 digits. This is informally called as ISBN-13.
+International Standards Organization (ISO) had to increase the size of ISBN since they were starting to see signs
+that 10 digits
+[will not be enough to keep up](https://web.archive.org/web/20070610160919/http://www.lac-bac.gc.ca/iso/tc46sc9/isbn.htm#Capacity)
+with the pace of the books published in different formats.
+
+An ISBN-10 is converted to ISBN-13 by prepending "978" to the ISBN-10 and recalculating the final
+checksum digit using the ISBN-13 algorithm. The reverse process can also be performed, if they start with 978. Else
+those records have no ISBN 10.
+
+#### Pain points
+
+Like any other global mutually agreed upon standard, there are issues and inconsistencies with ISBN too. Here are some
+
+- The book is self-published and did not attempt to get an ISBN. Hence, does not have one.
+- The book is very old and ISBN system did not exist back then
+- Multiple books can have the same ISBN! (For example, ISBN 0-590-76484-5 is shared by two books – Ninja gaiden: a
+    novel based on the best-selling game by Tecmo (1990) and Wacky laws (1997), both published by Scholastic.)
+- One edition can have multiple ISBNs
+- Need to fact-check, but apparently 43% of ebooks published on Amazon do not have an ISBN
+[(source)](https://www.editage.com/info/book-editing-services/articles/10-faqs-on-isbn-every-self-publishing-author-must-know).
+If someone wants to self-publish in multiple ebook formats, I can imagine the author not opting in for an
+ISBN since it can be pretty expensive
+
+## ASIN
+
+ASIN stands for Amazon Standard Identification Number. Its a 10 digit unique identification number given to every
+product on Amazon. This includes all kinds of books as well.
+
+This is not a standard. If a book is not listed on Amazon, it won't have an ASIN. On the flip side, Amazon does not
+make it mandatory that all books need to have ISBNs, so if book is only published on Amazon. The only credible
+identifier for that work would be ASIN.
+
+## OCLC/WorldCat ID
+
+WorldCat is said to be the world's largest library catalog. Every book listed there gets its own identifier.
+
+## Other identifiers from book data aggregators
+
+Every book data aggregator has their own identification numbering. For example, here are some aggregators
+
+- [Goodreads](https://www.goodreads.com/)
+- [Openlibrary](https://openlibrary.org)
+- [LibraryThing](https://www.librarything.com/)
