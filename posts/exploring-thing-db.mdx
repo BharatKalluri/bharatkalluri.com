@@ -1,0 +1,85 @@
+---
+title: Exploring the ideas behind an immutable database - Thing DB
+publishedAt: "2021-09-13"
+draft: false
+---
+
+One of the most interesting things that took me by suprise when I started working on the openlibrary codebase is how
+the database was used. Openlibrary uses postgresql as the database, but the way the database is used is very
+intriguing. The gist of it is that, openlibrary uses a framework called infogami. Infogami in turn uses a
+ORM/abstraction over the database called Infobase, and Infobase works on postgresql and the abstraction is reffered
+to as ThingDB. The important thing to note is that ThingDB works on postgresql like it's an _immutable database_.
+
+Please do note that this blog post broadly explains the ideas behind ThingDB and not its exact implementation
+details, although most of it is close.
+
+## Understanding immutability
+
+This is the key word here, _immutable database_. The idea behind an immutable database is simple, the DB only takes
+two operations out of the traditional four (create, read, update and delete). It only deals with create and read.
+Updates and deletes are managed through version numbers. Let us see how using an example
+
+Let us say there is a document about a edition. Every _thing_ inside thingDB gets its own key, type of document,
+version number and data (which is a JSON string in postgresql). Here is how a simple document might look like
+
+```json
+{
+  "key": "1234",
+  "version": 1,
+  "type": "EDITION",
+  "data": {
+    "name": "Inception Point"
+  }
+}
+```
+
+Let us say we realize that we are missing a _The_ prefix to the name and want to edit it. If we pass an edit
+operation to Infobase, Infobase will create a new document instead of updating the original document.
+
+```json
+{
+  "key": "1234",
+  "version": 2,
+  "type": "EDITION",
+  "data": {
+    "name": "The Inception Point"
+  }
+}
+```
+
+Now let us say this edition needs to be deleted. Instead of deleting the record we will be creating a new record
+with type delete and no data.
+
+```json
+{
+  "key": "1234",
+  "version": 3,
+  "type": "DELETE"
+}
+```
+
+In the database at this point there are three documents for key `1234`. Next time we query for key `1234`, Infobase
+will get the latest version for the key and report that this is a deleted entity. There would also be one more table
+documenting all the edits happening to the `things` with the corresponding user identifiers as well.
+
+This is how Infobase achieves general CRUD without mutating any documents.
+
+### Advantage's of immutability
+
+- A complete audit trail of what has happened in the past for every single document along with accountability for
+changes
+- Ability to revert to a previous version of a document any time, even if the entity is deleted
+
+### Disadvantages
+
+- Costly in terms of space (But for a project like openlibrary which aims to publicly document edits made to data,
+this is a great fit!)
+- Since we are storing JSON string in the postgres column for data, we lose a lot of advantages in terms of
+performance postgres gives us. (A lot of JSON support has landed in postgres recently, this might improve the
+situation here). Indexing would be one of the biggest problems, also setting up constraints (like `not null`) on the
+document is entirely managed by the application instead of the database.
+
+
+## Implementing a minimal version of ThingDB using Python and MongoDB
+
+WIP
