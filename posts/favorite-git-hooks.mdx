@@ -1,0 +1,33 @@
+---
+title: Favorite git hooks
+publishedAt: "2021-10-17"
+isBlogPost: true
+tags:
+- git
+---
+
+Git hooks are awesome. If you want a primer
+
+They allow us to enforce rules at a code level. Once hooks are set up, a lot of recurring simple mistakes can be
+prevented. Here are some of my favourite use cases for git hooks.
+
+### Make sure no one accidentally commits to the master branch
+
+This has happened to me personally a lot of times. Sometimes I do not notice what branch I'm on, use webstorm's GUI to
+commit and then realization dawns.
+
+```shell
+#!/bin/sh
+
+# Pre commit hook
+set -e
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$branch" = "master" ] || [ "$branch" = "main" ] ; then
+  echo "You can't commit directly to master/main branch"
+  exit 1
+fi
+```
+
+Simple script which checks if the current branch is master or main. If yes, then exists with an error.
