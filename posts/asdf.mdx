@@ -1,0 +1,157 @@
+---
+title: ASDF - One version manager to manage python, nodejs, rust and more!
+publishedAt: "2021-10-17"
+description: One version manager to rule them all!
+tags:
+- devops
+- python
+- rust
+- nodejs
+isBlogPost: true
+---
+
+Most of the modern stacks in different companies use multiple tools for the development. We use NodeJS and Python
+in our tech stack extensively. Everytime someone joins the organization, we ask them to install both these languages
+using usually homebrew if on Mac, or by using the native package manager of the OS if on linux. This works okay, but if
+multiple projects use multiple nodejs versions then it quickly starts getting complicated.
+
+To solve this problem, there are projects like [NVM](https://github.com/nvm-sh/nvm) which manages NodeJS versions. Python
+also has [PyEnv](https://github.com/pyenv/pyenv) for managing versions. Now if programmers are trying to pickup other
+tools/languages, they run into the problem of managing different version managers. There must be a better way to solve this
+problem, right?
+
+## ASDF
+
+ASDF VM (VM stands for version manager here, not virtual machine) is a beautifully simple version manager which allows
+having global version and directory specific versions for tools. Now, instead of using multiple version managers.
+ASDF can be used to replace pyenv, nvm, rvm etc...
+
+ASDF codebase does not internally have code for any tool. It is more of a meta tool which will utilize code from
+plugins and orchestrate version management. To install a particular tool, the first step would be to install the
+corresponding plugin.
+
+To see what tools can be installed using asdf. Run
+
+```shell
+asdf plugin list all
+```
+
+### Installing NodeJS with ASDF
+
+Step one would be to add the nodejs plugin.
+
+```shell
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+```
+
+before setting up a version as a global version, that particular version needs to be installed. Here is how the latest
+nodejs version can be installed
+
+```shell
+asdf install nodejs latest
+```
+
+Now it can be set to be the global version
+
+```shell
+asdf global nodejs latest
+```
+
+When you do `where node`, the output will be `~/.asdf/shims/node`. And `node --version` will show `v16.11.1` (the
+current latest version).
+
+Let us assume another project cannot run on the latest node version yet, and expects to be run on the LTS version(14.18
+as of now). In that case all that needs to be done is
+
+```shell
+cd bharatkalluri.com # As an example, I'm using the blog's git repo as the project
+asdf install nodejs 14.18.1
+asdf local nodejs 14.18.1
+```
+
+and now `node --version` will output `14.18.1` and everywhere else node will default back to the latest 16.11.1
+
+That is the power of using a version manager. This will heavily simplify the entire process of managing multiple
+versions of the same languages.
+
+The same steps can be repeated for python, ruby, rust, elixir, erlang etc... ASDF supports most of the popular programming
+languages and many other tools! (to see what it supports, run `asdf plugin list all`)
+
+## What's under the hood
+
+Let's start exploring from the global version. If you look at the home folder, you will find a file called `.tool-versions`.
+In my case, this is what it says
+
+```shell
+nodejs 16.11.1
+python 3.10.0
+rust 1.55.0
+```
+
+So this is what defines what the global version of multiple installed tools. If a local version is set up for a directory,
+there is a file created called `.tool-versions` in the directory which has the language and the version. So this is how
+ASDF understands what version to use where.
+
+But how does the installation work? And where are these download versions stored?
+
+To understand that, let us look at how plugins are created. There is great documentation over
+[here](http://asdf-vm.com/plugins/create.html)
+
+Looks like ASDF expects 3 fundamental scripts, `bin/list-all`, `bin/download` and `bin/install`. As the name says,
+they are simple scripts which just do one thing and one thing well.
+
+Let us look at the [bat plugin](https://gitlab.com/wt0f/asdf-bat) to understand what is actually going on. `bat` is an
+alternative to `cat` written in rust. It is just a simple binary, this makes it easier to understand how ASDF internally works.
+
+In the `list-all` file, a fn called `list-all-versions` is called. Which basically runs this command
+
+```shell
+git ls-remote --tags --refs "https://github.com/sharkdp/bat" |
+    grep -o 'refs/tags/.*' | cut -d/ -f3- |
+    sed 's/^v//'
+```
+
+This command gets all the tags that repo has, searches, cuts and displays the releases versions. So that is how versions
+are listed when the command `asdf list all bat` (`asdf list all <tool_name_here>`) works.
+
+Now, to the `install` script. The `install` script I'm referring to lives [here](https://gitlab.com/wt0f/asdf-bat/-/blob/master/bin/install)
+
+A couple of points to note here before I jump in. ASDF passes on some env variables which are heavily used during any installations.
+Let's suppose I run `asdf install bat 0.12.1`, then ASDF sets the `$ASDF_INSTALL_PATH` to `~/.asdf/installs/bat/0.12.1`.
+This is where the files are stored. Here is the core fn which runs the `install`
+
+```shell
+install_bat() {
+  local version=$2
+  local install_path=$3
+  local bin_install_path="$install_path/bin"
+  local download_url; download_url="$(get_download_url "$version")"
+
+  mkdir -p "${bin_install_path}"
+
+  local bin_path="${bin_install_path}/bat"
+  echo "Downloading bat from ${download_url}"
+  curl -sSL "$download_url" -o "${install_path}/bat.tar.gz"
+  tar xzf "${install_path}/bat.tar.gz" -C "${install_path}"
+  mv "${install_path}/bat-v${version}-$(get_arch)-$(get_platform)"/* "${install_path}"
+  mv "${install_path}/bat" "${bin_path}"
+  chmod +x "$bin_path"
+  rm -rf "${install_path}/bat.tar.gz" "${install_path}"/bat-*
+}
+
+```
+
+The version and the installation path come from ASDF. There is also a custom bin install path set. This will be useful
+later on. The download URL is retrieved using a simple custom function which takes in the version, arch and the platform.
+Creates a GitHub URL and downloads that tar file. That tar file is later un compressed and the `bat` binary is moved
+to the bin folder.
+
+The reason the bin path is important is that, ASDF [creates a shim by default](http://asdf-vm.com/plugins/create.html#environment-variables)
+for everything in `$install_path/bin`.
+
+_But what exactly is a shim?_ A shim is a lib that transparently intercepts and handles all the operations elsewhere.
+So, `which bat` says `~/.asdf/shims/bat`. But the binary is just a placeholder to the actual binary over at the installation
+path!
+
+This was an overview of how ASDF internally works to manage multiple versions of tools. Thanks for sticking around till
+the end!
