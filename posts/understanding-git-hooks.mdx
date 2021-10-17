@@ -1,6 +1,7 @@
 ---
 author: Bharat Kalluri
 title: Understanding git hooks to automate your development workflow
+description: Automate git devops using hooks
 publishedAt: "2021-02-06"
 isBlogPost: true
 tags:
@@ -28,7 +29,7 @@ automate all of these using hooks.
 Hooks allow us to tap into the lifecycle of git and allows us to execute scripts before or after the lifecycle event.
 Hooks can be classified into two buckets, local and remote.
 
-These are some of the common hooks (note that all of the hooks listed below are local)
+These are some common hooks (note that all the hooks listed below are local)
 
 -   **pre-commit** : this hook runs just before the commit is done. Usually static analysis (`tsc` for example),
     linting, spell checks and other code formatting checks are usually done here.
