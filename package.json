@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "scripts": {
         "dev": "next",
-        "build": "next build",
+        "build": "export NODE_OPTIONS=--openssl-legacy-provider next build",
         "start": "next start",
         "type-check": "tsc",
         "vc-dev": "./node_modules/.bin/vc dev"
@@ -22,7 +22,7 @@
         "io-ts-types": "^0.5.16",
         "monocle-ts": "^2.3.10",
         "newtype-ts": "^0.3.4",
-        "next": "^11.0.1",
+        "next": "^12.0.0",
         "next-mdx-remote": "^3.0.2",
         "next-seo": "^4.26.0",
         "prism-react-renderer": "^1.2.1",
