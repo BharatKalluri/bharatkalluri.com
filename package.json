@@ -4,6 +4,7 @@
     "scripts": {
         "dev": "next",
         "build": "next build",
+        "postbuild": "node ./scripts/generate-rss.js && node ./scripts/generate-sitemap.js",
         "start": "next start",
         "type-check": "tsc",
         "vc-dev": "./node_modules/.bin/vc dev"
