@@ -151,6 +151,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                         }}
                     />
                     <link rel="icon" type="image/png" href="/static/logo.png" />
+                    <meta httpEquiv='content-language' content='en-gb' />
                 </Head>
                 <header>
                     <NavBar />
