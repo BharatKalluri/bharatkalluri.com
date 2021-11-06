@@ -9,26 +9,30 @@ import NextLink from "next/link";
 import { Button } from "@chakra-ui/button";
 import React from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { PostCard } from "../components/PostCard";
 
 export function getStaticProps() {
     return { props: { notes: getNotesMetadata() } };
 }
-
 
 const ProjectListComponent = () => (
     <Stack py={5} spacing={5}>
         <Heading>Projects</Heading>
         <Stack direction="column" spacing={5}>
             {PROJECT_LIST.map((project) => (
-                <LinkCard key={project.name} name={project.name} description={project.description}
-                          link={project.link} />
+                <LinkCard
+                    key={project.name}
+                    name={project.name}
+                    description={project.description}
+                    link={project.link}
+                />
             ))}
         </Stack>
     </Stack>
 );
 
 const ProfileSection = () => (
-    <Stack direction={{ base: "column", "md": "row" }} spacing={8} py={10}>
+    <Stack direction={{ base: "column", md: "row" }} spacing={8} py={10}>
         <Image
             borderRadius="full"
             boxSize="130px"
@@ -50,36 +54,35 @@ const RecentBlogPosts = ({ recentNotes }: { recentNotes: BlogFrontMatter[] }) =>
     <Stack py={5} spacing={5}>
         <Heading>Writings</Heading>
         <Stack direction="column" spacing={5}>
-            {recentNotes.map((note) => (
-                <LinkCard key={note.title} name={note.title} description={note.description}
-                          link={note.__resourcePath} />
+            {recentNotes.map((frontMatter) => (
+                <PostCard key={frontMatter.title} frontMatter={frontMatter} folderPrefix="posts/" />
             ))}
 
             <Flex flexDirection={"row-reverse"}>
                 <NextLink href={"/blog"}>
                     <Button>
                         <Stack direction="row" align="center" style={{ width: "100%" }} justify="space-between">
-                            <Text>
-                                Read all posts
-                            </Text>
+                            <Text>Read all posts</Text>
                             <AiOutlineArrowRight size="20" />
                         </Stack>
                     </Button>
                 </NextLink>
             </Flex>
-
         </Stack>
     </Stack>
 );
 
 const IndexPage = ({ notes }: { notes: BlogFrontMatter[] }) => {
     const recentPosts = notes
-        .filter(note => note.isBlogPost === true)
+        .filter((note) => note.isBlogPost === true)
         .sort(sortByPinnedAndPublishedAt)
         .slice(0, 3);
     return (
-        <Layout title="Bharat Kalluri's Website" description="Welcome to Bharat's corner of the internet"
-                relativeCanonicalURL="">
+        <Layout
+            title="Bharat Kalluri's Website"
+            description="Welcome to Bharat's corner of the internet"
+            relativeCanonicalURL=""
+        >
             <Stack direction="column" spacing={5}>
                 <ProfileSection />
 

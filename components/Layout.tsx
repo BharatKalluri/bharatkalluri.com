@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import { NextSeo } from "next-seo";
 import { BASE_URL } from "../constants";
 import { Button } from "@chakra-ui/button";
+import { GA_TRACKING_ID } from "../lib/gtag";
 
 type LayoutProps = {
     children?: ReactNode;
@@ -105,6 +106,9 @@ const NavBar = () => {
             maxW="1200px"
             wrap="wrap"
         >
+            <DesktopLeftNavBar />
+            <MobileLeftNavBar />
+
             <Box flexDirection="row" mt="0.5rem">
                 <IconButton
                     aria-label="Toggle dark mode"
@@ -113,11 +117,27 @@ const NavBar = () => {
                     icon={colorMode == "dark" ? <SunIcon /> : <MoonIcon />}
                 />
             </Box>
-            <DesktopLeftNavBar />
-            <MobileLeftNavBar />
         </Stack>
     );
 };
+
+const GoogleAnalyticsSetup = () => (
+    <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
+        <script
+            dangerouslySetInnerHTML={{
+                __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+            }}
+        />
+    </>
+);
 
 const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutProps) => {
     const canonicalURL = `${BASE_URL}/${relativeCanonicalURL}`;
@@ -150,8 +170,9 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
                             `,
                         }}
                     />
+                    <GoogleAnalyticsSetup />
                     <link rel="icon" type="image/png" href="/static/logo.png" />
-                    <meta httpEquiv='content-language' content='en-gb' />
+                    <meta httpEquiv="content-language" content="en-gb" />
                 </Head>
                 <header>
                     <NavBar />
