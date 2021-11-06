@@ -28,13 +28,13 @@ are two steps, it makes the script slightly complex. Here is the script
 ```javascript
 unSubBtnList = document.querySelectorAll("[aria-label^='Unsubscribe from']");
 for (let i = 0; i < unSubBtnList.length; i++) {
-    setTimeout(() => {
-        unSubBtnList[i].click();
-    }, 1000);
+	setTimeout(() => {
+		unSubBtnList[i].click();
+	}, 1000);
 
-    setTimeout(() => {
-        document.querySelector('[aria-label="Unsubscribe"]').click();
-    }, 1000);
+	setTimeout(() => {
+		document.querySelector('[aria-label="Unsubscribe"]').click();
+	}, 1000);
 }
 ```
 

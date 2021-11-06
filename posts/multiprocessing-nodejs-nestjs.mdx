@@ -37,26 +37,26 @@ the connections directly here. Read more [here](https://nodejs.org/api/cluster.h
 
 ```typescript
 if (cluster.isMaster) {
-    const cpuCount = os.cpus().length;
+	const cpuCount = os.cpus().length;
 
-    for (let i = 0; i < cpuCount; i += 1) {
-        cluster.fork();
-    }
+	for (let i = 0; i < cpuCount; i += 1) {
+		cluster.fork();
+	}
 
-    cluster.on("online", (worker) => {
-        console.log("Worker " + worker.process.pid + " is online.");
-    });
-    cluster.on("exit", ({ process }) => {
-        console.log("worker " + process.pid + " died.");
-    });
+	cluster.on("online", (worker) => {
+		console.log("Worker " + worker.process.pid + " is online.");
+	});
+	cluster.on("exit", ({ process }) => {
+		console.log("worker " + process.pid + " died.");
+	});
 } else {
-    async function startServer() {
-        const app = await NestFactory.create(AppModule);
-        console.log("Started Listening for Server Port");
-        await app.listen(8080);
-    }
+	async function startServer() {
+		const app = await NestFactory.create(AppModule);
+		console.log("Started Listening for Server Port");
+		await app.listen(8080);
+	}
 
-    startServer();
+	startServer();
 }
 ```
 

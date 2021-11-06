@@ -232,15 +232,15 @@ character (U+003B). Individual text components can include multiple text values 
 
 ```json
 {
-    "name": {
-        "content": {
-            "familyNames": ["Kalluri"],
-            "givenNames": ["Bharat"],
-            "additionalNames": ["Kumar"],
-            "honorificPrefixes": [],
-            "honorificSuffixes": []
-        }
-    }
+	"name": {
+		"content": {
+			"familyNames": ["Kalluri"],
+			"givenNames": ["Bharat"],
+			"additionalNames": ["Kumar"],
+			"honorificPrefixes": [],
+			"honorificSuffixes": []
+		}
+	}
 }
 ```
 
@@ -252,9 +252,9 @@ forward, this is just a text field. The json here would be
 
 ```json
 {
-    "objName": {
-        "content": "Bharat Kalluri"
-    }
+	"objName": {
+		"content": "Bharat Kalluri"
+	}
 }
 ```
 
@@ -280,9 +280,9 @@ or more text values separated by comma. So the json representation is
 
 ```json
 {
-    "nickName": {
-        "content": "Myself"
-    }
+	"nickName": {
+		"content": "Myself"
+	}
 }
 ```
 
@@ -292,10 +292,10 @@ out of, looks like there can be a `VALUE` param which can be text/date-and-or-ti
 
 ```json
 {
-    "birthDate": {
-        "value": "date",
-        "content": "1997-10-04"
-    }
+	"birthDate": {
+		"value": "date",
+		"content": "1997-10-04"
+	}
 }
 ```
 
@@ -304,9 +304,9 @@ position. cardinality is \*. So, the json representation is
 
 ```json
 {
-    "title": {
-        "content": "SDE"
-    }
+	"title": {
+		"content": "SDE"
+	}
 }
 ```
 
@@ -315,9 +315,9 @@ text.
 
 ```json
 {
-    "note": {
-        "content": "Previously worked at JitFin, Shubhloans and Wells Fargo."
-    }
+	"note": {
+		"content": "Previously worked at JitFin, Shubhloans and Wells Fargo."
+	}
 }
 ```
 
@@ -350,12 +350,12 @@ can be text/voice/fax/cell/video/pager/telephone. Also can set `PREF=1`, to set 
 
 ```json
 {
-    "telephonesInfo": [
-        {
-            "type": ["cell", "pref", "voice"],
-            "content": "(961) 199-3894"
-        }
-    ]
+	"telephonesInfo": [
+		{
+			"type": ["cell", "pref", "voice"],
+			"content": "(961) 199-3894"
+		}
+	]
 }
 ```
 
@@ -378,12 +378,12 @@ per block.
 
 ```json
 {
-    "emailsInfo": [
-        {
-            "type": ["home", "pref", "internet"],
-            "content": "bharatkalluri@protonmail.com"
-        }
-    ]
+	"emailsInfo": [
+		{
+			"type": ["home", "pref", "internet"],
+			"content": "bharatkalluri@protonmail.com"
+		}
+	]
 }
 ```
 
@@ -393,15 +393,15 @@ to json.
 
 ```json
 {
-    "extendedProperties": [
-        {
-            "socialProfile": {
-                "user": "bharatkalluri",
-                "type": ["twitter"],
-                "content": "http://twitter.com/bharatkalluri"
-            }
-        }
-    ]
+	"extendedProperties": [
+		{
+			"socialProfile": {
+				"user": "bharatkalluri",
+				"type": ["twitter"],
+				"content": "http://twitter.com/bharatkalluri"
+			}
+		}
+	]
 }
 ```
 

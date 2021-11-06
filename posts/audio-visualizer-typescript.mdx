@@ -81,11 +81,11 @@ which we can draw on the canvas.
 
 ```typescript
 audioPickerElement.onchange = function () {
-    // @ts-ignore
-    const files = this.files;
-    audioElement.src = URL.createObjectURL(files[0]);
-    audioElement.load();
-    audioElement.play();
+	// @ts-ignore
+	const files = this.files;
+	audioElement.src = URL.createObjectURL(files[0]);
+	audioElement.load();
+	audioElement.play();
 };
 ```
 
@@ -132,19 +132,19 @@ const WHITE = "#FFFFFF";
 
 // The function which will get called on each repaint
 function draw() {
-    requestAnimationFrame(draw);
-    if (canvasCtx !== null) {
-        x = 0;
-        analyser.getByteFrequencyData(dataArray);
-        canvasCtx.fillStyle = WHITE;
-        canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-        for (let i = 0; i < bufferLength; i++) {
-            barHeight = dataArray[i];
-            canvasCtx.fillStyle = MATTE_BLACK;
-            canvasCtx.fillRect(x, 0, barWidth, barHeight);
-            x += barWidth + 3;
-        }
-    }
+	requestAnimationFrame(draw);
+	if (canvasCtx !== null) {
+		x = 0;
+		analyser.getByteFrequencyData(dataArray);
+		canvasCtx.fillStyle = WHITE;
+		canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+		for (let i = 0; i < bufferLength; i++) {
+			barHeight = dataArray[i];
+			canvasCtx.fillStyle = MATTE_BLACK;
+			canvasCtx.fillRect(x, 0, barWidth, barHeight);
+			x += barWidth + 3;
+		}
+	}
 }
 draw();
 ```

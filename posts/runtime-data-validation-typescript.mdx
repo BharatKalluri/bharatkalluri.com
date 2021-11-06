@@ -36,14 +36,14 @@ Here is how spotify supplies the artist information in the API response
 
 ```json
 {
-    "external_urls": {
-        "spotify": "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu"
-    },
-    "href": "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
-    "id": "0C0XlULifJtAgn6ZNCW2eu",
-    "name": "The Killers",
-    "type": "artist",
-    "uri": "spotify:artist:0C0XlULifJtAgn6ZNCW2eu"
+	"external_urls": {
+		"spotify": "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu"
+	},
+	"href": "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+	"id": "0C0XlULifJtAgn6ZNCW2eu",
+	"name": "The Killers",
+	"type": "artist",
+	"uri": "spotify:artist:0C0XlULifJtAgn6ZNCW2eu"
 }
 ```
 
@@ -54,25 +54,25 @@ using the helper methods to specify the type.
 import * as t from "io-ts";
 
 const ArtistInfoValidator = t.type({
-    external_urls: t.record(t.string, t.string),
-    href: t.string,
-    id: t.string,
-    name: t.string,
-    type: t.literal("artist"),
-    uri: t.string,
+	external_urls: t.record(t.string, t.string),
+	href: t.string,
+	id: t.string,
+	name: t.string,
+	type: t.literal("artist"),
+	uri: t.string,
 });
 
 type ArtistInfo = t.TypeOf<typeof ArtistInfoValidator>;
 
 const artistInfo = {
-    external_urls: {
-        spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
-    },
-    href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
-    id: "0C0XlULifJtAgn6ZNCW2eu",
-    name: "The Killers",
-    type: "artist",
-    uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+	external_urls: {
+		spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+	},
+	href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+	id: "0C0XlULifJtAgn6ZNCW2eu",
+	name: "The Killers",
+	type: "artist",
+	uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
 };
 ```
 
@@ -99,14 +99,14 @@ behaves if the validation fails can be different than other javascript libraries
 // all the code from the above snippet..
 
 const artistInfo = {
-    external_urls: {
-        spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
-    },
-    href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
-    id: "0C0XlULifJtAgn6ZNCW2eu",
-    name: "The Killers",
-    type: "artist",
-    uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+	external_urls: {
+		spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+	},
+	href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+	id: "0C0XlULifJtAgn6ZNCW2eu",
+	name: "The Killers",
+	type: "artist",
+	uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
 };
 
 const decodeInfo = ArtistInfoValidator.decode(artistInfo);
@@ -131,14 +131,14 @@ And now with data which does not pass the rules
 
 ```typescript
 const artistInfo = {
-    external_urls: {
-        spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
-    },
-    href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
-    id: "0C0XlULifJtAgn6ZNCW2eu",
-    // "name": "The Killers",
-    type: "artist",
-    uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+	external_urls: {
+		spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+	},
+	href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+	id: "0C0XlULifJtAgn6ZNCW2eu",
+	// "name": "The Killers",
+	type: "artist",
+	uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
 };
 
 const decodeInfo = ArtistInfoValidator.decode(artistInfo);
@@ -233,36 +233,34 @@ import { left } from "fp-ts/lib/Either";
 // ... all the code from above examples ...
 
 const artistInfo = {
-    external_urls: {
-        spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
-    },
-    href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
-    id: "0C0XlULifJtAgn6ZNCW2eu",
-    name: false,
-    type: "artist",
-    uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+	external_urls: {
+		spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+	},
+	href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
+	id: "0C0XlULifJtAgn6ZNCW2eu",
+	name: false,
+	type: "artist",
+	uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
 };
 
 const decodeRawDataWith = (rawData: any, decodeWith: any) => {
-    const decodeInfoRaw = decodeWith.decode(rawData);
-    const decodeInfo = either.fold(
-        (errors: Array<t.ValidationError>) => {
-            throw new Error(
-                "Type errors in : " +
-                    errors
-                        .map((err) => {
-                            return err.context.map(
-                                (contextInfo) => contextInfo.key
-                            );
-                        })
-                        .join("\n")
-            );
-            // throw new Error(PathReporter.report(left(errors)).join("\n"));
-        },
-        (data) => data
-    )(decodeInfoRaw);
+	const decodeInfoRaw = decodeWith.decode(rawData);
+	const decodeInfo = either.fold(
+		(errors: Array<t.ValidationError>) => {
+			throw new Error(
+				"Type errors in : " +
+					errors
+						.map((err) => {
+							return err.context.map((contextInfo) => contextInfo.key);
+						})
+						.join("\n")
+			);
+			// throw new Error(PathReporter.report(left(errors)).join("\n"));
+		},
+		(data) => data
+	)(decodeInfoRaw);
 
-    return decodeInfo;
+	return decodeInfo;
 };
 
 console.log(decodeRawDataWith(artistInfo, ArtistInfoValidator));

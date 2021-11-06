@@ -2,9 +2,9 @@
 title: Loading open library dumps into MongoDB for exploration
 publishedAt: "2021-07-19"
 tags:
-- open-library
+    - open-library
 authors:
-- Bharat Kalluri
+    - Bharat Kalluri
 ---
 
 Open library is probably one of the biggest, if not _the biggest_ open access book database on the internet. It takes
@@ -20,12 +20,12 @@ Open library publishes three dumps as of now every month start. Editions, Works 
 will have works (IT), each work will have editions (IT: kindle edition, IT: Paperback by Penguin). All the dumps follow
 a common format. All the dumps are gzipped TSV (tab seperated values) with 5 columns
 
-- key : the type of document. For example, authors dump key would be `/type/author`
-- identifier : the identifier for the row, a sample authors dump key would be `/authors/OL1000078A`
-- latest_version : every edit a user makes to the open library creates a new version of the document. This number
+-   key : the type of document. For example, authors dump key would be `/type/author`
+-   identifier : the identifier for the row, a sample authors dump key would be `/authors/OL1000078A`
+-   latest_version : every edit a user makes to the open library creates a new version of the document. This number
     indicates what's the latest version number of this particular document
-- updated : the latest updated at timestamp in ISO format
-- data : the json document itself. all the above fields can be inferred from this document too.
+-   updated : the latest updated at timestamp in ISO format
+-   data : the json document itself. all the above fields can be inferred from this document too.
 
 Since we already have json objects in the TSV file, it would be easier to dump all the data in MongoDB for analysis.
 There are more reasons why MongoDB is suited for this particular use case. Open library uses a server called infogami,
@@ -48,13 +48,13 @@ rg -z . ./ol_dump_authors_latest.txt.gz | cut -f5 -d$'\t' >> authors.jsonl
 
 Let's break this down
 
-- [rg is short for ripgrep](https://github.com/BurntSushi/ripgrep). Ripgrep is a superfast alternative to grep
+-   [rg is short for ripgrep](https://github.com/BurntSushi/ripgrep). Ripgrep is a superfast alternative to grep
     written in Rust, which can also work with gzipped files.
-- `-z/--search-zip` flag denotes that the file we are passing in a zipped file for search
-- `cut` is a very powerful linux utility which breaks a line of text based on a delimiter
-- `-f5` denotes to cut that we are attempting to get the fifth element after the split
-- `-d$'\t'` denotes to cut that the delimiter we want to use is a tab character
-- `>> authors.jsonl` finally, we forward the output to a file named `authors.jsonl`
+-   `-z/--search-zip` flag denotes that the file we are passing in a zipped file for search
+-   `cut` is a very powerful linux utility which breaks a line of text based on a delimiter
+-   `-f5` denotes to cut that we are attempting to get the fifth element after the split
+-   `-d$'\t'` denotes to cut that the delimiter we want to use is a tab character
+-   `>> authors.jsonl` finally, we forward the output to a file named `authors.jsonl`
 
 It takes around 144 seconds to convert a _2.2 GB gzipped author dump(containing around 8.5 million authors data)_ from
 TSV to JSONL!
@@ -97,6 +97,7 @@ A simple aggregation pipeline tells that the count of authors who still have the
 
 Another aggregation pipeline to discover authors with identical personal names. Looks like 137 authors with the same
 exact personal name duplicated two or more times!
+
 ```
 [{$group: {
   _id: '$name',

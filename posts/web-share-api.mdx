@@ -21,16 +21,16 @@ Let us look at an example
 
 ```js
 if (navigator.share) {
-    // Share API available
-    navigator
-        .share({
-            title: "BharatKalluri.in",
-            url: "https://bharatkalluri.in",
-        })
-        .then(() => console.log("Shared successfully"))
-        .catch((err) => console.log(err));
+	// Share API available
+	navigator
+		.share({
+			title: "BharatKalluri.in",
+			url: "https://bharatkalluri.in",
+		})
+		.then(() => console.log("Shared successfully"))
+		.catch((err) => console.log(err));
 } else {
-    // Fallback
+	// Fallback
 }
 ```
 

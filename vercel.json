@@ -1,25 +1,25 @@
 {
-    "version": 2,
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "headers": [
-        {
-            "source": "/api/now-playing",
-            "headers": [
-                {
-                    "key": "Cache-Control",
-                    "value": "public, max-age=60, stale-while-revalidate=30"
-                }
-            ]
-        },
-        {
-            "source": "/api/now-reading",
-            "headers": [
-                {
-                    "key": "Cache-Control",
-                    "value": "public, max-age=600, stale-while-revalidate=600"
-                }
-            ]
-        }
-    ]
+	"version": 2,
+	"cleanUrls": true,
+	"trailingSlash": false,
+	"headers": [
+		{
+			"source": "/api/now-playing",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=60, stale-while-revalidate=30"
+				}
+			]
+		},
+		{
+			"source": "/api/now-reading",
+			"headers": [
+				{
+					"key": "Cache-Control",
+					"value": "public, max-age=600, stale-while-revalidate=600"
+				}
+			]
+		}
+	]
 }
