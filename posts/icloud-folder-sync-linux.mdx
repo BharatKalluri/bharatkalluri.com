@@ -1,0 +1,34 @@
+---
+title: How to get icloud like folder sync, everywhere
+publishedAt: "2021-11-08"
+tags:
+    - life-hacks
+    - linux
+    - shell
+---
+
+After I started using a mac, one of the first things I fell in love with is icloud. If you have two laptops and switch between often, then the "magical" icloud sync is a great feature to have. It has saved me countless times.
+
+The only problem is that icloud is pretty much exclusive to the apple ecosystem. If you do not own an iphone, then the benefits are pretty much lost. There had to be a way to achieve that in other "ecosystem"'s. Since I use linux on two other machines I own, I started exploring what I can do.
+
+### Two way sync solutions
+
+The crux of the problem is to have a solid two way sync solution which is cross platform. Or at least cross platform on computers. One of the best solutions I found out was [InSync](https://www.insynchq.com/). It works on windows, mac and linux. It does cost 40$, but usually runs on discount for halloween and others for around 20$. It works with google drive, microsoft onedrive and dropbox. My preference is onedrive for file storage. You can enable two way sync in the desktop user interface.
+
+### The icloud style seamless-ness
+
+icloud does auto sync for documents and desktop folders. Once we switch on the two way sync in InSync, by default InSync stores folders in `~/Insync/<email>/OneDrive/`.
+
+All we have to do is delete the default documents folder
+
+```sh
+rm -rf ~/Documents
+```
+
+and soft symlink the Insync documents path to home folder documents
+
+```bash
+ln -s -v ~/Insync/<email>/OneDrive/Documents ~/Documents # -s is for saying its a soft sym link and -v stands for verbose
+```
+
+and now, all changes to documents auto sync cross computers. Any folder can be setup to sync.
