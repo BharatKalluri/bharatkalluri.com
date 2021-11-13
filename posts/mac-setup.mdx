@@ -1,10 +1,10 @@
 ---
 title: "Setting up a brand new MacBook for development"
 publishedAt: "2020-04-18"
-hero: "https://unsplash.com/photos/v_1t1DzfAUA/download?force=true&w=1920"
-description: A step by step guide to setup your MacBook for supercharged python development
+description: A step by step guide to setup your MacBook for supercharged python and nodejs development
 tags:
     - macos
+    - living-document
 authors:
     - Bharat Kalluri
 isBlogPost: true
@@ -32,8 +32,9 @@ Brew broadly has two types of apps, normal open source applications like git etc
 ```shell
 brew install \
   git \
+  gpg \
+  gawk \
   fzf \
-  nvm \
   stow \
   exa \
   git-delta \
@@ -44,6 +45,8 @@ Now let us install casks
 
 ```shell
 brew install --cask \
+  alfred \
+  telegram \
   visual-studio-code \
   firefox \
   rectangle \
@@ -54,33 +57,17 @@ brew install --cask \
   postman \
   jetbrains-toolbox \
   zoom \
-  anaconda \
+  slack \
   bitwarden \
   whatsapp
 ```
 
 ### Shell
 
-MacOS already comes with zsh as the default shell, let us install oh-my-zsh which comes with a range of plugins and themes.
+MacOS already comes with zsh as the default shell, install oh-my-zsh which comes with a range of plugins and themes.
 
 ```shell
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-
-To complete setup for FZF
-
-    $(brew --prefix)/opt/fzf/install
-
-To complete postgres setup
-
-    initdb /usr/local/var/postgres
-
-#### Adding contents to .zshrc
-
-```shell
-ZSH_DISABLE_COMPFIX=true
-# adding path for anaconda
-export PATH="/usr/local/anaconda3/bin:$PATH"
 ```
 
 ### SSH
