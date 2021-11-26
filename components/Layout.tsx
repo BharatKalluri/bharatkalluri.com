@@ -173,6 +173,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
 					<GoogleAnalyticsSetup />
 					<link rel="icon" type="image/png" href="/static/logo.png" />
 					<meta httpEquiv="content-language" content="en-gb" />
+                    <html lang={'en'} />
 				</Head>
 				<header>
 					<NavBar />
