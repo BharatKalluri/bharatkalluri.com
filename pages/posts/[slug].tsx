@@ -18,7 +18,7 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
 
 	return (
 		<>
-			<Layout title={postTitle} description={postDescription} relativeCanonicalURL={postLink}>
+			<Layout title={postTitle} description={postDescription} relativeCanonicalURL={`/posts/${postLink}`}>
 				<Stack
 					as="article"
 					spacing={8}

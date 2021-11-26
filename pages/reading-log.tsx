@@ -1,29 +1,22 @@
 import { Stack, Text } from "@chakra-ui/react";
 import Layout from "../components/Layout";
-import useSWR, { SWRResponse } from "swr";
-import { fetcher } from "../lib/fetcher";
 import React from "react";
 import LinkCard from "../components/LinkCard";
 import { PocketArticleInfo } from "../types";
+import axios, { AxiosResponse } from "axios";
+import { BASE_URL } from "../constants";
+import { InferGetStaticPropsType } from "next";
 
-const ReadingLogLoadingState = () => {
-	// TODO: passing numbers here is a hack
-	return (
-		<>
-			{[1, 2, 3].map((num) => {
-				return (
-					<LinkCard
-						name={num.toString()}
-						link={num.toString()}
-						description={num.toString()}
-						isLoading={true}
-						key={num}
-					/>
-				);
-			})}
-		</>
-	);
-};
+export async function getStaticProps() {
+    const response: AxiosResponse<PocketArticleInfo[]> = await axios.get(`${BASE_URL}/api/reading-log`);
+    const pocketArticlesInfo = response.data;
+    return {
+        props: {
+            pocketArticlesInfo: pocketArticlesInfo ? pocketArticlesInfo : [],
+        },
+        revalidate: 21600, // in seconds
+    }
+}
 
 const Header = () => {
 	return (
@@ -37,38 +30,29 @@ const Description: () => JSX.Element = () => (
 	<Text>These are some of my favorite articles and videos I have come across!</Text>
 );
 
-function ReadingLogCards(props: { readingLogFromApi?: PocketArticleInfo[]; error?: Error }): JSX.Element {
-	const { readingLogFromApi, error } = props;
-	if (error !== undefined) {
-		return <Text>Sorry, something went wrong!</Text>;
-	}
-	if (readingLogFromApi === undefined) {
-		return <ReadingLogLoadingState />;
-	} else {
-		return (
-			<>
-				{readingLogFromApi.map((el) => (
-					<LinkCard
-						name={el.resolved_title}
-						description={`${el.excerpt}..`}
-						link={el.resolved_url}
-						key={el.resolved_url}
-					/>
-				))}
-			</>
-		);
-	}
+function ReadingLogCards(props: { readingLogFromApi: PocketArticleInfo[] }): JSX.Element {
+	const { readingLogFromApi } = props;
+    return (
+        <>
+            {readingLogFromApi.map((el) => (
+                <LinkCard
+                    name={el.resolved_title}
+                    description={`${el.excerpt} ...`}
+                    link={el.resolved_url}
+                    key={el.resolved_url}
+                />
+            ))}
+        </>
+    );
 }
 
-const ReadingLogPage = () => {
-	const { data: readingLogData, error }: SWRResponse<PocketArticleInfo[], any> = useSWR("/api/reading-log", fetcher);
-
+const ReadingLogPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 	return (
-		<Layout title="Uses" relativeCanonicalURL="/uses">
+		<Layout title="Reading Log" relativeCanonicalURL="/uses">
 			<Stack direction="column" spacing={5} fontSize="lg">
 				<Header />
 				<Description />
-				<ReadingLogCards readingLogFromApi={readingLogData} error={error} />
+				<ReadingLogCards readingLogFromApi={props.pocketArticlesInfo} />
 			</Stack>
 		</Layout>
 	);

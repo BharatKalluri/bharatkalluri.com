@@ -140,7 +140,7 @@ const GoogleAnalyticsSetup = () => (
 );
 
 const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutProps) => {
-	const canonicalURL = `${BASE_URL}/${relativeCanonicalURL}`;
+	const canonicalURL = `${BASE_URL}${relativeCanonicalURL}`;
 	return (
 		<>
 			<NextSeo

@@ -1,6 +1,7 @@
 import { IProjectCardProps } from "./interfaces";
 import { DefaultSeoProps } from "next-seo";
 
+// TODO: on local, this should be localhost
 export const BASE_URL: string = "https://bharatkalluri.com";
 
 export const PROJECT_LIST: Array<IProjectCardProps> = [
