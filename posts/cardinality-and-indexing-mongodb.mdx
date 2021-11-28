@@ -1,15 +1,18 @@
 ---
 title: Understanding indexing and cardinality for MongoDB
+description: Understanding what is cardinality in mongoDB and how it impacts indexing in mongoDB
 publishedAt: "2021-03-06"
 tags:
     - database
     - mongoDB
-    - computer-science
+    - cardinality
+    - indexing
 ---
 
 ## Cardinality
 
-> The total number of distinct elements in a set is described as the Cardinality of the set
+Cardinality is defined to be number of unique elements present in a set. The lower the cardinality, the more
+duplicated elements.
 
 So if a set has 5 elements made of boolean values, then the cardinality of the set is going to be two. So, all sets
 made of booleans will have a max cardinality of two and a min cardinality of one.

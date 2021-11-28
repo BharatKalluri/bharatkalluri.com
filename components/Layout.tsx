@@ -15,6 +15,7 @@ type LayoutProps = {
 	title: string;
 	description?: string;
 	relativeCanonicalURL: string;
+    keywords?: string[];
 };
 
 interface INavBarButtonProps {
@@ -139,7 +140,7 @@ const GoogleAnalyticsSetup = () => (
 	</>
 );
 
-const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutProps) => {
+const Layout = ({ children, title, description, relativeCanonicalURL, keywords}: LayoutProps) => {
 	const canonicalURL = `${BASE_URL}${relativeCanonicalURL}`;
 	return (
 		<>
@@ -158,6 +159,14 @@ const Layout = ({ children, title, description, relativeCanonicalURL }: LayoutPr
 					<title>{title ? `${title} |` : ""} Bharat Kalluri</title>
 					<meta charSet="utf-8" />
 					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                    {keywords !== undefined && <meta
+                        name="keywords"
+                        content={
+                            keywords
+                                .map(el=>el.replace('-', ' '))
+                                .join(', ')
+                        }
+                    />}
 					<script
 						type="text/javascript"
 						dangerouslySetInnerHTML={{
