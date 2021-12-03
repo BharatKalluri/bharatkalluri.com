@@ -1,11 +1,28 @@
 import Layout from "../components/Layout";
 import { Box, Flex, Heading, Image, Skeleton, Text, useColorMode } from "@chakra-ui/react";
 import React from "react";
-import useSWR from "swr";
-import { fetcher } from "../lib/fetcher";
 import { ITraktTvStats } from "../interfaces";
 import { BookData } from "../types";
 import { CustomLink } from "../components/CustomLink";
+import axios, { AxiosResponse } from "axios";
+import { BASE_URL } from "../constants";
+import { InferGetStaticPropsType } from "next";
+
+export async function getStaticProps() {
+	const traktDataResponse: AxiosResponse<ITraktTvStats> = await axios.get(`${BASE_URL}/api/trakt-stats`);
+	const traktData = traktDataResponse.data || null;
+
+	const readingLogDataResponse: AxiosResponse<Array<BookData>> = await axios.get(`${BASE_URL}/api/now-reading`);
+	const nowReadingData: Array<BookData> = readingLogDataResponse.data || [];
+
+	return {
+		props: {
+			traktData,
+			nowReadingData,
+		},
+		revalidate: 21600, // in seconds
+	};
+}
 
 const StatBox = (props: {
 	heading?: string;
@@ -63,9 +80,8 @@ const StatBox = (props: {
 	);
 };
 
-const DashboardPage = () => {
-	const { data: traktData }: { data?: ITraktTvStats } = useSWR("/api/trakt-stats", fetcher);
-	const { data: nowReadingData }: { data?: Array<BookData> } = useSWR("/api/now-reading", fetcher);
+const DashboardPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
+	const { traktData, nowReadingData } = props;
 	const isTraktDataLoading: boolean = traktData === undefined;
 
 	return (
