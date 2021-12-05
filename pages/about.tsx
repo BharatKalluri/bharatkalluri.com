@@ -21,8 +21,10 @@ const AboutPage = () => (
 			everything in between :)
 		</Text>
 		<Text fontSize="lg">
-			PS: A list of topics I am interested to write about are on a{" "}
-			<CustomLink href="https://trello.com/b/oAAGQHp9">trello board</CustomLink>
+			PS: A list of topics I am interested to write about are on this{" "}
+			<CustomLink href="https://bharatkalluri.notion.site/25c2619e180b41619b121ff3095188f7?v=b8cb72d3f8634461ae7a3f95c3330d9a">
+				board
+			</CustomLink>
 		</Text>
 
 		<ContactForm />
