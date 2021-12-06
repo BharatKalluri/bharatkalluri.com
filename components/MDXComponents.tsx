@@ -45,7 +45,7 @@ export const MDXComponents = {
 	img: function ImageFn(props: any) {
 		return (
 			<Flex justifyContent={"center"} width={"100%"}>
-				<Image {...props} alt={props.alt} shadow={"xl"} borderRadius={8} />
+				<Image {...props} alt={props.alt} shadow={"xl"} borderRadius={8} height={"350px"} />
 			</Flex>
 		);
 	},
