@@ -78,11 +78,7 @@ const IndexPage = ({ notes }: { notes: BlogFrontMatter[] }) => {
 		.sort(sortByPinnedAndPublishedAt)
 		.slice(0, 3);
 	return (
-		<Layout
-			title="Bharat Kalluri's Website"
-			description="Welcome to Bharat's corner of the internet"
-			relativeCanonicalURL=""
-		>
+		<Layout title="Bharat Kalluri's Website" relativeCanonicalURL="">
 			<Stack direction="column" spacing={5}>
 				<ProfileSection />
 
