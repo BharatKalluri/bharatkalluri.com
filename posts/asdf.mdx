@@ -1,5 +1,5 @@
 ---
-title: ASDF - One version manager to manage python, nodejs, rust and more!
+title: ASDF - One version manager to manage Python, Nodejs, Rust and more!
 publishedAt: "2021-10-17"
 description: One version manager to rule them all!
 tags:
@@ -11,20 +11,20 @@ isBlogPost: true
 ---
 
 ASDF is a extendable version manager which supports [python](https://github.com/danhper/asdf-python),
-[ruby](https://github.com › asdf-vm › asdf-ruby), [golang](https://github.com/kennyp/asdf-golang),
-[Elixr](https://github.com/asdf-vm/asdf-elixir), [rust](Rust plugin for the asdf version manager) and
+[ruby](https://github.com/asdf-vm/asdf-ruby), [golang](https://github.com/kennyp/asdf-golang),
+[elixr](https://github.com/asdf-vm/asdf-elixir), [rust](https://github.com/code-lever/asdf-rust) and
 [many others](https://asdf-vm.com/#/plugins-all?id=plugin-list).
 
 Usually when working on multiple projects, you will not only probably need support for different languages but also be
 required to run multiple versions of the same language. I have a couple of NodeJS projects which run on the LTS version
 and some other projects run on the latest release.
 
-To solve this problem, there are projects like [NVM](https://github.com/nvm-sh/nvm) which manages NodeJS versions. Python
-also has [PyEnv](https://github.com/pyenv/pyenv) for managing python versions. If you are a polyglot programmer, this
+To solve this problem, there are projects like [NVM](https://github.com/nvm-sh/nvm) which manages NodeJS versions,
+[PyEnv](https://github.com/pyenv/pyenv) for managing python versions etc.. If you are a polyglot programmer, this
 won't scale well and you'll be left with a lot of version managers. The first version manager I used is `NVM`, later
-installed `pyenv` for python and `rustup` for Rust. This start getting tedious real fast.
+installed `pyenv` for python and `rustup` for Rust. This starts getting tedious real fast.
 
-<img src='https://media.giphy.com/media/8I3eD4CkqLOdMh70ko/giphy.gif' alt='need a better solution!' />
+<img src='https://media.giphy.com/media/8I3eD4CkqLOdMh70ko/giphy.gif' alt='need a better solution!' maxWidth='400px' />
 
 ## ASDF
 
@@ -167,7 +167,7 @@ for everything in `$install_path/bin`.
 So, `which bat` says `~/.asdf/shims/bat`. But the binary is just a placeholder to the actual binary over at the installation
 path!
 
-<img src='https://media.giphy.com/media/lD76yTC5zxZPG/giphy.gif' alt='The end!' />
+<img src='https://media.giphy.com/media/lD76yTC5zxZPG/giphy.gif' alt='The end!' maxWidth='600px' />
 
 This was an overview of how ASDF internally works to manage multiple versions of tools. Thanks for sticking around till
 the end!

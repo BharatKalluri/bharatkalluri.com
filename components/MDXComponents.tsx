@@ -1,4 +1,4 @@
-import { Alert, Box, Code, Divider, Heading, Image, Text } from "@chakra-ui/react";
+import { Alert, Box, Code, Divider, Heading, Text, Image } from "@chakra-ui/react";
 import CustomCodeBlock from "./CustomCodeBlock";
 import { CustomLink } from "./CustomLink";
 import { YoutubeEmbed } from "./YoutubeEmbed";
@@ -45,7 +45,7 @@ export const MDXComponents = {
 	img: function ImageFn(props: any) {
 		return (
 			<Flex justifyContent={"center"} width={"100%"}>
-				<Image {...props} alt={props.alt} shadow={"xl"} borderRadius={8} height={"350px"} />
+				<Image {...props} alt={props.alt} width={"100%"} />
 			</Flex>
 		);
 	},

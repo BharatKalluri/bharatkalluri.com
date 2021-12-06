@@ -15,7 +15,7 @@ type LayoutProps = {
 	title: string;
 	description?: string;
 	relativeCanonicalURL: string;
-    keywords?: string[];
+	keywords?: string[];
 };
 
 interface INavBarButtonProps {
@@ -140,7 +140,7 @@ const GoogleAnalyticsSetup = () => (
 	</>
 );
 
-const Layout = ({ children, title, description, relativeCanonicalURL, keywords}: LayoutProps) => {
+const Layout = ({ children, title, description, relativeCanonicalURL, keywords }: LayoutProps) => {
 	const canonicalURL = `${BASE_URL}${relativeCanonicalURL}`;
 	return (
 		<>
@@ -159,14 +159,9 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords}:
 					<title>{title ? `${title} |` : ""} Bharat Kalluri</title>
 					<meta charSet="utf-8" />
 					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                    {keywords !== undefined && <meta
-                        name="keywords"
-                        content={
-                            keywords
-                                .map(el=>el.replace('-', ' '))
-                                .join(', ')
-                        }
-                    />}
+					{keywords !== undefined && (
+						<meta name="keywords" content={keywords.map((el) => el.replace("-", " ")).join(", ")} />
+					)}
 					<script
 						type="text/javascript"
 						dangerouslySetInnerHTML={{
@@ -182,7 +177,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords}:
 					<GoogleAnalyticsSetup />
 					<link rel="icon" type="image/png" href="/static/logo.png" />
 					<meta httpEquiv="content-language" content="en-gb" />
-                    <html lang={'en'} />
+					<html lang={"en"} />
 				</Head>
 				<header>
 					<NavBar />
