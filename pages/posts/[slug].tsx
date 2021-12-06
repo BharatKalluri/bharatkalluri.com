@@ -19,11 +19,11 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
 	return (
 		<>
 			<Layout
-                title={postTitle}
-                description={postDescription}
-                relativeCanonicalURL={`/posts/${postLink}`}
-                keywords={frontMatter.tags}
-            >
+				title={postTitle}
+				description={postDescription}
+				relativeCanonicalURL={`/posts/${postLink}`}
+				keywords={frontMatter.tags}
+			>
 				<Stack
 					as="article"
 					spacing={8}
@@ -33,12 +33,10 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
 					w="100%"
 				>
 					<Flex direction={"column"} py={5} width={"100%"}>
-						<Heading as={"h1"} size={"3xl"} textAlign={"center"} paddingY={2} overflowWrap={"normal"}>
+						<Heading as={"h1"} size={"2xl"} paddingY={2} overflowWrap={"normal"}>
 							{frontMatter.title}
 						</Heading>
-						<Text color="grey" textAlign={"center"}>
-							Bharat Kalluri / {publishedAt}
-						</Text>
+						<Text color="grey">Bharat Kalluri / {publishedAt}</Text>
 					</Flex>
 					<MDXRemote {...props.source} components={MDXComponents} />
 				</Stack>
