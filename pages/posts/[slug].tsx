@@ -5,7 +5,7 @@ import { MDXComponents } from "../../components/MDXComponents";
 import { BlogFrontMatter, BlogFrontMatterValidator } from "../../types";
 import { getNoteMetadata, postFilePaths } from "../../utils/mdxUtils";
 import decodeWith from "../../utils/ioTsUtils";
-import { Stack, Text } from "@chakra-ui/react";
+import { Image, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import { Flex, Heading } from "@chakra-ui/layout";
 
@@ -40,6 +40,13 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
 						</Heading>
 						<Text color="grey">Bharat Kalluri / {publishedAt}</Text>
 					</Flex>
+
+					{postHeroImage && (
+						<Flex justifyContent={"center"} w={"100%"}>
+							<Image src={postHeroImage} alt={postTitle} borderRadius={"5px"} />
+						</Flex>
+					)}
+
 					<MDXRemote {...props.source} components={MDXComponents} />
 				</Stack>
 			</Layout>
