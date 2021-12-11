@@ -25,7 +25,7 @@ export const MDXComponents = {
 	},
 	code: CustomCodeBlock,
 	p: function TextFn(props: any) {
-		return <Text as="p" lineHeight="tall" {...props} />;
+		return <Text as="p" lineHeight="tall" {...props} w={"100%"} />;
 	},
 	ul: function BoxFn(props: any) {
 		return <Box as="ul" pl={4} ml={2} {...props} />;
@@ -44,8 +44,8 @@ export const MDXComponents = {
 	},
 	img: function ImageFn(props: any) {
 		return (
-			<Flex justifyContent={"center"} width={"100%"}>
-				<Image {...props} alt={props.alt} width={"100%"} />
+			<Flex justifyContent={"center"} py={8} w={"100%"}>
+				<Image {...props} alt={props.alt} borderRadius={"5px"} />
 			</Flex>
 		);
 	},

@@ -1,5 +1,7 @@
 ---
-title: Auto muting when spotify plays ads
+title: Auto muting when spotify plays advertisement
+description: A nifty hack to mute spotify whenever it plays an advert
+hero: https://unsplash.com/photos/634KBk3AXNA/download?ixid=MnwxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjM5MjAxMjE3&force=true&w=640
 publishedAt: "2020-12-31"
 tags:
     - bash
@@ -10,9 +12,9 @@ it looks like for some reason I'm bombarded with ads. I get 2-3 ads between ever
 and even sometimes in other languages. I understand that the idea of ads is to push people to pay, so I guess they are
 successful in that regard.
 
-## The idea
+> Note (from me in the future) that I am a paid subscriber for spotify. But still there is value in working on hacks like these for fun & learning!
 
-I thought I will finally solve this for myself today. The idea is to mute spotify whenever the ad starts playing.
+So, lets make linux mute audio for us when a spotify advert is playing!
 
 ## Understanding d-bus and MPRIS
 
@@ -26,7 +28,7 @@ copied from the spec). [This is also a freedesktop spec.](https://www.freedeskto
 This is the beauty of specs and the free desktop, all the famous desktops adhere to this standard and it is well
 documented.
 
-## The solution
+## Recognizing when spotify plays an advert
 
 All we have to do is have a small function run every second, check what media is playing by name. If it turns out to be
 an `"Advertisement"`, then we just mute the audio source. I am running ALSA (Advanced Linux Sound Architecture) in the
@@ -44,10 +46,15 @@ mute_ad_spotify() {
 }
 ```
 
-The important command to understand is `dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata 2>/dev/null | sed -n '/title/{n;p}' | cut -d '"' -f 2` Let's break it down.
+The important command to understand is in line two, Let's break it down.
 
--   `dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata`.
-    This sends a command to d-bus asking for mpris properties of spotify. This will return a bunch of values like track
+```bash
+dbus-send \
+    --print-reply \
+    --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata
+```
+
+-   This sends a command to d-bus asking for mpris properties of spotify. This will return a bunch of values like track
     ID, length, album, albumArtist etc... Run this command when running spotify to get a taste of what data is available
     for us to play with. ([ref](https://gist.github.com/wandernauta/6800547))
 -   Also forwarding the stderr to /dev/null, using `2>/dev/null`. The "right" way to do it is to check if spotify is even running and if
@@ -73,7 +80,7 @@ while sleep 1; do mute_ad_spotify; done &
 
 That's it! Now whenever spotify plays an ad, the audio is muted automatically.
 
-## Iteration two
+## Why can I not mute audio at all!?
 
 The previous solution _works_, but is a very bad take. Every second, it checks if the current playing music is named
 "Advertisement" and if it is then mutes it. But the problem is, now the audio can never be manually muted. Since every
@@ -82,7 +89,7 @@ time audio is manually muted, the next second the script runs -> sees the media 
 So one sanity check to add is to make sure spotify is actually running and then check if the music played by spotify is
 an ad and mute it. This is still a problem, I will explain why later. Let us look at the modified function now.
 
-```sh
+```bash
 # Mutes audio if spotify ad is playing
 mute_ad_spotify() {
     MEDIA_TITLE=$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata 2>/dev/null | sed -n '/title/{n;p}' | cut -d '"' -f 2)
@@ -114,13 +121,13 @@ But there are problems to this as well. If spotify is paused and firefox is play
 expected. You also cannot mute a song when spotify is playing 😆. The ideal way would be to just deal with the spotify
 audio stream and manage it, I will refine this later on at some point.
 
-## Iteration Three
+## The solution
 
 This is probably the right way to do it. Instead of dealing with the entire sound card, we now deal only with spotify
 input sink. Get the right pulse audio input sink ID and mute that. Pulse Audio is the sound server distributed by the
 free desktop.
 
-```sh
+```bash
 # Mutes audio if spotify ad is playing
 mute_ad_spotify() {
 
@@ -144,7 +151,7 @@ mute_ad_spotify() {
 
 I'll be honest, I have no idea what the perl magic is in the command which retrieves the spotify sink ID. I just copied
 it from stackoverflow and did a grep | cut to get the sink number. Later on when an Advertisement is playing, I'm using
-the pactl to mute the input audio sink. This seems to work as expected.
+the `pactl` to mute the input audio sink. This seems to work as expected.
 
 Bash with the unix utilities is a killer combo, I should probably write an article explaining the basics of bash and some
 handy unix utilities.

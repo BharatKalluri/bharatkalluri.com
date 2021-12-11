@@ -1,7 +1,8 @@
 ---
-title: ASDF - One version manager to manage Python, Nodejs, Rust and more!
+title: ASDF - One version manager to manage Javascript, Python, Rust and more!
 publishedAt: "2021-10-17"
 description: One version manager to rule them all!
+hero: https://unsplash.com/photos/M3cxjDNiLlQ/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8NHx8b3JkZXJ8fDB8fHx8MTYzOTE3NDc2OA&force=true&w=1920
 tags:
     - devops
     - python
@@ -24,7 +25,7 @@ To solve this problem, there are projects like [NVM](https://github.com/nvm-sh/n
 won't scale well and you'll be left with a lot of version managers. The first version manager I used is `NVM`, later
 installed `pyenv` for python and `rustup` for Rust. This starts getting tedious real fast.
 
-<img src='https://media.giphy.com/media/8I3eD4CkqLOdMh70ko/giphy-downsized.gif' alt='need a better solution!' maxWidth='400px' />
+![need a better solution](https://media.giphy.com/media/8I3eD4CkqLOdMh70ko/giphy-downsized.gif)
 
 ## ASDF
 
@@ -85,7 +86,7 @@ languages and many other tools! (to see what it supports, run `asdf plugin list 
 
 How does all this work?
 
-<img src='https://media.giphy.com/media/ge91zAgmwUqLMqiH2c/giphy.gif' alt='whats in the box!'/>
+![whats in the box](https://media.giphy.com/media/ge91zAgmwUqLMqiH2c/giphy.gif)
 
 
 Let's start exploring from the global version. If you look at the home folder, you will find a file called `.tool-versions`.
@@ -167,7 +168,7 @@ for everything in `$install_path/bin`.
 So, `which bat` says `~/.asdf/shims/bat`. But the binary is just a placeholder to the actual binary over at the installation
 path!
 
-<img src='https://media.giphy.com/media/lD76yTC5zxZPG/giphy.gif' alt='The end!' maxWidth='600px' />
+This was an overview of how ASDF internally works to manage multiple versions of tools.
 
-This was an overview of how ASDF internally works to manage multiple versions of tools. Thanks for sticking around till
-the end!
+![The end!](https://media.giphy.com/media/lD76yTC5zxZPG/giphy.gif)
+

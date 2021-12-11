@@ -16,6 +16,7 @@ type LayoutProps = {
 	description?: string;
 	relativeCanonicalURL: string;
 	keywords?: string[];
+	heroImage?: string;
 };
 
 interface INavBarButtonProps {
@@ -128,20 +129,21 @@ const GoogleAnalyticsSetup = () => (
 		<script
 			dangerouslySetInnerHTML={{
 				__html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
+		    window.dataLayer = window.dataLayer || [];
+		    function gtag(){dataLayer.push(arguments);}
+		    gtag('js', new Date());
+		    gtag('config', '${GA_TRACKING_ID}', {
+		      page_path: window.location.pathname,
+		    });
+		  `,
 			}}
 		/>
 	</>
 );
 
-const Layout = ({ children, title, description, relativeCanonicalURL, keywords }: LayoutProps) => {
+const Layout = ({ children, title, description, relativeCanonicalURL, keywords, heroImage }: LayoutProps) => {
 	const canonicalURL = `${BASE_URL}${relativeCanonicalURL}`;
+	const heroImageData = heroImage ? { images: [{ url: heroImage }] } : {};
 	return (
 		<>
 			<NextSeo
@@ -152,6 +154,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords }
 					url: canonicalURL,
 					title: title,
 					description: description,
+					...heroImageData,
 				}}
 			/>
 			<div>
@@ -175,7 +178,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords }
 						}}
 					/>
 					<GoogleAnalyticsSetup />
-					<link rel="icon" type="image/png" href="/static/logo.png" />
+					<link rel="icon" type="image/png" href="/static/logo.ico" />
 					<meta httpEquiv="content-language" content="en-gb" />
 					<html lang={"en"} />
 				</Head>

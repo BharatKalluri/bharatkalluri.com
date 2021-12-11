@@ -1,21 +1,18 @@
 ---
-title: Create an Albert extension using Python
+title: Create an Albert plugin using Python
+description: Learn how to create plugins for albert by creating a weather plugin
 publishedAt: "2018-06-23"
 tags:
     - python
     - tutorial
     - albert
-hero: "https://unsplash.com/photos/afW1hht0NSs/download?force=true&w=1920"
+hero: https://unsplash.com/photos/afW1hht0NSs/download?force=true&w=1920
 authors:
     - Bharat Kalluri
 isBlogPost: true
 ---
 
-Albert describes itself as:
-
-Albert is a desktop agnostic launcher. Its goals are usability and beauty,
-performance and extensibility. It is written in C++ and based on the Qt
-framework.GPL-licensed, 100% free and open source.
+Albert is a desktop agnostic launcher for linux. The functionality of the launcher can be extended by adding plugins.
 
 It has a lot of positives
 
@@ -24,9 +21,6 @@ It has a lot of positives
 -   It has a great set of awesome themes installed by default.
 
 The best part is that, it can be extended using python!
-
-I consider myself as a mediocre developer. I would not have tried writing extensions
-using C++, but I can certainly write extensions using python!
 
 Let us develop an extension which just shows the weather of a city with a
 trigger word like `weather`.
@@ -38,7 +32,7 @@ from [openweathermap](https://openweathermap.org/) api. So, signup for an accoun
 openweathermap api. If I say `<API_KEY>`, replace it with your own API
 key.
 
-### Let's Dive in!
+### Understanding the structure of the plugin
 
 Albert gives you a library called `albert`. To use it, the script needs to be
 inside the path of default python extension.
