@@ -125,18 +125,18 @@ const NavBar = () => {
 const GoogleAnalyticsSetup = () => (
 	<>
 		<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
-		<script
-			dangerouslySetInnerHTML={{
-				__html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `,
-			}}
-		/>
+		{/*<script*/}
+		{/*	dangerouslySetInnerHTML={{*/}
+		{/*		__html: `*/}
+		{/*    window.dataLayer = window.dataLayer || [];*/}
+		{/*    function gtag(){dataLayer.push(arguments);}*/}
+		{/*    gtag('js', new Date());*/}
+		{/*    gtag('config', '${GA_TRACKING_ID}', {*/}
+		{/*      page_path: window.location.pathname,*/}
+		{/*    });*/}
+		{/*  `,*/}
+		{/*	}}*/}
+		{/*/>*/}
 	</>
 );
 
@@ -175,7 +175,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords }
 						}}
 					/>
 					<GoogleAnalyticsSetup />
-					<link rel="icon" type="image/png" href="/static/logo.png" />
+					<link rel="icon" type="image/png" href="/static/logo.ico" />
 					<meta httpEquiv="content-language" content="en-gb" />
 					<html lang={"en"} />
 				</Head>
