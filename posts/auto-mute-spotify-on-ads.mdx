@@ -48,7 +48,7 @@ mute_ad_spotify() {
 
 The important command to understand is in line two, Let's break it down.
 
-```sh
+```bash
 dbus-send \
     --print-reply \
     --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata
@@ -127,7 +127,7 @@ This is probably the right way to do it. Instead of dealing with the entire soun
 input sink. Get the right pulse audio input sink ID and mute that. Pulse Audio is the sound server distributed by the
 free desktop.
 
-```sh
+```bash
 # Mutes audio if spotify ad is playing
 mute_ad_spotify() {
 
@@ -151,7 +151,7 @@ mute_ad_spotify() {
 
 I'll be honest, I have no idea what the perl magic is in the command which retrieves the spotify sink ID. I just copied
 it from stackoverflow and did a grep | cut to get the sink number. Later on when an Advertisement is playing, I'm using
-the pactl to mute the input audio sink. This seems to work as expected.
+the `pactl` to mute the input audio sink. This seems to work as expected.
 
 Bash with the unix utilities is a killer combo, I should probably write an article explaining the basics of bash and some
 handy unix utilities.
