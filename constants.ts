@@ -12,15 +12,15 @@ export const PROJECT_LIST: Array<IProjectCardProps> = [
 		link: "https://github.com/BharatKalluri/harmony",
 	},
 	{
-		name: "Mail Sanitizer",
-		description: "A command line tool written in python to clear up your Email!",
-		link: "https://github.com/BharatKalluri/mail-sanitizer",
-	},
-	{
 		name: "Spotifydl",
 		description:
 			"Download music from Spotify with complete album art and metadata. Uses Spotify as a metadata source and Youtube as a video source.",
-		link: "https://gitlab.gnome.org/Bharatkalluri/splash",
+		link: "https://github.com/BharatKalluri/spotifydl",
+	},
+	{
+		name: "Mail Sanitizer",
+		description: "A command line tool written in python to clear up your Email!",
+		link: "https://github.com/BharatKalluri/mail-sanitizer",
 	},
 	{
 		name: "GTK Developer Handbook",

@@ -2,8 +2,8 @@ import React, { ReactNode } from "react";
 import NextLink from "next/link";
 import Head from "next/head";
 import { Box, Flex, Stack } from "@chakra-ui/layout";
-import { IconButton, Menu, MenuButton, MenuItem, MenuList, useColorMode } from "@chakra-ui/react";
-import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { IconButton, useColorMode } from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import Footer from "./Footer";
 import { NextSeo } from "next-seo";
 import { BASE_URL } from "../constants";
@@ -38,26 +38,10 @@ const navBarItems: Array<{ href: string; text: string }> = [
 		text: "Notes",
 	},
 	{
-		href: "/dashboard",
-		text: "Dashboard",
-	},
-	{
-		href: "/reading-log",
-		text: "Reading log",
-	},
-	{
 		href: "/about",
 		text: "About",
 	},
 ];
-
-const NavBarMenuItem = (props: INavBarButtonProps) => {
-	return (
-		<NextLink href={props.href} passHref={true}>
-			<MenuItem>{props.text}</MenuItem>
-		</NextLink>
-	);
-};
 
 const NavBarButton = (props: INavBarButtonProps) => {
 	return (
@@ -69,24 +53,9 @@ const NavBarButton = (props: INavBarButtonProps) => {
 	);
 };
 
-const MobileLeftNavBar = () => {
-	return (
-		<Box display={{ md: "none", lg: "none", xl: "none", base: "block" }}>
-			<Menu>
-				<MenuButton as={IconButton} aria-label="Options" icon={<HamburgerIcon />} variant="outline" />
-				<MenuList>
-					{navBarItems.map((item) => (
-						<NavBarMenuItem text={item.text} href={item.href} key={item.href} />
-					))}
-				</MenuList>
-			</Menu>
-		</Box>
-	);
-};
-
 const DesktopLeftNavBar = () => {
 	return (
-		<Box flexDirection="row" display={{ md: "block", lg: "block", xl: "block", base: "none" }}>
+		<Box flexDirection="row">
 			{navBarItems.map((item) => (
 				<NavBarButton text={item.text} href={item.href} key={item.href} />
 			))}
@@ -109,9 +78,8 @@ const NavBar = () => {
 			wrap="wrap"
 		>
 			<DesktopLeftNavBar />
-			<MobileLeftNavBar />
 
-			<Box flexDirection="row" mt="0.5rem">
+			<Box flexDirection="row" mb={"0.2rem"}>
 				<IconButton
 					aria-label="Toggle dark mode"
 					variant="ghost"
@@ -178,7 +146,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 						}}
 					/>
 					<GoogleAnalyticsSetup />
-					<link rel="icon" type="image/png" href="/static/logo.png" />
+					<link rel="icon" type="image/png" href={"/static/logo.png"} />
 					<meta httpEquiv="content-language" content="en-gb" />
 					<html lang={"en"} />
 				</Head>
