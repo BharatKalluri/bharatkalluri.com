@@ -15,6 +15,7 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
 	const postTitle = frontMatter.title;
 	const postDescription = frontMatter.description;
 	const postLink = `${frontMatter.__resourcePath.replace(".mdx", "")}`;
+	const postHeroImage = frontMatter.hero;
 
 	return (
 		<>
@@ -23,6 +24,7 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
 				description={postDescription}
 				relativeCanonicalURL={`/posts/${postLink}`}
 				keywords={frontMatter.tags}
+				heroImage={postHeroImage}
 			>
 				<Stack
 					as="article"
