@@ -1,12 +1,12 @@
-import Layout from "../components/Layout";
-import { Box, Flex, Heading, Image, Skeleton, Text, useColorMode } from "@chakra-ui/react";
-import React from "react";
-import { ITraktTvStats } from "../interfaces";
-import { BookData } from "../types";
-import { CustomLink } from "../components/CustomLink";
-import axios, { AxiosResponse } from "axios";
-import { BASE_URL } from "../constants";
-import { InferGetStaticPropsType } from "next";
+import Layout from '../components/Layout';
+import { Box, Flex, Heading, Image, Skeleton, Text, useColorMode } from '@chakra-ui/react';
+import React from 'react';
+import { ITraktTvStats } from '../interfaces';
+import { BookData } from '../types';
+import { CustomLink } from '../components/CustomLink';
+import axios, { AxiosResponse } from 'axios';
+import { BASE_URL } from '../constants';
+import { InferGetStaticPropsType } from 'next';
 
 export async function getStaticProps() {
 	const traktDataResponse: AxiosResponse<ITraktTvStats> = await axios.get(`${BASE_URL}/api/trakt-stats`);
@@ -34,8 +34,8 @@ const StatBox = (props: {
 }) => {
 	const { colorMode } = useColorMode();
 	const borderColor = {
-		light: "gray.200",
-		dark: "gray.700",
+		light: 'gray.200',
+		dark: 'gray.700',
 	};
 	const isLoadingFromProps = props.isLoading || false;
 	return (
@@ -48,29 +48,29 @@ const StatBox = (props: {
 			border="1px"
 			borderColor={borderColor[colorMode]}
 			borderRadius={8}
-			shadow={"md"}
-			width={props.customWidth || { base: "100%", sm: "45%", md: "30%", lg: "200px" }}
+			shadow={'md'}
+			width={props.customWidth || { base: '100%', sm: '45%', md: '30%', lg: '200px' }}
 		>
-			<Flex flexDirection={"column"} alignItems={"space-between"}>
+			<Flex flexDirection={'column'} alignItems={'space-between'}>
 				{props.heading && (
-					<Text pb={2} minHeight={"60px"}>
+					<Text pb={2} minHeight={'60px'}>
 						{props.heading}
 					</Text>
 				)}
 				<Skeleton isLoaded={!isLoadingFromProps}>
-					<Text fontSize="4xl" bottom={"10px"} fontWeight={"extrabold"}>
+					<Text fontSize="4xl" bottom={'10px'} fontWeight={'extrabold'}>
 						{props.data}
 					</Text>
 				</Skeleton>
 			</Flex>
 			{props.imageUrl && (
 				<Skeleton isLoaded={!isLoadingFromProps}>
-					<a href={props.imageLink} target={"_blank"} rel={"noreferrer"}>
+					<a href={props.imageLink} target={'_blank'} rel={'noreferrer'}>
 						<Image
 							src={props.imageUrl}
 							alt={props.heading}
-							maxHeight={"300px"}
-							shadow={"xl"}
+							maxHeight={'300px'}
+							shadow={'xl'}
 							borderRadius={10}
 						/>
 					</a>
@@ -87,64 +87,64 @@ const DashboardPage = (props: InferGetStaticPropsType<typeof getStaticProps>) =>
 	return (
 		<Layout relativeCanonicalURL="/dashboard" title="Dashboard" description="Self quantification dashboard">
 			<Heading>
-				<Text size={"2xl"}>Dashboard</Text>
+				<Text size={'2xl'}>Dashboard</Text>
 			</Heading>
 
 			<Heading>
-				<Text size={"2xl"}>Movies and TV</Text>
+				<Text size={'2xl'}>Movies and TV</Text>
 			</Heading>
 
 			<Text>
-				All the movies and series I watch are recorded in{" "}
+				All the movies and series I watch are recorded in{' '}
 				<CustomLink href="https://trakt.tv/users/bharatkalluri">Trakt</CustomLink>
 			</Text>
 
-			<Flex wrap={"wrap"} justify={"start"} alignItems={"baseline"}>
+			<Flex wrap={'wrap'} justify={'start'} alignItems={'baseline'}>
 				<StatBox
-					heading={"Movies watched"}
+					heading={'Movies watched'}
 					data={traktData?.movies?.watched?.toString(10)}
 					isLoading={isTraktDataLoading}
 				/>
 				<StatBox
-					heading={"Minutes in watched movies"}
+					heading={'Minutes in watched movies'}
 					data={traktData?.movies?.minutes?.toString(10)}
 					isLoading={isTraktDataLoading}
 				/>
 
 				<StatBox
-					heading={"Shows watched"}
+					heading={'Shows watched'}
 					data={traktData?.shows?.watched?.toString(10)}
 					isLoading={isTraktDataLoading}
 				/>
 
 				<StatBox
-					heading={"Episodes in shows watched"}
+					heading={'Episodes in shows watched'}
 					data={traktData?.episodes?.watched?.toString(10)}
 					isLoading={isTraktDataLoading}
 				/>
 				<StatBox
-					heading={"Episodes watched in minutes"}
+					heading={'Episodes watched in minutes'}
 					data={traktData?.episodes?.minutes?.toString(10)}
 					isLoading={isTraktDataLoading}
 				/>
 			</Flex>
 
 			<Heading>
-				<Text size={"2xl"}>Currently reading</Text>
+				<Text size={'2xl'}>Currently reading</Text>
 			</Heading>
 
 			<Text>
-				All the books I read are recorded at{" "}
+				All the books I read are recorded at{' '}
 				<CustomLink href="https://openlibrary.org/people/bharatkalluri">Openlibrary</CustomLink>
 			</Text>
 
-			<Flex wrap={"wrap"}>
+			<Flex wrap={'wrap'}>
 				{nowReadingData?.map((bookData: BookData) => {
 					return (
 						<StatBox
 							imageUrl={bookData.coverUrl}
 							key={bookData.title}
-							customWidth={{ base: "45%", sm: "auto", md: "auto", lg: "auto" }}
+							customWidth={{ base: '45%', sm: 'auto', md: 'auto', lg: 'auto' }}
 							imageLink={bookData.url}
 						/>
 					);
@@ -152,7 +152,7 @@ const DashboardPage = (props: InferGetStaticPropsType<typeof getStaticProps>) =>
 			</Flex>
 
 			<Heading>
-				<Text size={"2xl"}>Travel</Text>
+				<Text size={'2xl'}>Travel</Text>
 			</Heading>
 
 			<Text>Places I&apos;ve been to!</Text>

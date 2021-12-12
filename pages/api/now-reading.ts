@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { getNowReading } from "../../lib/open-library";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getNowReading } from '../../lib/open-library';
 
 const getNowReadingController = async (_: NextApiRequest, res: NextApiResponse) => {
 	console.log(`Fetching book details at ${new Date()}`);

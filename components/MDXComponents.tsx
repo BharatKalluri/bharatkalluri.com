@@ -1,31 +1,31 @@
-import { Alert, Box, Code, Divider, Heading, Text, Image } from "@chakra-ui/react";
-import CustomCodeBlock from "./CustomCodeBlock";
-import { CustomLink } from "./CustomLink";
-import { YoutubeEmbed } from "./YoutubeEmbed";
-import React from "react";
-import AudioVisualizer from "./AudioVisualizer";
-import { Flex } from "@chakra-ui/layout";
+import { Alert, Box, Code, Divider, Heading, Text, Image } from '@chakra-ui/react';
+import CustomCodeBlock from './CustomCodeBlock';
+import { CustomLink } from './CustomLink';
+import { YoutubeEmbed } from './YoutubeEmbed';
+import React from 'react';
+import AudioVisualizer from './AudioVisualizer';
+import { Flex } from '@chakra-ui/layout';
 
 // TODO: I have no clue how to type this stuff
 export const MDXComponents = {
 	h1: function HeadingFn(props: any) {
-		return <Heading as="h1" size={"2xl"} {...props} displayName={"heading1"} />;
+		return <Heading as="h1" size={'2xl'} {...props} displayName={'heading1'} />;
 	},
 	h2: function HeadingFn(props: any) {
-		return <Heading as="h2" size={"xl"} {...props} />;
+		return <Heading as="h2" size={'xl'} {...props} />;
 	},
 	h3: function HeadingFn(props: any) {
-		return <Heading as="h3" size={"lg"} {...props} />;
+		return <Heading as="h3" size={'lg'} {...props} />;
 	},
 	h4: function HeadingFn(props: any) {
-		return <Heading as="h4" size={"md"} {...props} />;
+		return <Heading as="h4" size={'md'} {...props} />;
 	},
 	inlineCode: function CodeFn(props: any) {
 		return <Code colorScheme="blue" {...props} />;
 	},
 	code: CustomCodeBlock,
 	p: function TextFn(props: any) {
-		return <Text as="p" lineHeight="tall" {...props} w={"100%"} />;
+		return <Text as="p" lineHeight="tall" {...props} w={'100%'} />;
 	},
 	ul: function BoxFn(props: any) {
 		return <Box as="ul" pl={4} ml={2} {...props} />;
@@ -44,8 +44,8 @@ export const MDXComponents = {
 	},
 	img: function ImageFn(props: any) {
 		return (
-			<Flex justifyContent={"center"} py={8} w={"100%"}>
-				<Image {...props} alt={props.alt} borderRadius={"5px"} />
+			<Flex justifyContent={'center'} py={8} w={'100%'}>
+				<Image {...props} alt={props.alt} borderRadius={'5px'} />
 			</Flex>
 		);
 	},

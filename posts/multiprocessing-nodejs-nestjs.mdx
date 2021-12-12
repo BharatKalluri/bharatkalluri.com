@@ -1,6 +1,6 @@
 ---
 title: Multiprocessing in nodejs using clusters
-publishedAt: "2020-12-22"
+publishedAt: '2020-12-22'
 tags:
     - nodejs
 ---
@@ -43,16 +43,16 @@ if (cluster.isMaster) {
 		cluster.fork();
 	}
 
-	cluster.on("online", (worker) => {
-		console.log("Worker " + worker.process.pid + " is online.");
+	cluster.on('online', (worker) => {
+		console.log('Worker ' + worker.process.pid + ' is online.');
 	});
-	cluster.on("exit", ({ process }) => {
-		console.log("worker " + process.pid + " died.");
+	cluster.on('exit', ({ process }) => {
+		console.log('worker ' + process.pid + ' died.');
 	});
 } else {
 	async function startServer() {
 		const app = await NestFactory.create(AppModule);
-		console.log("Started Listening for Server Port");
+		console.log('Started Listening for Server Port');
 		await app.listen(8080);
 	}
 

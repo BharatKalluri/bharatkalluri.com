@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import * as t from 'io-ts';
 
 const SpotifyImageInfoValidator = t.type({
 	url: t.string,
@@ -41,7 +41,7 @@ export const NowPlayingValidator = t.type({
 	is_playing: t.boolean,
 	timestamp: t.number,
 	item: t.union([TrackInfoValidator, EpisodeInfoValidator]),
-	currently_playing_type: t.union([t.literal("track"), t.literal("episode")]),
+	currently_playing_type: t.union([t.literal('track'), t.literal('episode')]),
 });
 export type NowPlaying = t.TypeOf<typeof NowPlayingValidator>;
 

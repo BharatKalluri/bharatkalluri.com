@@ -1,7 +1,7 @@
-import React from "react";
-import LinkCard from "./LinkCard";
-import decodeWith from "../utils/ioTsUtils";
-import { BlogFrontMatterValidator } from "../types";
+import React from 'react';
+import LinkCard from './LinkCard';
+import decodeWith from '../utils/ioTsUtils';
+import { BlogFrontMatterValidator } from '../types';
 
 interface IPostCardProps {
 	frontMatter: any;
@@ -10,7 +10,7 @@ interface IPostCardProps {
 
 export const PostCard = (props: IPostCardProps) => {
 	const frontMatter = decodeWith(BlogFrontMatterValidator)(props.frontMatter);
-	const slug = frontMatter.__resourcePath.replace(props.folderPrefix, "").replace(".mdx", "");
+	const slug = frontMatter.__resourcePath.replace(props.folderPrefix, '').replace('.mdx', '');
 	return (
 		<LinkCard
 			name={frontMatter.title}

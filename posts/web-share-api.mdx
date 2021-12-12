@@ -1,7 +1,7 @@
 ---
 author: Bharat Kalluri
 title: Web Share API
-publishedAt: "2020-10-13"
+publishedAt: '2020-10-13'
 tags:
     - javascript
     - webdev
@@ -24,10 +24,10 @@ if (navigator.share) {
 	// Share API available
 	navigator
 		.share({
-			title: "BharatKalluri.in",
-			url: "https://bharatkalluri.in",
+			title: 'BharatKalluri.in',
+			url: 'https://bharatkalluri.in',
 		})
-		.then(() => console.log("Shared successfully"))
+		.then(() => console.log('Shared successfully'))
 		.catch((err) => console.log(err));
 } else {
 	// Fallback

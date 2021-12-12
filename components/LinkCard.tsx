@@ -1,6 +1,6 @@
-import { Box, Flex, Heading, Link, Skeleton, Stack, Tag, Text } from "@chakra-ui/react";
-import NextLink from "next/link";
-import { AiTwotonePushpin } from "react-icons/ai";
+import { Box, Flex, Heading, Link, Skeleton, Stack, Tag, Text } from '@chakra-ui/react';
+import NextLink from 'next/link';
+import { AiTwotonePushpin } from 'react-icons/ai';
 
 interface ILinkCardProps {
 	name: string;
@@ -15,11 +15,11 @@ const LinkCard = ({ name, description, link, tags, isPinned, isLoading }: ILinkC
 	const isLoadingFromProps = isLoading || false;
 	return (
 		<NextLink href={link} passHref>
-			<Link w="100%" _hover={{ textDecoration: "none" }} borderWidth="1px" borderRadius="lg" padding="1.5rem">
+			<Link w="100%" _hover={{ textDecoration: 'none' }} borderWidth="1px" borderRadius="lg" padding="1.5rem">
 				<Skeleton isLoaded={!isLoadingFromProps}>
 					<Box display="block" width="100%">
 						<Flex width="100%" align="flex-start" justifyContent="space-between" flexDirection="column">
-							<Stack direction="row" align="center" style={{ width: "100%" }} justify="space-between">
+							<Stack direction="row" align="center" style={{ width: '100%' }} justify="space-between">
 								<Heading size="md" as="h3" letterSpacing="tight">
 									{name}
 								</Heading>

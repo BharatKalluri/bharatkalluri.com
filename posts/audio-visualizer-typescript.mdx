@@ -1,6 +1,6 @@
 ---
 title: Let us make an audio visualizer using typescript
-publishedAt: "2020-12-08"
+publishedAt: '2020-12-08'
 description: Making an audio visualizer is much more simpler than you think, thanks to the web audio API.
 hero: https://unsplash.com/photos/kV7S3tyvKa8/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTN8fGF1ZGlvJTIwZXF8fDB8fHx8MTYzOTIwMTAwNw&force=true&w=640
 tags:
@@ -67,12 +67,12 @@ draw the frequency bar graph. Lets jump into the typescript piece now.
 
 ```typescript
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-const audioElement = document.getElementById("audio");
-const audioPickerElement = document.getElementById("audioPicker");
-const canvasElement = document.getElementById("canvas") as HTMLCanvasElement;
+const audioElement = document.getElementById('audio');
+const audioPickerElement = document.getElementById('audioPicker');
+const canvasElement = document.getElementById('canvas') as HTMLCanvasElement;
 canvasElement.width = window.innerWidth;
 canvasElement.height = window.innerHeight;
-const canvasCtx = canvasElement.getContext("2d");
+const canvasCtx = canvasElement.getContext('2d');
 ```
 
 Some basic declarations, we get the `AudioContext` first. This interface represents the audio processing graph built
@@ -128,8 +128,8 @@ let barHeight;
 let x = 0;
 
 // Colors used for plotting
-const MATTE_BLACK = "#1A202C";
-const WHITE = "#FFFFFF";
+const MATTE_BLACK = '#1A202C';
+const WHITE = '#FFFFFF';
 
 // The function which will get called on each repaint
 function draw() {

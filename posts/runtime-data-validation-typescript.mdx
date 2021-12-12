@@ -1,6 +1,6 @@
 ---
 title: Runtime data validation for typescript using io-ts
-publishedAt: "2020-11-25"
+publishedAt: '2020-11-25'
 description: External data is unpredictable, Ensure data is always in the expected format using io-ts and typescript.
 tags:
     - typescript
@@ -51,14 +51,14 @@ Let us write an io-ts type for the artist information. The first step would be i
 using the helper methods to specify the type.
 
 ```typescript
-import * as t from "io-ts";
+import * as t from 'io-ts';
 
 const ArtistInfoValidator = t.type({
 	external_urls: t.record(t.string, t.string),
 	href: t.string,
 	id: t.string,
 	name: t.string,
-	type: t.literal("artist"),
+	type: t.literal('artist'),
 	uri: t.string,
 });
 
@@ -66,13 +66,13 @@ type ArtistInfo = t.TypeOf<typeof ArtistInfoValidator>;
 
 const artistInfo = {
 	external_urls: {
-		spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+		spotify: 'https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu',
 	},
-	href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
-	id: "0C0XlULifJtAgn6ZNCW2eu",
-	name: "The Killers",
-	type: "artist",
-	uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+	href: 'https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu',
+	id: '0C0XlULifJtAgn6ZNCW2eu',
+	name: 'The Killers',
+	type: 'artist',
+	uri: 'spotify:artist:0C0XlULifJtAgn6ZNCW2eu',
 };
 ```
 
@@ -100,13 +100,13 @@ behaves if the validation fails can be different than other javascript libraries
 
 const artistInfo = {
 	external_urls: {
-		spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+		spotify: 'https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu',
 	},
-	href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
-	id: "0C0XlULifJtAgn6ZNCW2eu",
-	name: "The Killers",
-	type: "artist",
-	uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+	href: 'https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu',
+	id: '0C0XlULifJtAgn6ZNCW2eu',
+	name: 'The Killers',
+	type: 'artist',
+	uri: 'spotify:artist:0C0XlULifJtAgn6ZNCW2eu',
 };
 
 const decodeInfo = ArtistInfoValidator.decode(artistInfo);
@@ -132,13 +132,13 @@ And now with data which does not pass the rules
 ```typescript
 const artistInfo = {
 	external_urls: {
-		spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+		spotify: 'https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu',
 	},
-	href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
-	id: "0C0XlULifJtAgn6ZNCW2eu",
+	href: 'https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu',
+	id: '0C0XlULifJtAgn6ZNCW2eu',
 	// "name": "The Killers",
-	type: "artist",
-	uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+	type: 'artist',
+	uri: 'spotify:artist:0C0XlULifJtAgn6ZNCW2eu',
 };
 
 const decodeInfo = ArtistInfoValidator.decode(artistInfo);
@@ -225,22 +225,22 @@ So with that basic knowledge, let us write a simple function which will validate
 with a simple message.
 
 ```typescript
-import * as t from "io-ts";
-import { either } from "fp-ts";
-import { PathReporter } from "io-ts/lib/PathReporter";
-import { left } from "fp-ts/lib/Either";
+import * as t from 'io-ts';
+import { either } from 'fp-ts';
+import { PathReporter } from 'io-ts/lib/PathReporter';
+import { left } from 'fp-ts/lib/Either';
 
 // ... all the code from above examples ...
 
 const artistInfo = {
 	external_urls: {
-		spotify: "https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu",
+		spotify: 'https://open.spotify.com/artist/0C0XlULifJtAgn6ZNCW2eu',
 	},
-	href: "https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu",
-	id: "0C0XlULifJtAgn6ZNCW2eu",
+	href: 'https://api.spotify.com/v1/artists/0C0XlULifJtAgn6ZNCW2eu',
+	id: '0C0XlULifJtAgn6ZNCW2eu',
 	name: false,
-	type: "artist",
-	uri: "spotify:artist:0C0XlULifJtAgn6ZNCW2eu",
+	type: 'artist',
+	uri: 'spotify:artist:0C0XlULifJtAgn6ZNCW2eu',
 };
 
 const decodeRawDataWith = (rawData: any, decodeWith: any) => {
@@ -248,16 +248,16 @@ const decodeRawDataWith = (rawData: any, decodeWith: any) => {
 	const decodeInfo = either.fold(
 		(errors: Array<t.ValidationError>) => {
 			throw new Error(
-				"Type errors in : " +
+				'Type errors in : ' +
 					errors
 						.map((err) => {
 							return err.context.map((contextInfo) => contextInfo.key);
 						})
-						.join("\n")
+						.join('\n'),
 			);
 			// throw new Error(PathReporter.report(left(errors)).join("\n"));
 		},
-		(data) => data
+		(data) => data,
 	)(decodeInfoRaw);
 
 	return decodeInfo;

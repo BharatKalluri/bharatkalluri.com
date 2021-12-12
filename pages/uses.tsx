@@ -1,33 +1,33 @@
-import { ListItem, Stack, Text, UnorderedList } from "@chakra-ui/react";
-import Layout from "../components/Layout";
+import { ListItem, Stack, Text, UnorderedList } from '@chakra-ui/react';
+import Layout from '../components/Layout';
 
 const UsesPage = () => {
 	// TODO: Add an image of the setup here
 
 	const computerSetup = [
 		'16" Macbook pro (from office)',
-		"Lenovo thinkpad T480 (personal laptop)",
-		"Logitech G300s Mouse",
-		"Corsair mechanical keyboard",
-		"Assembled system with Ryzen 5 3400g and RX580 (8GB)",
-		"AKG K52 over the ear headphones",
-		"QCY QS2 wireless earbuds",
+		'Lenovo thinkpad T480 (personal laptop)',
+		'Logitech G300s Mouse',
+		'Corsair mechanical keyboard',
+		'Assembled system with Ryzen 5 3400g and RX580 (8GB)',
+		'AKG K52 over the ear headphones',
+		'QCY QS2 wireless earbuds',
 	];
 
 	const softwareAndServices = [
-		"Firefox",
-		"Fedora",
-		"GNOME and corresponding default apps",
-		"VS Code for quick text editing",
-		"Jetbrain IDEs (WebStorm, PyCharm and GoLand)",
-		"Slack Desktop for office comms",
-		"Spotify Desktop for music (scrobbles to last.fm)",
-		"LibreOffice",
-		"Bitwarden password manager",
-		"Raindrop for bookmark management",
-		"Github",
-		"Todoist for task tracking",
-		"Telegram and Whatsapp for messaging",
+		'Firefox',
+		'Fedora',
+		'GNOME and corresponding default apps',
+		'VS Code for quick text editing',
+		'Jetbrain IDEs (WebStorm, PyCharm and GoLand)',
+		'Slack Desktop for office comms',
+		'Spotify Desktop for music (scrobbles to last.fm)',
+		'LibreOffice',
+		'Bitwarden password manager',
+		'Raindrop for bookmark management',
+		'Github',
+		'Todoist for task tracking',
+		'Telegram and Whatsapp for messaging',
 	];
 
 	return (

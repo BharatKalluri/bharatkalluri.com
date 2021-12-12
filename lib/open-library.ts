@@ -1,5 +1,5 @@
-import { BookData, BookDataValidator } from "../types";
-import decodeWith from "../utils/ioTsUtils";
+import { BookData, BookDataValidator } from '../types';
+import decodeWith from '../utils/ioTsUtils';
 
 interface OLWork {
 	cover_edition_key?: string;
@@ -25,13 +25,13 @@ export const getBookDataFromId = async (el: { work: OLWork }) => {
 
 export const getNowReading: () => Promise<BookData[]> = async () => {
 	const currentlyReadingRaw = await fetch(
-		`https://openlibrary.org/people/bharatkalluri/books/currently-reading.json`
+		`https://openlibrary.org/people/bharatkalluri/books/currently-reading.json`,
 	);
 	const currentlyReadingJson = await currentlyReadingRaw.json();
 	const currentlyReadingArr: Array<any> = currentlyReadingJson?.reading_log_entries;
 	return await Promise.all(
 		currentlyReadingArr.map((el: { work: OLWork }) => {
 			return getBookDataFromId(el);
-		})
+		}),
 	);
 };

@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from "axios";
-import { PocketArticleInfo, PocketRetrieveResponse, PocketRetrieveResponseValidator } from "../types";
-import decodeWith from "../utils/ioTsUtils";
+import axios, { AxiosResponse } from 'axios';
+import { PocketArticleInfo, PocketRetrieveResponse, PocketRetrieveResponseValidator } from '../types';
+import decodeWith from '../utils/ioTsUtils';
 
 const { POCKET_CONSUMER_KEY, POCKET_ACCESS_TOKEN } = process.env;
 
-const getPocketListEndpoint = "https://getpocket.com/v3/get";
+const getPocketListEndpoint = 'https://getpocket.com/v3/get';
 
 export const getReadingLog = async (): Promise<Record<string, PocketArticleInfo>> => {
 	if (!POCKET_CONSUMER_KEY || !POCKET_ACCESS_TOKEN) {

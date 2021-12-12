@@ -1,10 +1,10 @@
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
-import React from "react";
-import { Input } from "@chakra-ui/input";
-import { Button } from "@chakra-ui/button";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
-import { Heading, Stack } from "@chakra-ui/layout";
-import { Textarea } from "@chakra-ui/textarea";
+import { FormControl, FormLabel } from '@chakra-ui/form-control';
+import React from 'react';
+import { Input } from '@chakra-ui/input';
+import { Button } from '@chakra-ui/button';
+import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { Heading, Stack } from '@chakra-ui/layout';
+import { Textarea } from '@chakra-ui/textarea';
 
 const ContactForm = () => {
 	return (

@@ -1,16 +1,16 @@
-const { promises: fs } = require("fs");
-const path = require("path");
-const RSS = require("rss");
-const matter = require("gray-matter");
-const remark = require("remark");
-const html = require("remark-html");
+const { promises: fs } = require('fs');
+const path = require('path');
+const RSS = require('rss');
+const matter = require('gray-matter');
+const remark = require('remark');
+const html = require('remark-html');
 
-const BASE_URL = "https://bharatkalluri.com";
-const POSTS_PATH = path.join(process.cwd(), "posts");
+const BASE_URL = 'https://bharatkalluri.com';
+const POSTS_PATH = path.join(process.cwd(), 'posts');
 
 async function generateRSS() {
 	const feed = new RSS({
-		title: "Bharat Kalluri",
+		title: 'Bharat Kalluri',
 		site_url: BASE_URL,
 		feed_url: `${BASE_URL}/feed.xml`,
 	});
@@ -21,7 +21,7 @@ async function generateRSS() {
 		const descriptionHtml = await remark().use(html).process(front_matter.content);
 		feed.item({
 			title: front_matter.data.title,
-			url: `${BASE_URL}/${classification}/` + name.replace(/\.mdx?/, ""),
+			url: `${BASE_URL}/${classification}/` + name.replace(/\.mdx?/, ''),
 			date: front_matter.data.publishedAt,
 			description: front_matter.data.description,
 		});
@@ -30,11 +30,11 @@ async function generateRSS() {
 	await Promise.all(
 		notes.map(async (name) => {
 			const content = await fs.readFile(path.join(POSTS_PATH, name));
-			await addToFeed(content, name, "posts");
-		})
+			await addToFeed(content, name, 'posts');
+		}),
 	);
 
-	await fs.writeFile("./public/feed.xml", feed.xml({ indent: true }));
+	await fs.writeFile('./public/feed.xml', feed.xml({ indent: true }));
 }
 
 generateRSS();

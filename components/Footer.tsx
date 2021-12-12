@@ -1,9 +1,9 @@
-import React from "react";
-import { Button, Flex, IconButton, Link } from "@chakra-ui/react";
-import { FaGithub, FaLinkedin, FaMailBulk, FaTelegramPlane, FaTwitter, FaRss } from "react-icons/fa";
-import NextLink from "next/link";
-import NowPlaying from "./NowPlaying";
-import { EMAIL, GITHUB_URL, LINKEDIN_URL, TELEGRAM_URL, TWITTER_URL, RSS_URL } from "../constants";
+import React from 'react';
+import { Button, Flex, IconButton, Link } from '@chakra-ui/react';
+import { FaGithub, FaLinkedin, FaMailBulk, FaTelegramPlane, FaTwitter, FaRss } from 'react-icons/fa';
+import NextLink from 'next/link';
+import NowPlaying from './NowPlaying';
+import { EMAIL, GITHUB_URL, LINKEDIN_URL, TELEGRAM_URL, TWITTER_URL, RSS_URL } from '../constants';
 
 const FooterButton = (props: { text: string; href: string }) => {
 	return (
@@ -18,7 +18,7 @@ const FooterButton = (props: { text: string; href: string }) => {
 const Footer = () => (
 	<Flex align="center" py={8} direction="column">
 		<NowPlaying />
-		<Flex direction={"row"} fontSize="2xl">
+		<Flex direction={'row'} fontSize="2xl">
 			<FooterButton text="Now" href="/now" />
 			<FooterButton text="Reading log" href="/reading-log" />
 			<FooterButton text="Dashboard" href="/dashboard" />

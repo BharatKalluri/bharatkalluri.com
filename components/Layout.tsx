@@ -1,14 +1,14 @@
-import React, { ReactNode } from "react";
-import NextLink from "next/link";
-import Head from "next/head";
-import { Box, Flex, Stack } from "@chakra-ui/layout";
-import { IconButton, useColorMode } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import Footer from "./Footer";
-import { NextSeo } from "next-seo";
-import { BASE_URL } from "../constants";
-import { Button } from "@chakra-ui/button";
-import { GA_TRACKING_ID } from "../lib/gtag";
+import React, { ReactNode } from 'react';
+import NextLink from 'next/link';
+import Head from 'next/head';
+import { Box, Flex, Stack } from '@chakra-ui/layout';
+import { IconButton, useColorMode } from '@chakra-ui/react';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import Footer from './Footer';
+import { NextSeo } from 'next-seo';
+import { BASE_URL } from '../constants';
+import { Button } from '@chakra-ui/button';
+import { GA_TRACKING_ID } from '../lib/gtag';
 
 type LayoutProps = {
 	children?: ReactNode;
@@ -26,20 +26,20 @@ interface INavBarButtonProps {
 
 const navBarItems: Array<{ href: string; text: string }> = [
 	{
-		href: "/",
-		text: "Home",
+		href: '/',
+		text: 'Home',
 	},
 	{
-		href: "/blog",
-		text: "Blog",
+		href: '/blog',
+		text: 'Blog',
 	},
 	{
-		href: "/notes",
-		text: "Notes",
+		href: '/notes',
+		text: 'Notes',
 	},
 	{
-		href: "/about",
-		text: "About",
+		href: '/about',
+		text: 'About',
 	},
 ];
 
@@ -79,12 +79,12 @@ const NavBar = () => {
 		>
 			<DesktopLeftNavBar />
 
-			<Box flexDirection="row" mb={"0.2rem"}>
+			<Box flexDirection="row" mb={'0.2rem'}>
 				<IconButton
 					aria-label="Toggle dark mode"
 					variant="ghost"
 					onClick={toggleColorMode}
-					icon={colorMode == "dark" ? <SunIcon /> : <MoonIcon />}
+					icon={colorMode == 'dark' ? <SunIcon /> : <MoonIcon />}
 				/>
 			</Box>
 		</Stack>
@@ -127,11 +127,11 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 			/>
 			<div>
 				<Head>
-					<title>{title ? `${title} |` : ""} Bharat Kalluri</title>
+					<title>{title ? `${title} |` : ''} Bharat Kalluri</title>
 					<meta charSet="utf-8" />
 					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 					{keywords !== undefined && (
-						<meta name="keywords" content={keywords.map((el) => el.replace("-", " ")).join(", ")} />
+						<meta name="keywords" content={keywords.map((el) => el.replace('-', ' ')).join(', ')} />
 					)}
 					<script
 						type="text/javascript"
@@ -146,9 +146,9 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 						}}
 					/>
 					<GoogleAnalyticsSetup />
-					<link rel="icon" type="image/png" href={"/static/logo.png"} />
+					<link rel="icon" type="image/png" href={'/static/logo.png'} />
 					<meta httpEquiv="content-language" content="en-gb" />
-					<html lang={"en"} />
+					<html lang={'en'} />
 				</Head>
 				<header>
 					<NavBar />

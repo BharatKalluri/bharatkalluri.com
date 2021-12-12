@@ -1,18 +1,18 @@
-import { Heading, Input, InputGroup, InputLeftElement, Text } from "@chakra-ui/react";
-import Layout from "../components/Layout";
-import { PostCard } from "../components/PostCard";
-import React, { useState } from "react";
-import { BlogFrontMatter } from "../types";
-import { SearchIcon } from "@chakra-ui/icons";
-import { searchInFrontMatter, sortByPinnedAndPublishedAt } from "../utils/postUtils";
-import { getNotesMetadata } from "../utils/mdxUtils";
+import { Heading, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react';
+import Layout from '../components/Layout';
+import { PostCard } from '../components/PostCard';
+import React, { useState } from 'react';
+import { BlogFrontMatter } from '../types';
+import { SearchIcon } from '@chakra-ui/icons';
+import { searchInFrontMatter, sortByPinnedAndPublishedAt } from '../utils/postUtils';
+import { getNotesMetadata } from '../utils/mdxUtils';
 
 export function getStaticProps() {
 	return { props: { notes: getNotesMetadata() } };
 }
 
 const Blog = ({ notes }: { notes: BlogFrontMatter[] }) => {
-	const [searchQuery, setSearchQuery] = useState<string>("");
+	const [searchQuery, setSearchQuery] = useState<string>('');
 	const sortedNotes = notes.sort(sortByPinnedAndPublishedAt);
 	return (
 		<Layout

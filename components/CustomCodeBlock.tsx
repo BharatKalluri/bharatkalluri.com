@@ -1,5 +1,5 @@
-import Highlight, { defaultProps, Language } from "prism-react-renderer";
-import theme from "prism-react-renderer/themes/dracula";
+import Highlight, { defaultProps, Language } from 'prism-react-renderer';
+import theme from 'prism-react-renderer/themes/dracula';
 
 interface ICustomCodeBlockProps {
 	children: string;
@@ -7,7 +7,7 @@ interface ICustomCodeBlockProps {
 }
 
 function CustomCodeBlock({ children, className }: ICustomCodeBlockProps) {
-	const language: unknown = className ? className.replace(/language-/, "") : "";
+	const language: unknown = className ? className.replace(/language-/, '') : '';
 	return (
 		<Highlight
 			{...defaultProps}
@@ -22,7 +22,7 @@ function CustomCodeBlock({ children, className }: ICustomCodeBlockProps) {
 					style={{
 						...style,
 						padding: 10,
-						overflowX: "auto",
+						overflowX: 'auto',
 					}}
 				>
 					{tokens.map((line, i) => (

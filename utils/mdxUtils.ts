@@ -1,9 +1,9 @@
-import fs from "fs";
-import path from "path";
-import { BlogFrontMatter } from "../types";
-import matter from "gray-matter";
+import fs from 'fs';
+import path from 'path';
+import { BlogFrontMatter } from '../types';
+import matter from 'gray-matter';
 
-export const POSTS_PATH = path.join(process.cwd(), "posts");
+export const POSTS_PATH = path.join(process.cwd(), 'posts');
 
 export const postFilePaths = fs.readdirSync(POSTS_PATH).filter((path) => /\.mdx?$/.test(path));
 

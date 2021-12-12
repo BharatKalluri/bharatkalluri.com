@@ -1,6 +1,6 @@
-import { Heading } from "@chakra-ui/react";
-import AudioVisualizer from "../../components/AudioVisualizer";
-import Layout from "../../components/Layout";
+import { Heading } from '@chakra-ui/react';
+import AudioVisualizer from '../../components/AudioVisualizer';
+import Layout from '../../components/Layout';
 
 const AudioVisualizerPage = () => {
 	return (
