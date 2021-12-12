@@ -15,13 +15,16 @@ const getNowPlayingController = async (_: any, res: any) => {
 
 	const isPlaying = nowPlayingData.is_playing;
 	const currentlyPlayingType = nowPlayingData.currently_playing_type;
+	const musicArtArr = (nowPlayingData.item as TrackInfo).album.images;
+	const musicArtMediumArr = musicArtArr.filter((el) => el.height <= 400);
+	const musicArt = musicArtMediumArr && musicArtMediumArr.length > 0 ? musicArtMediumArr[0] : musicArtArr[0];
 
 	if (currentlyPlayingType === 'track') {
 		const nowPlayingItem = nowPlayingData.item as TrackInfo;
 		const title = nowPlayingItem.name;
 		const artist = nowPlayingItem.artists.map((_artist) => _artist.name).join(', ');
 		const collectionName = nowPlayingItem.album.name;
-		const collectionImageUrl = nowPlayingItem.album.images[0].url;
+		const collectionImageUrl = musicArt.url;
 		const mediaURL = nowPlayingItem.external_urls.spotify;
 		const currentlyPlayingInfo: ICurrentlyPlayingInfo = {
 			collectionName,
