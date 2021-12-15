@@ -1,0 +1,100 @@
+---
+author: Bharat Kalluri
+title: Five mistakes I've made in SEO and how to avoid them
+hero: https://unsplash.com/photos/shr_Xn8S8QU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8Mnx8c2VvfHwwfHx8fDE2Mzk1ODk1ODc&force=true&w=640
+publishedAt: '2021-12-16'
+draft: false
+isBlogPost: true
+description: Search engine optimization is very important, make sure you don't make the same mistakes I did!
+tags:
+- seo
+---
+
+SEO is short Search Engine Optimization. The idea is to make your website more accessible to the search engine crawlers
+so that they show the right links to the right people at the right time!
+
+These are the five big mistakes I've made while building my blog, make sure you don't repeat mine!
+
+## Broken links on the website
+
+Broken links are the links in your website which point to an non existent URL. Broken links cause a broken experience
+to the user. It could also signify to the search engine that the website is not well maintained, Therefore search
+engines don't rank websites with broken links higher.
+
+![404 (by Erik Mclean)](https://unsplash.com/photos/sxiSod0tyYQ/download?force=true&w=640)
+
+Broken links can creep in because of a lot of reasons. It could be because you are linking to a resource which no longer
+exists or it could also be because you copy pasted something wrong!
+
+One _automated_ way to avoid broken links from creeping up to your website is to run a frequent audit using a tool
+like [Broken Link Checker](https://github.com/stevenvachon/broken-link-checker) and making sure there are no broken links!
+
+## Canonical links not pointing to the right place
+
+A canonical link is a main URL chosen for a set of duplicate pages.
+
+Here is an example, say for suppose you wrote a blog post and published it on both your personal blog and medium. The
+search engine sees this as the two completely different posts. To make sure that in your search results, your blog comes
+up as a hit instead of medium. You need to mention the canonical URL in both places signifying that the source for this
+post is actually in your personal blog. So that the search engine knows how to attribute the work.
+
+It is recommend that the canonical URL should be self referencing to the current page if that's the original source. So
+make sure that canonical links exist for all pages! I published the same content in multiple places without knowing
+about canonical links which hurt the SEO.
+
+## Missing meta tags and Open graph data
+
+Meta tags help in denoting meta information of the page. There are a lot of meta tags which can be used,
+[here is a complete list](https://gist.github.com/lancejpollard/1978404).
+
+Google has clearly mentioned that [meta tags are a critical source of information](https://developers.google.com/search/docs/advanced/crawling/special-tags).
+There are some meta tags that every page should definitely have like description, language and charset. There is also
+one more which is `keywords`. Although google has mentioned that this does not affect the SEO, it does not
+hurt to mention the key points in the meta tag, other indexers could be still using it!
+
+[Opengraph protocol](https://ogp.me/) is a open standard internet protocol created by facebook/meta to standardize the
+use of metadata throughout the web. These are the tags which define what gets shown when you share your post on twitter,
+facebook and many other places. Make sure that this is populated with the right data and an eye catching image.
+
+![Opengraph explainer](/static/images/five-mistakes-seo/open-graph-explainer.png)
+
+Make sure all web pages have `og:image`, `og:url`, `og:title` and `og:description`. These form the basic info shown
+on any social media card on the internet.
+
+## Broken sitemap
+
+Since I wrote my own blog using NextJS, I wrote a custom sitemap generator as well. I had a bug in the generator which
+caused the sitemap on my website to be broken. Sitemap is a great starting point for indexers, and it containing broken
+links was not helping the SEO 🤣
+
+![Broken paper clips (by jackson simmer)](https://unsplash.com/photos/Vqg809B-SrE/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8OXx8YnJva2VufHwwfHx8fDE2Mzk1NzU5MDM&force=true&w=640)
+
+Make sure you have a sitemap setup and it points to all the right links so that crawlers have an easy time!
+
+## Not making use of Google Search Console & Ahrefs
+
+[Google search console](https://search.google.com/search-console) is a treasure trove of information. You get a ton of
+data on how people are arriving to the website and what terms are they using. You can also submit a sitemap manually
+and it will let you know if it sees any problems. It also gives metrics about coverage of the website, Make sure you check it out!
+
+Another indispensable resource is Ahrefs, Ahrefs by itself is pretty costly (99$ per month!) but they have
+a [Webmasters tool](https://ahrefs.com/webmaster-tools) which is free for website owners. You exchange your data
+for the service basically. But Ahrefs does a comprehensive site audit.
+
+## Bonus: Make sure you use semantic HTML
+
+Crawlers read HTML programmatically, making sure the page follows the standard HTML ideas helps the crawlers understand
+which information is important and which is not.
+
+So, instead of having a custom class with specific styles for a heading. Use that standard h1 tag so that crawlers
+understand the significance of the data. A fantastic tool to check HTML content hierarchy is the
+[Detailed extension](https://detailed.com/extension/).
+
+## Wrapping up
+
+So those were the big misses I made when starting out in blogging. In the initial days, I was just one page linking
+to a bunch of pages using a simple css framework and did not actually give a lot of thought to SEO. But later on I
+realised the value on improving discoverability of the website.
+
+A massive shout out to Monica Lent and her [blogging for devs](https://bloggingfordevs.com/) course. It helped me a lot
+in understanding SEO works and how content should be presented!
