@@ -18,8 +18,8 @@ Replicas are important because, in an event where the primary node fails for wha
 
 The way the DB understands the primary is down, picks up a secondary replica and makes it primary is called the election process. The election process is another great topic to discuss and understand. Maybe next time.
 
-## The journey of an database write
-When you request for a write to happen to the database, the first step the database does is to receive and write it to a journal. This is also called the oplog (short for operations log).  Even if all the nodes fail, the command will be in the oplog. For example, If the database realizes that it’s been down for 10 seconds. It will go to the oplog, retrieve the operations and basically fast forward the database state.
+## The journey of a database write
+When you request for a write to happen to the database, the first step the database does is to receive and write it to a journal. This is also called the oplog (short for operations log).  Even if all the nodes fail, the command will be in the oplog. For example, If the database realizes that it’s been down for 10 seconds. It will go to the oplog, retrieve the operations and basically fast-forward the database state.
 
 After this, the database hits the primary node. Makes sure data is written to the node. And then starts cascading the writes to the next set of replicas. *Eventually*, the replicas also have the same data as the primary. Which means that replicas are not consistent realtime, they are *eventually consistent*.
 
@@ -27,7 +27,7 @@ After this, the database hits the primary node. Makes sure data is written to th
 
 Everything has pros & cons. Assuming there are two replicas along with one primary node of the database, a write to the database is not just one write to the primary node. But actually three writes in total. This means there will be an increase in latency.
 
-As a client of the database who is pushing writes, it’s also important for us to realize that. If for some whatever reason both primary and secondary of a three node system go down. The write is essentially lost. This might be non-negotiable in most cases. Hence mongoDB provides a parameter called `writeConcern` which allows us to control this behavior.
+As a client of the database who is pushing writes, it’s also important for us to realize that if for some whatever reason both primary and secondary of a three node system go down. The write is essentially lost. This might be non-negotiable in most cases. Hence, mongoDB provides a parameter called `writeConcern` which allows us to control this behavior.
 
 ## Specifying write concern
 
@@ -51,6 +51,6 @@ Sometimes writing fast is more important that being consistent and being resista
 
 If the objective is speed, then the write concern can be set to a very low value. The tradeoff is that consistency is not guaranteed, but there will be an increase in speed.
 
-If the idea is safety, then have `w` set to `majority` and set `j` to true. To make sure the write goes through and the chance of something going wrong is extremely small.
+If the idea is safety, then have `w` set to `majority` and set `j` to true, to make sure the write goes through and the chance of something going wrong is tiny.
 
-Thats a gist of write concerns in MongoDB.
+That's a gist of write concerns in MongoDB.
