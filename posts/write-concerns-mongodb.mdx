@@ -1,0 +1,56 @@
+---
+author: Bharat Kalluri
+title: Understanding write concerns in MongoDB
+publishedAt: '2022-04-24'
+tags:
+    - database
+    - mongoDB
+    - write-concerns
+---
+
+Write concern is the amount of nodes/replica sets MongoDB needs to write data into before acknowledging back to the client that the write was a success.
+
+Before jumping into the details, let’s first make sure we understand the fundamentals of replication. And a very high level overview of how databases function.
+
+Some nomenclature first, a database is usually never a single node. It has a primary node, and something called secondary replicas. Replicas (short for replications) are duplicates of the entire database (at very minute lag).
+
+Replicas are important because, in an event where the primary node fails for whatever reason. The secondary will kick in and restore the health of the database. And alert & try to fix the issue. Fallbacks are almost always good.
+
+The way the DB understands the primary is down, picks up a secondary replica and makes it primary is called the election process. The election process is another great topic to discuss and understand. Maybe next time.
+
+## The journey of an database write
+When you request for a write to happen to the database, the first step the database does is to receive and write it to a journal. This is also called the oplog (short for operations log).  Even if all the nodes fail, the command will be in the oplog. For example, If the database realizes that it’s been down for 10 seconds. It will go to the oplog, retrieve the operations and basically fast forward the database state.
+
+After this, the database hits the primary node. Makes sure data is written to the node. And then starts cascading the writes to the next set of replicas. *Eventually*, the replicas also have the same data as the primary. Which means that replicas are not consistent realtime, they are *eventually consistent*.
+
+## The pros and cons of replication
+
+Everything has pros & cons. Assuming there are two replicas along with one primary node of the database, a write to the database is not just one write to the primary node. But actually three writes in total. This means there will be an increase in latency.
+
+As a client of the database who is pushing writes, it’s also important for us to realize that. If for some whatever reason both primary and secondary of a three node system go down. The write is essentially lost. This might be non-negotiable in most cases. Hence mongoDB provides a parameter called `writeConcern` which allows us to control this behavior.
+
+## Specifying write concern
+
+> Write concern is to define to the database how success of a write is defined. If Write concern mentions `majority`, that means that a write is only deemed successful if the majority of the nodes in the system acknowledge the write.
+
+MongoDB provides a bunch of options for `writeConcern`. It can be specified at a query level as such
+
+```
+{ w: <value>, j: <boolean>, wtimeout: <number> }
+```
+
+`w` stands for write concern. `w` can take a number (1, 2 etc..) or `majority`. Majority is the default. The number is the number of nodes the write needs to be acknowledged	by. If this is `2`, that means that one more replica apart from primary needs to acknowledge the write.
+
+`j` is more interesting. `j` stands for journal. If `j` is true, that means requests are acknowledged only when they are written on to the on disk journal. Each of the replica has its own on disk journal.
+So, if the configuration is `{ w: 2, j: true }`. That implies that the write must be passed on to two nodes (including primary) & both of them need to also be written to the on disk journal. If `j` is false, then the data is just written to the in memory journal.
+
+`wtimeout` is write timeout configuration in milliseconds. Any write past `w` milliseconds will be decided to be a failure. One important thing to note is that, after a operation takes more than the timeout configuration, the database throws an error. This does not mean the data will be rolled back if the operation eventually goes through and cascades to the replicas, and the database will no undo successful data modifications.
+
+## Why is this useful?
+Sometimes writing fast is more important that being consistent and being resistant to fallback failure. If the system has a large amount of replicas, some ops are more important than others.
+
+If the objective is speed, then the write concern can be set to a very low value. The tradeoff is that consistency is not guaranteed, but there will be an increase in speed.
+
+If the idea is safety, then have `w` set to `majority` and set `j` to true. To make sure the write goes through and the chance of something going wrong is extremely small.
+
+Thats a gist of write concerns in MongoDB.
