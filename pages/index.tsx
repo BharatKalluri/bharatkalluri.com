@@ -4,7 +4,7 @@ import LinkCard from '../components/LinkCard';
 import { PROJECT_LIST } from '../constants';
 import { getNotesMetadata } from '../utils/mdxUtils';
 import { BlogFrontMatter } from '../types';
-import { sortByPinnedAndPublishedAt } from '../utils/postUtils';
+import { sortByPublishedAt } from '../utils/postUtils';
 import NextLink from 'next/link';
 import { Button } from '@chakra-ui/button';
 import React from 'react';
@@ -73,10 +73,7 @@ const RecentBlogPosts = ({ recentNotes }: { recentNotes: BlogFrontMatter[] }) =>
 );
 
 const IndexPage = ({ notes }: { notes: BlogFrontMatter[] }) => {
-	const recentPosts = notes
-		.filter((note) => note.isBlogPost === true)
-		.sort(sortByPinnedAndPublishedAt)
-		.slice(0, 3);
+	const recentPosts = notes.sort(sortByPublishedAt).slice(0, 3);
 	return (
 		<Layout title="Bharat Kalluri's Website" relativeCanonicalURL="">
 			<Stack direction="column" spacing={5}>

@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
 import { AppProps } from 'next/app';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme, ThemeConfig } from '@chakra-ui/react';
 import '../styles/main.css';
 import { DefaultSeo } from 'next-seo';
 import { DEFAULT_SEO_CONFIG } from '../constants';
 import { useRouter } from 'next/router';
 import * as gtag from '../lib/gtag';
 
+const themeConfig: ThemeConfig = {
+	initialColorMode: 'dark',
+	useSystemColorMode: true,
+};
 const theme = extendTheme({
+	config: themeConfig,
 	components: {
 		Text: {
 			baseStyle: {

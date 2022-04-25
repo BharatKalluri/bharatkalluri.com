@@ -19,3 +19,7 @@ export const sortByPinnedAndPublishedAt = (a: BlogFrontMatter, b: BlogFrontMatte
 		return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
 	}
 };
+
+export const sortByPublishedAt = (a: BlogFrontMatter, b: BlogFrontMatter): number => {
+	return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
+}
