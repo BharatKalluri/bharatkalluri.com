@@ -23,24 +23,24 @@ But for base64, the rules are different. Binary should be broken down into 4 chu
 Six bits can represent 64 states (2 ^ 6). In base64, this is `A-Z` , `a-z`, `0-9`, `+`, `/` and `=` (for padding). That is 26 capitals + 26 smalls + 9 digits + 1 `+` + 1 `/`, that’s 63 states. Finally `=` completes this set to 64. The [base64 RFC](https://datatracker.ietf.org/doc/html/rfc4648#section-4) has a handy table for all these states
 
 ```
-     Value Encoding  Value Encoding  Value Encoding  Value Encoding
-         0 A            17 R            34 i            51 z
-         1 B            18 S            35 j            52 0
-         2 C            19 T            36 k            53 1
-         3 D            20 U            37 l            54 2
-         4 E            21 V            38 m            55 3
-         5 F            22 W            39 n            56 4
-         6 G            23 X            40 o            57 5
-         7 H            24 Y            41 p            58 6
-         8 I            25 Z            42 q            59 7
-         9 J            26 a            43 r            60 8
-        10 K            27 b            44 s            61 9
-        11 L            28 c            45 t            62 +
-        12 M            29 d            46 u            63 /
-        13 N            30 e            47 v
-        14 O            31 f            48 w         (pad) =
-        15 P            32 g            49 x
-        16 Q            33 h            50 y
+ Value Encoding  Value Encoding  Value Encoding  Value Encoding
+     0 A            17 R            34 i            51 z
+     1 B            18 S            35 j            52 0
+     2 C            19 T            36 k            53 1
+     3 D            20 U            37 l            54 2
+     4 E            21 V            38 m            55 3
+     5 F            22 W            39 n            56 4
+     6 G            23 X            40 o            57 5
+     7 H            24 Y            41 p            58 6
+     8 I            25 Z            42 q            59 7
+     9 J            26 a            43 r            60 8
+    10 K            27 b            44 s            61 9
+    11 L            28 c            45 t            62 +
+    12 M            29 d            46 u            63 /
+    13 N            30 e            47 v
+    14 O            31 f            48 w         (pad) =
+    15 P            32 g            49 x
+    16 Q            33 h            50 y
 ```
 
 Let’s go back to our `cat` example, now that the basics are out of the way.
@@ -66,7 +66,14 @@ Instead of one character representing 256 (2^8) as it does in normal encoding, e
 
 To send three bytes of information (`cat` for example) we would have to actually send out four bytes in base64 (`Y2F0`). The base64 version is 4/3rd larger.
 
-So, we use 33 % more storage than we normally would.
+So, 33 % more storage is used than normal.
+
+## Why is base64 used then?
+Base64 is used when there was a need to encode binary data so that it can be stored and transferred over mediums that primarily designed to deal with ASCII text. E-Mail attachments are sent out as base64 encoded strings.
+
+Base64 is useful to send over any kind of data over the wire as a plain text string. API endpoints which have JSON payloads sometimes take the file as base64 in the JSON payload.
+
+Data sent over the wire, between the server and the browser is usually compressed with algorithms like gzip, brotli etc. The encoding size overhead is not that significant (typically around 2-5%) between the compressed original and compressed encoded files. So, the space overhead is not a deal-breaker for sending files over web.
 
 ---
 
