@@ -6,6 +6,7 @@ import React from 'react';
 interface ICustomLinkProps {
 	href: string;
 	children: string;
+	fontSize?: number;
 }
 
 export const CustomLink = (props: ICustomLinkProps) => {

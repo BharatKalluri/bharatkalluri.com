@@ -9,6 +9,7 @@ import { NextSeo } from 'next-seo';
 import { BASE_URL } from '../constants';
 import { Button } from '@chakra-ui/button';
 import { GA_TRACKING_ID } from '../lib/gtag';
+import { Subscribe } from './Subscribe';
 
 type LayoutProps = {
 	children?: ReactNode;
@@ -155,6 +156,9 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 				</header>
 				<Flex as="main" justifyContent="center" flexDirection="column" px={4} mx="auto" mt={8} maxW="1000px">
 					<Stack spacing={7}>{children}</Stack>
+				</Flex>
+				<Flex justifyContent={'center'} mt={8}>
+					<Subscribe />
 				</Flex>
 				<Footer />
 			</div>
