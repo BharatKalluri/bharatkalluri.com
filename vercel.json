@@ -21,12 +21,5 @@
 				}
 			]
 		}
-	],
-	"redirects": [
-		{
-			"source": "/notes",
-			"destination": "https://wiki.bharatkalluri.com",
-			"permanent": true
-		}
 	]
 }

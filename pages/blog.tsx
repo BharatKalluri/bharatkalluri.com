@@ -27,6 +27,7 @@ const Blog = ({ notes }: { notes: BlogFrontMatter[] }) => {
 			</InputGroup>
 			{sortedPosts
 				.filter((f: BlogFrontMatter) => !f.draft)
+                .filter(f => f.isBlogPost===true)
 				.filter((f: BlogFrontMatter) => searchInFrontMatter(f, searchQuery))
 				.map((frontMatter: BlogFrontMatter) => (
 					<PostCard key={frontMatter.title} frontMatter={frontMatter} folderPrefix="posts/" />

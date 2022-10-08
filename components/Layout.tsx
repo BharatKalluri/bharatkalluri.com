@@ -35,8 +35,8 @@ const navBarItems: Array<{ href: string; text: string }> = [
 		text: 'Blog',
 	},
 	{
-		href: 'https://wiki.bharatkalluri.com',
-		text: 'Garden',
+		href: '/notes',
+		text: 'Notes',
 	},
 	{
 		href: '/dashboard',
