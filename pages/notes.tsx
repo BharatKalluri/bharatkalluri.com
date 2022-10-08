@@ -16,7 +16,7 @@ const Blog = ({ notes }: { notes: BlogFrontMatter[] }) => {
 	const sortedNotes = notes.sort(sortByPinnedAndPublishedAt);
 	return (
 		<Layout
-			title="Bharat's notes"
+			title="Field Notes"
 			description="These are the notes of Bharat, everything from random learnings to interesting facts"
 			relativeCanonicalURL="/notes"
 		>
