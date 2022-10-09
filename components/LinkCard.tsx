@@ -34,7 +34,7 @@ const LinkCard = ({ name, description, link, tags, isPinned, isLoading }: ILinkC
 								<Stack direction="row" mt="1rem">
 									{tags?.map((tag: string) => (
 										<Tag key={tag} size="sm">
-											{tag}
+											{tag.toUpperCase()}
 										</Tag>
 									))}
 								</Stack>
