@@ -75,6 +75,6 @@ export const DEFAULT_SEO_CONFIG: DefaultSeoProps = {
 export const RSS_URL = `/feed.xml`;
 export const TWITTER_URL = 'https://twitter.com/bharatkalluri';
 export const GITHUB_URL = 'https://github.com/bharatkalluri';
-export const LINKEDIN_URL = 'https://linkedin.com/bharatkalluri';
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/bharatkalluri/';
 export const TELEGRAM_URL = 'https://t.me/bharatkalluri';
 export const EMAIL = 'hi@bharatkalluri.com';
