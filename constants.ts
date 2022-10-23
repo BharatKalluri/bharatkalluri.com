@@ -15,6 +15,11 @@ export const PROJECT_LIST: Array<IProjectCardProps> = [
 		description: 'Download music from Spotify with complete album art and metadata.',
 		link: 'https://github.com/BharatKalluri/spotifydl',
 	},
+    {
+        name: 'Rewinder',
+        description: 'Travel back in time and get audio from the recent past. On demand. Runs completely locally.',
+        link: 'https://github.com/BharatKalluri/rewinder'
+    },
 	{
 		name: 'Mail Sanitizer',
 		description: 'A command line tool written in python to clear up your email & get rid of annoying subscriptions!',
