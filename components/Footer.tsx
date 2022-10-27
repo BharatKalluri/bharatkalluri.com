@@ -8,7 +8,7 @@ import { EMAIL, GITHUB_URL, LINKEDIN_URL, TELEGRAM_URL, TWITTER_URL, RSS_URL } f
 const FooterButton = (props: { text: string; href: string }) => {
 	return (
 		<NextLink href={props.href} passHref>
-			<Button as="a" variant="ghost" fontWeight="300">
+			<Button variant="ghost" fontWeight="300">
 				{props.text}
 			</Button>
 		</NextLink>
@@ -24,6 +24,7 @@ const Footer = () => (
 			<FooterButton text="Dashboard" href="/dashboard" />
 			<FooterButton text="Uses" href="/uses" />
 		</Flex>
+
 		<div>
 			<Link href={TWITTER_URL} title="Twitter" isExternal>
 				<IconButton aria-label="Twitter" icon={<FaTwitter />} size="lg" color="gray.500" variant="ghost" />

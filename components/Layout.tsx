@@ -8,7 +8,7 @@ import Footer from './Footer';
 import { NextSeo } from 'next-seo';
 import { BASE_URL } from '../constants';
 import { Button } from '@chakra-ui/button';
-import { GA_TRACKING_ID } from '../lib/gtag';
+import Script from 'next/script';
 
 type LayoutProps = {
 	children?: ReactNode;
@@ -50,7 +50,7 @@ const navBarItems: Array<{ href: string; text: string }> = [
 const NavBarButton = (props: INavBarButtonProps) => {
 	return (
 		<NextLink href={props.href} passHref>
-			<Button as="a" variant="ghost" fontWeight="400">
+			<Button variant="ghost" fontWeight="400">
 				{props.text}
 			</Button>
 		</NextLink>
@@ -95,24 +95,6 @@ const NavBar = () => {
 	);
 };
 
-const GoogleAnalyticsSetup = () => (
-	<>
-		<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
-		<script
-			dangerouslySetInnerHTML={{
-				__html: `
-		    window.dataLayer = window.dataLayer || [];
-		    function gtag(){dataLayer.push(arguments);}
-		    gtag('js', new Date());
-		    gtag('config', '${GA_TRACKING_ID}', {
-		      page_path: window.location.pathname,
-		    });
-		  `,
-			}}
-		/>
-	</>
-);
-
 const Layout = ({ children, title, description, relativeCanonicalURL, keywords, heroImage }: LayoutProps) => {
 	const canonicalURL = `${BASE_URL}${relativeCanonicalURL}`;
 	const heroImageData = heroImage ? { images: [{ url: heroImage }] } : {};
@@ -131,29 +113,29 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 			/>
 			<div>
 				<Head>
-					<title>{title ? `${title} |` : ''} Bharat Kalluri</title>
+					<title>{`${title} | Bharat Kalluri`}</title>
 					<meta charSet="utf-8" />
 					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 					{keywords !== undefined && (
 						<meta name="keywords" content={keywords.map((el) => el.replace('-', ' ')).join(', ')} />
 					)}
-					<script
-						type="text/javascript"
-						dangerouslySetInnerHTML={{
-							__html: `
-                                (function(c,l,a,r,i,t,y){
-                                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                                })(window, document, "clarity", "script", "4g3tskl7lj");
-                            `,
-						}}
-					/>
-					<GoogleAnalyticsSetup />
+
 					<link rel="icon" type="image/png" href={'/static/logo.png'} />
 					<meta httpEquiv="content-language" content="en-gb" />
-					<html lang={'en'} />
 				</Head>
+				<Script
+					id={'microsoft-clarity'}
+					type="text/javascript"
+					dangerouslySetInnerHTML={{
+						__html: `
+				                (function(c,l,a,r,i,t,y){
+				                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+				                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+				                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+				                })(window, document, "clarity", "script", "4g3tskl7lj");
+				            `,
+					}}
+				/>
 				<header>
 					<NavBar />
 				</header>
