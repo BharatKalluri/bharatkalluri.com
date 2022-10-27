@@ -1,6 +1,6 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { Link, useColorMode } from '@chakra-ui/react';
-import NextLink from 'next/link';
+import { Link as ChakraLink, useColorMode } from '@chakra-ui/react';
+import Link from 'next/link';
 import React from 'react';
 
 interface ICustomLinkProps {
@@ -20,11 +20,9 @@ export const CustomLink = (props: ICustomLinkProps) => {
 	const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'));
 
 	return (
-		<NextLink href={href} passHref>
-			<Link color={color[colorMode]} isExternal={!isInternalLink} {...props}>
-				{props.children}
-				{!isInternalLink && <ExternalLinkIcon mx="2px" />}
-			</Link>
-		</NextLink>
+		<ChakraLink {...props} as={Link} color={color[colorMode]} isExternal={!isInternalLink}>
+			{props.children}
+			{!isInternalLink && <ExternalLinkIcon mx="2px" />}
+		</ChakraLink>
 	);
 };

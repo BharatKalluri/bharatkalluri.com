@@ -1,4 +1,4 @@
-import {Heading, Input, InputGroup, InputLeftElement, Text} from '@chakra-ui/react';
+import { Heading, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import { PostCard } from '../components/PostCard';
 import React, { useState } from 'react';
@@ -6,7 +6,7 @@ import { BlogFrontMatter } from '../types';
 import { SearchIcon } from '@chakra-ui/icons';
 import { searchInFrontMatter, sortByPinnedAndPublishedAt } from '../utils/postUtils';
 import { getNotesMetadata } from '../utils/mdxUtils';
-import {CustomLink} from "../components/CustomLink";
+import { CustomLink } from '../components/CustomLink';
 
 export function getStaticProps() {
 	return { props: { notes: getNotesMetadata() } };
@@ -24,11 +24,13 @@ const Blog = ({ notes }: { notes: BlogFrontMatter[] }) => {
 			<Heading letterSpacing="tight" mb={2} as="h1">
 				Field Notes
 			</Heading>
-            <Text>
-                <CustomLink href={'https://bharatkalluri.notion.site/25c2619e180b41619b121ff3095188f7?v=b8cb72d3f8634461ae7a3f95c3330d9a'}>
-                    A sneak peak into whats coming next!
-                </CustomLink>
-            </Text>
+			<CustomLink
+				href={
+					'https://bharatkalluri.notion.site/25c2619e180b41619b121ff3095188f7?v=b8cb72d3f8634461ae7a3f95c3330d9a'
+				}
+			>
+				A sneak peak into whats coming next!
+			</CustomLink>
 			<InputGroup>
 				<InputLeftElement pointerEvents="none">
 					<SearchIcon color="gray.300" />
