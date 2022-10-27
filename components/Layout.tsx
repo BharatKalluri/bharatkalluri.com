@@ -8,6 +8,7 @@ import Footer from './Footer';
 import { NextSeo } from 'next-seo';
 import { BASE_URL } from '../constants';
 import { Button } from '@chakra-ui/button';
+import Script from 'next/script';
 
 type LayoutProps = {
 	children?: ReactNode;
@@ -118,23 +119,24 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 					{keywords !== undefined && (
 						<meta name="keywords" content={keywords.map((el) => el.replace('-', ' ')).join(', ')} />
 					)}
-					{/*<Script*/}
-                    {/*    id={'microsoft-clarity'}*/}
-					{/*	type="text/javascript"*/}
-					{/*	dangerouslySetInnerHTML={{*/}
-					{/*		__html: `*/}
-                    {/*            (function(c,l,a,r,i,t,y){*/}
-                    {/*                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};*/}
-                    {/*                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;*/}
-                    {/*                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);*/}
-                    {/*            })(window, document, "clarity", "script", "4g3tskl7lj");*/}
-                    {/*        `,*/}
-					{/*	}}*/}
-					{/*/>*/}
+
 					<link rel="icon" type="image/png" href={'/static/logo.png'} />
 					<meta httpEquiv="content-language" content="en-gb" />
 					<html lang={'en'} />
 				</Head>
+				<Script
+					id={'microsoft-clarity'}
+					type="text/javascript"
+					dangerouslySetInnerHTML={{
+						__html: `
+                                (function(c,l,a,r,i,t,y){
+                                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                                })(window, document, "clarity", "script", "4g3tskl7lj");
+                            `,
+					}}
+				/>
 				<header>
 					<NavBar />
 				</header>
