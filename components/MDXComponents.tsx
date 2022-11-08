@@ -8,7 +8,7 @@ import AudioVisualizer from './AudioVisualizer';
 // TODO: I have no clue how to type this stuff
 export const MDXComponents = {
 	h1: function HeadingFn(props: any) {
-		return <Heading as="h1" size={'2xl'} {...props} displayName={'heading1'} />;
+		return <Heading as="h1" size={'2xl'} {...props} />;
 	},
 	h2: function HeadingFn(props: any) {
 		return <Heading as="h2" size={'xl'} {...props} />;

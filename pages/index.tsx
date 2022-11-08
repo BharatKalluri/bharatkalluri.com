@@ -73,7 +73,10 @@ const RecentBlogPosts = ({ recentNotes }: { recentNotes: BlogFrontMatter[] }) =>
 );
 
 const IndexPage = ({ notes }: { notes: BlogFrontMatter[] }) => {
-	const recentPosts = notes.sort(sortByPublishedAt).slice(0, 3);
+	const recentPosts = notes
+		.filter((el) => el.isBlogPost)
+		.sort(sortByPublishedAt)
+		.slice(0, 3);
 	return (
 		<Layout title="Bharat Kalluri's Website" relativeCanonicalURL="">
 			<Stack direction="column" spacing={5}>
