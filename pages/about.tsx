@@ -15,8 +15,7 @@ const AboutPage = () => (
 			books, Photography and Playing computer games. Most of my personal projects can be found on github.
 		</Text>
 		<Text fontSize="lg">
-			Also, feel free to{' '}
-			<CustomLink href={`https://calendly.com/bharatkalluri`}>schedule a call with me</CustomLink>
+			Also, feel free to <CustomLink href={`https://cal.com/bharatkalluri`}>schedule a call with me</CustomLink>
 			if you want to talk about tech, programming, open source, movies, books, TV series, philosophy and
 			everything in between :)
 		</Text>
