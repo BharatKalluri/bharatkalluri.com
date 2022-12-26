@@ -28,7 +28,7 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
 			>
 				<Stack
 					as="article"
-					spacing={8}
+					spacing={5}
 					justifyContent="center"
 					alignItems="flex-start"
 					m="0 auto 4rem auto"

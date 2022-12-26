@@ -33,7 +33,7 @@ export const MDXComponents = {
 		return <Box as="ol" pl={4} {...props} />;
 	},
 	li: function BoxFn(props: any) {
-		return <Box as="li" pb={1} {...props} />;
+		return <Box as="li" pb={1} {...props} fontSize={'lg'} />;
 	},
 	blockquote: function AlertFn(props: any) {
 		return <Alert w="100%" variant="left-accent" status="info" {...props} />;
