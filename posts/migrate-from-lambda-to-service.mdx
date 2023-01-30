@@ -1,0 +1,52 @@
+---
+title: Migrating from a Fast API lambda to a service
+description: A guide on how to migrate a python fast API lambda into a Elastic beanstalk based service
+publishedAt: '2023-01-30'
+tags:
+    - migration
+    - strategy
+isBlogPost: false
+draft: true
+---
+
+Lambdas are meant for simple, compute focused & ideally stateless codebase which do one thing and one thing well. Sometimes although the project starts off as a simple stateless transformer, it grows to become a beast having a lot of context.
+
+At some point there will be a database added into the system & now you have a system which should not be in a lambda. If the lambda is spending most of the time stuck in IO calls to other services, thats wasted money on the lambdas. At this point, the team has to take a call and start exploring the idea of moving to a server install.
+
+## Step one: Lift and shift migration
+
+Copy paste the code as is into a new repository, setup all the basics like linting, static code checking, automated tests, git hooks etc..
+
+Test is everything is working as expected. Now that the code is sorted, setup the Elastic beanstalk environment or your deployment setup of choice. Setup the corresponding code build & deploy pipeline. Setup health checks & other basics and test the new deployment.
+
+Announce that there is a migration going on & freeze code changes until the migration is complete. This assumes that the lambda is not too big & critical that the code freeze for a couple of days is not possible.
+
+## Step two: A proxy endpoint on the service codebase for non API events
+
+A lambda interfaces with many different kinds of events (API gateway events, S3 events, cloudwatch events etc..)
+
+Some basics on the idea behind lambdas, lambdas are functions which take in an arguments and give back arguments. This is true at the execution level too. The python handler function gets two arguments, `event` & `context` (of type LambdaContext). And returns back a response which is again a dict of a particular structure.
+
+This is great news for non API events, you can have some util functions which will recognize whats the type of the event and handle them on the proxy endpoint. Setup an endpoint on the new service called `/lambda-proxy-non-api-events` which takes in a payload of `{"event": {}}`. Since the context is about the context of the lambda, this is not needed by the proxy.
+
+Once this endpoint is up, setup a simple proxy pass through for all non API events. A simple check is that, if `requestContext` is present in the event then its a API event. If not, then its a non API event.
+
+Test this setup to make sure that all non API events are handled as expected by the new setup.
+
+## Step three: Proxy API events
+
+This is the tricky part, since AWS does not send a request object but a AWS API gateway event/AWS Websocket event or something along those lines. We'll have to go through the process of
+
+-   Transforming the request to extract the params of the request
+-   Call the service with those corresponding params
+-   Get back the HTTP response & transform it back to a structure which AWS will understand
+
+Fortunately, there is a library called [mangum](https://github.com/jordaneremieff/mangum) which is very useful for running ASGI based apps (like fast API) on AWS lambda. This library has an abstract handler which takes in a trigger and transforms it into a request. Although this is not documented (since that's not the intent of the library) this can be found in the codebase.
+
+For example, to transform an AWS API gateway event and get fields important for constructing a HTTP request, `ApiGateway` class can be used. [Here is the class](https://github.com/jordaneremieff/mangum/blob/5ef6c4e5f58fc3e0bdee3248b8b2409725f055d1/mangum/handlers/api_gateway.py#L67)
+
+## Step four: Wrapping up the migration
+
+At this point we'll have all the pieces in their right places. If this proxy deployment goes well and everything is in place. All the clients are always writing all the DB calls from the new service.
+
+Once you are confident regarding the state of migration, move all the clients to the new system and retire the lambda!
