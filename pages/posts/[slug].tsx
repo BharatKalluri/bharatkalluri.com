@@ -1,7 +1,5 @@
 import Layout from '../../components/Layout';
-import { Stack, Text } from '@chakra-ui/react';
 import React from 'react';
-import { Flex, Heading } from '@chakra-ui/layout';
 import { allPosts } from 'contentlayer/generated';
 import { Mdx } from '../../components/Mdx';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
@@ -22,23 +20,13 @@ export default function PostPage(props: InferGetStaticPropsType<typeof getStatic
 				relativeCanonicalURL={`/posts/${postLink}`}
 				keywords={post.tags}
 			>
-				<Stack
-					as="article"
-					spacing={5}
-					justifyContent="center"
-					alignItems="flex-start"
-					m="0 auto 4rem auto"
-					w="100%"
-				>
-					<Flex direction={'column'} py={5} width={'100%'}>
-						<Heading as={'h1'} size={'2xl'} paddingY={2} overflowWrap={'normal'}>
-							{post.title}
-						</Heading>
-						<Text color="grey">Bharat Kalluri / {publishedAt}</Text>
-					</Flex>
-
+				<article className={'prose-lg lg:prose-xl'}>
+					<section className={'py-2'}>
+						<h1 className={'text-4xl font-black py-4'}>{post.title}</h1>
+						<p>Bharat Kalluri / {publishedAt}</p>
+					</section>
 					<Mdx code={post.body.code} />
-				</Stack>
+				</article>
 			</Layout>
 		</>
 	);
