@@ -1,4 +1,4 @@
-import { Heading, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import { PostCard } from '../components/PostCard';
 import React, { useState } from 'react';
@@ -17,9 +17,7 @@ const Blog = () => {
 			description="These are the notes of Bharat, everything from random learnings to interesting facts"
 			relativeCanonicalURL="/notes"
 		>
-			<Heading letterSpacing="tight" mb={2} as="h1">
-				Field Notes
-			</Heading>
+			<h1 className={'text-4xl font-black'}>Field Notes</h1>
 			<CustomLink
 				href={
 					'https://bharatkalluri.notion.site/25c2619e180b41619b121ff3095188f7?v=b8cb72d3f8634461ae7a3f95c3330d9a'

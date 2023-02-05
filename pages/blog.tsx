@@ -1,4 +1,4 @@
-import { Heading, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import { PostCard } from '../components/PostCard';
 import React, { useState } from 'react';
@@ -11,15 +11,16 @@ const Blog = () => {
 	const sortedPosts = allPosts.sort(sortByPinnedAndPublishedAt);
 	return (
 		<Layout title="Blog" description="Blog posts by Bharat Kalluri" relativeCanonicalURL="/blog">
-			<Heading letterSpacing="tight" mb={2} as="h1">
-				Blog
-			</Heading>
+			<h1 className={'text-4xl font-black'}>Blog</h1>
+
+			{/*TODO: pull the search into its own component*/}
 			<InputGroup>
 				<InputLeftElement pointerEvents="none">
 					<SearchIcon color="gray.300" />
 				</InputLeftElement>
 				<Input type="text" placeholder="Search" onChange={(e) => setSearchQuery(e.target.value)} />
 			</InputGroup>
+
 			{sortedPosts
 				.filter((f) => !f.draft)
 				.filter((f) => f.isBlogPost)

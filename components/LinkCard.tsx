@@ -1,5 +1,4 @@
-import { Box, Flex, Heading, Link, Skeleton, Stack, Text } from '@chakra-ui/react';
-import { AiTwotonePushpin } from 'react-icons/ai';
+import Link from 'next/link';
 
 interface ILinkCardProps {
 	name: string;
@@ -7,38 +6,17 @@ interface ILinkCardProps {
 	link: string;
 	tags?: Array<string>;
 	isPinned?: boolean;
-	isLoading?: boolean;
 }
 
-const LinkCard = ({ name, description, link, isPinned, isLoading }: ILinkCardProps) => {
-	const isLoadingFromProps = isLoading || false;
+const LinkCard = ({ name, description, link }: ILinkCardProps) => {
 	return (
-		<Link
-			w="100%"
-			_hover={{ textDecoration: 'none' }}
-			borderWidth="1px"
-			borderRadius="lg"
-			padding="1.5rem"
-			href={link}
-			target={'_self'}
-		>
-			<Skeleton isLoaded={!isLoadingFromProps}>
-				<Box display="block" width="100%">
-					<Flex width="100%" align="flex-start" justifyContent="space-between" flexDirection="column">
-						<Stack direction="row" align="center" style={{ width: '100%' }} justify="space-between">
-							<Heading size="md" as="h3" letterSpacing="tight">
-								{name}
-							</Heading>
-							{isPinned === true && <AiTwotonePushpin size="20" />}
-						</Stack>
-						{description && (
-							<Text mt="1rem" fontSize="md" variant="solid" colorScheme="teal">
-								{description}
-							</Text>
-						)}
-					</Flex>
-				</Box>
-			</Skeleton>
+		<Link href={link}>
+			<figure className="md:flex rounded-xl p-0 border-2">
+				<div className="pt-6 md:p-8 text-center md:text-left space-y-2">
+					<h2 className={'text-xl font-black'}>{name}</h2>
+					{description && <p className="text-lg font-medium text-slate-700">{description}</p>}
+				</div>
+			</figure>
 		</Link>
 	);
 };
