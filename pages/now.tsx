@@ -1,6 +1,6 @@
 import { Divider, ListItem, Stack, Text, UnorderedList } from '@chakra-ui/react';
-import { CustomLink } from '../components/CustomLink';
 import Layout from '../components/Layout';
+import { CustomLink } from '../components/Mdx';
 
 const Now = () => {
 	return (
