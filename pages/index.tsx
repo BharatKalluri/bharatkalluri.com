@@ -2,18 +2,13 @@ import { Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import LinkCard from '../components/LinkCard';
 import { PROJECT_LIST } from '../constants';
-import { getNotesMetadata } from '../utils/mdxUtils';
-import { BlogFrontMatter } from '../types';
 import { sortByPublishedAt } from '../utils/postUtils';
 import NextLink from 'next/link';
 import { Button } from '@chakra-ui/button';
 import React from 'react';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { PostCard } from '../components/PostCard';
-
-export function getStaticProps() {
-	return { props: { notes: getNotesMetadata() } };
-}
+import { allPosts, Post } from 'contentlayer/generated';
 
 const ProjectListComponent = () => (
 	<Stack py={5} spacing={5}>
@@ -50,12 +45,12 @@ const ProfileSection = () => (
 	</Stack>
 );
 
-const RecentBlogPosts = ({ recentNotes }: { recentNotes: BlogFrontMatter[] }) => (
+const RecentBlogPosts = ({ recentNotes }: { recentNotes: Post[] }) => (
 	<Stack py={5} spacing={5}>
 		<Heading>Writings</Heading>
 		<Stack direction="column" spacing={5}>
 			{recentNotes.map((frontMatter) => (
-				<PostCard key={frontMatter.title} frontMatter={frontMatter} folderPrefix="posts/" />
+				<PostCard post={frontMatter} key={frontMatter.url} />
 			))}
 
 			<Flex flexDirection={'row-reverse'}>
@@ -72,8 +67,8 @@ const RecentBlogPosts = ({ recentNotes }: { recentNotes: BlogFrontMatter[] }) =>
 	</Stack>
 );
 
-const IndexPage = ({ notes }: { notes: BlogFrontMatter[] }) => {
-	const recentPosts = notes
+const IndexPage = () => {
+	const recentPosts = allPosts
 		.filter((el) => el.isBlogPost)
 		.sort(sortByPublishedAt)
 		.slice(0, 3);

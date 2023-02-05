@@ -1,21 +1,18 @@
-import { MDXRemote } from 'next-mdx-remote';
-import { serialize } from 'next-mdx-remote/serialize';
 import Layout from '../../components/Layout';
-import { MDXComponents } from '../../components/MDXComponents';
-import { BlogFrontMatter, BlogFrontMatterValidator } from '../../types';
-import { getNoteMetadata, postFilePaths } from '../../utils/mdxUtils';
-import decodeWith from '../../utils/ioTsUtils';
-import { Image, Stack, Text } from '@chakra-ui/react';
+import { Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Flex, Heading } from '@chakra-ui/layout';
+import { allPosts } from 'contentlayer/generated';
+import { Mdx } from '../../components/Mdx';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 
-export default function PostPage(props: { source: any; frontMatter: BlogFrontMatter; postFileName: string }) {
-	const frontMatter = decodeWith(BlogFrontMatterValidator)(props.frontMatter);
-	const publishedAt = frontMatter.publishedAt;
-	const postTitle = frontMatter.title;
-	const postDescription = frontMatter.description;
-	const postLink = `${frontMatter.__resourcePath.replace('.mdx', '')}`;
-	const postHeroImage = frontMatter.hero;
+export default function PostPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
+	const post = allPosts.find((p) => p.slug === props.slug);
+	if (!post) throw new Error(`no post found for slug ${props.slug}`);
+	const publishedAt = post.publishedAt;
+	const postTitle = post.title;
+	const postDescription = post.description;
+	const postLink = post.url;
 
 	return (
 		<>
@@ -23,8 +20,7 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
 				title={postTitle}
 				description={postDescription}
 				relativeCanonicalURL={`/posts/${postLink}`}
-				keywords={frontMatter.tags}
-				heroImage={postHeroImage}
+				keywords={post.tags}
 			>
 				<Stack
 					as="article"
@@ -36,41 +32,30 @@ export default function PostPage(props: { source: any; frontMatter: BlogFrontMat
 				>
 					<Flex direction={'column'} py={5} width={'100%'}>
 						<Heading as={'h1'} size={'2xl'} paddingY={2} overflowWrap={'normal'}>
-							{frontMatter.title}
+							{post.title}
 						</Heading>
 						<Text color="grey">Bharat Kalluri / {publishedAt}</Text>
 					</Flex>
 
-					{postHeroImage && (
-						<Flex justifyContent={'center'} w={'100%'}>
-							<Image src={postHeroImage} alt={postTitle} borderRadius={'5px'} />
-						</Flex>
-					)}
-
-					<MDXRemote {...props.source} components={MDXComponents} />
+					<Mdx code={post.body.code} />
 				</Stack>
 			</Layout>
 		</>
 	);
 }
 
-export const getStaticProps = async ({ params }: { params: { slug: string } }) => {
-	const postFileName = `${params.slug}.mdx`;
-	const { frontMatter, content } = getNoteMetadata(postFileName);
-	const mdxSource = await serialize(content, {
-		scope: frontMatter,
-	});
-
+export const getStaticProps: GetStaticProps = async (context: InferGetStaticPropsType<typeof getStaticProps>) => {
 	return {
 		props: {
-			source: mdxSource,
-			frontMatter: frontMatter,
+			slug: context.params.slug,
 		},
 	};
 };
 
-export const getStaticPaths = async () => {
-	const paths = postFilePaths.map((path) => path.replace(/\.mdx?$/, '')).map((slug) => ({ params: { slug } }));
+export const getStaticPaths: GetStaticPaths = async () => {
+	const paths = allPosts.map((post) => ({
+		params: { slug: post.slug },
+	}));
 
 	return {
 		paths,

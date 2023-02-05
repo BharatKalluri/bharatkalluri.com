@@ -3,10 +3,10 @@ import { Box, Flex, Heading, Image, Skeleton, Text, useColorMode } from '@chakra
 import React from 'react';
 import { ITraktTvStats } from '../interfaces';
 import { BookData } from '../types';
-import { CustomLink } from '../components/CustomLink';
 import axios, { AxiosResponse } from 'axios';
 import { BASE_URL } from '../constants';
 import { InferGetStaticPropsType } from 'next';
+import { CustomLink } from '../components/Mdx';
 
 export async function getStaticProps() {
 	const traktDataResponse: AxiosResponse<ITraktTvStats> = await axios.get(`${BASE_URL}/api/trakt-stats`);
