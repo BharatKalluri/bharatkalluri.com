@@ -1,4 +1,3 @@
-import { BlogFrontMatter } from '../types';
 import { Post } from 'contentlayer/generated';
 
 export function searchInFrontMatter(frontMatter: Post, searchQuery: string): boolean | undefined {

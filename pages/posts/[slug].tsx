@@ -44,9 +44,7 @@ export default function PostPage(props: InferGetStaticPropsType<typeof getStatic
 	);
 }
 
-export const getStaticProps: GetStaticProps<{ slug: string }> = async (
-	context: InferGetStaticPropsType<typeof getStaticProps>,
-) => {
+export const getStaticProps: GetStaticProps = async (context: InferGetStaticPropsType<typeof getStaticProps>) => {
 	return {
 		props: {
 			slug: context.params.slug,
