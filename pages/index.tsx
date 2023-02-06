@@ -27,13 +27,13 @@ const ProjectListComponent = () => (
 );
 
 const ProfileSection = () => (
-	<section className={'flex space-x-8 py-12'}>
+	<section className={'flex py-12 flex-col space-y-5 md:flex-row md:space-x-5 md:space-y-0'}>
 		<img
-			className={'rounded-full h-20'}
+			className={'rounded-full h-20 w-20'}
 			src={'https://pbs.twimg.com/profile_images/1395084526884298754/rg1BFxMS_400x400.jpg'}
 			alt={'Bharat Kalluri'}
 		/>
-		<section className={'text-left flex flex-col h-25 justify-between'}>
+		<section className={'text-left flex flex-col space-y-5 md:space-y-2'}>
 			<h1 className={H1Styles}>Hi, I&apos;m Bharat Kalluri 👋</h1>
 			<p>Senior software engineer at Refyne. I write about programming, books and open source!</p>
 		</section>
