@@ -1,12 +1,11 @@
-import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import { PostCard } from '../components/PostCard';
 import React, { useState } from 'react';
-import { SearchIcon } from '@chakra-ui/icons';
 import { searchInFrontMatter, sortByPinnedAndPublishedAt } from '../utils/postUtils';
 import { allPosts } from 'contentlayer/generated';
 import { CustomLink } from '../components/Mdx';
 import { H1Styles } from '../style_constants';
+import { SearchBar } from '../components/SearchBar';
 
 const Blog = () => {
 	const notes = allPosts.filter((p) => !p.isBlogPost);
@@ -26,16 +25,9 @@ const Blog = () => {
 			>
 				A sneak peak into whats coming next!
 			</CustomLink>
-			<InputGroup>
-				<InputLeftElement pointerEvents="none">
-					<SearchIcon color="gray.300" />
-				</InputLeftElement>
-				<Input
-					type="text"
-					placeholder="Search"
-					onChange={(e) => setSearchQuery(e.target.value?.toLowerCase())}
-				/>
-			</InputGroup>
+
+			<SearchBar onChangeFn={(e) => setSearchQuery(e.target.value)} />
+
 			{sortedNotes
 				.filter((f) => !f.draft)
 				.filter((f) => searchInFrontMatter(f, searchQuery))
