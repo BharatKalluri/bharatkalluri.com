@@ -1,5 +1,4 @@
 import Layout from '../components/Layout';
-import ContactForm from '../components/ContactForm';
 import { CustomLink } from '../components/Mdx';
 import { H1Styles } from 'style_constants';
 
@@ -30,8 +29,6 @@ const AboutPage = () => (
 				</CustomLink>
 			</p>
 		</section>
-
-		<ContactForm />
 	</Layout>
 );
 
