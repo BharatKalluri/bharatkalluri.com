@@ -13,7 +13,7 @@ const LinkCard = ({ name, description, link }: ILinkCardProps) => {
 		<Link href={link}>
 			<figure className="rounded-xl p-0 border-2">
 				<div className="p-6 text-center space-y-2">
-					<h2 className={'text-xl font-black text-left'}>{name}</h2>
+					<h2 className={'text-xl font-bold text-left'}>{name}</h2>
 					{description && <p className="text-lg text-left font-medium text-slate-700">{description}</p>}
 				</div>
 			</figure>
