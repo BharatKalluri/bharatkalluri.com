@@ -1,4 +1,4 @@
-import { Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import { Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import LinkCard from '../components/LinkCard';
 import { PROJECT_LIST } from '../constants';
@@ -11,7 +11,7 @@ import { PostCard } from '../components/PostCard';
 import { allPosts, Post } from 'contentlayer/generated';
 
 const ProjectListComponent = () => (
-	<Stack py={5} spacing={5}>
+	<section className={'flex flex-col space-y-5'}>
 		<Heading>Projects</Heading>
 		<Stack direction="column" spacing={5}>
 			{PROJECT_LIST.map((project) => (
@@ -23,30 +23,25 @@ const ProjectListComponent = () => (
 				/>
 			))}
 		</Stack>
-	</Stack>
+	</section>
 );
 
 const ProfileSection = () => (
-	<Stack direction={{ base: 'column', md: 'row' }} spacing={8} py={10}>
-		<Image
-			borderRadius="full"
-			boxSize="130px"
+	<section className={'flex space-x-8 py-8'}>
+		<img
+			className={'rounded-full h-20'}
 			src={'https://pbs.twimg.com/profile_images/1395084526884298754/rg1BFxMS_400x400.jpg'}
 			alt={'Bharat Kalluri'}
 		/>
-		<Stack justifyContent={'center'}>
-			<Heading fontSize="5xl" fontWeight="extrabold">
-				Hi, I&apos;m Bharat Kalluri 👋
-			</Heading>
-			<Text fontSize={'md'}>
-				Senior software engineer at Refyne. I write about programming, books and open source!
-			</Text>
-		</Stack>
-	</Stack>
+		<section className={'text-left flex flex-col h-25 justify-between'}>
+			<h1 className={'text-5xl font-bold'}>Hi, I&apos;m Bharat Kalluri 👋</h1>
+			<p>Senior software engineer at Refyne. I write about programming, books and open source!</p>
+		</section>
+	</section>
 );
 
 const RecentBlogPosts = ({ recentNotes }: { recentNotes: Post[] }) => (
-	<Stack py={5} spacing={5}>
+	<section className={'flex flex-col space-y-5'}>
 		<Heading>Writings</Heading>
 		<Stack direction="column" spacing={5}>
 			{recentNotes.map((frontMatter) => (
@@ -64,7 +59,7 @@ const RecentBlogPosts = ({ recentNotes }: { recentNotes: Post[] }) => (
 				</NextLink>
 			</Flex>
 		</Stack>
-	</Stack>
+	</section>
 );
 
 const IndexPage = () => {

@@ -5,6 +5,7 @@ import Footer from './Footer';
 import { NextSeo } from 'next-seo';
 import { BASE_URL } from '../constants';
 import Script from 'next/script';
+import Link from 'next/link';
 
 type LayoutProps = {
 	children?: ReactNode;
@@ -42,9 +43,9 @@ const DesktopLeftNavBar = () => {
 	return (
 		<div className="flex items-center justify-between py-4">
 			{navBarItems.map((el) => (
-				<a href={el.href} className="text-md mr-8" key={el.href}>
+				<Link href={el.href} className="text-md mr-6" key={el.href}>
 					{el.text}
-				</a>
+				</Link>
 			))}
 		</div>
 	);

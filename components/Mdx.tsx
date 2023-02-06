@@ -24,7 +24,14 @@ export const CustomLink = (props: any) => {
 		return <a {...props} />;
 	}
 
-	return <a target="_blank" rel="noopener noreferrer" {...props} />;
+	return (
+		<a
+			target="_blank"
+			rel="noopener noreferrer"
+			className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+			{...props}
+		/>
+	);
 };
 
 // TODO: I have no clue how to type this stuff
