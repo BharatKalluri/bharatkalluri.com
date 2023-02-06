@@ -5,13 +5,14 @@ import React, { useState } from 'react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { searchInFrontMatter, sortByPinnedAndPublishedAt } from '../utils/postUtils';
 import { allPosts } from 'contentlayer/generated';
+import { H1Styles } from '../style_constants';
 
 const Blog = () => {
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const sortedPosts = allPosts.sort(sortByPinnedAndPublishedAt);
 	return (
 		<Layout title="Blog" description="Blog posts by Bharat Kalluri" relativeCanonicalURL="/blog">
-			<h1 className={'text-4xl font-black'}>Blog</h1>
+			<h1 className={H1Styles}>Blog</h1>
 
 			{/*TODO: pull the search into its own component*/}
 			<InputGroup>
