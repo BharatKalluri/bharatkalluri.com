@@ -1,19 +1,19 @@
-import { Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import LinkCard from '../components/LinkCard';
 import { PROJECT_LIST } from '../constants';
 import { sortByPublishedAt } from '../utils/postUtils';
 import NextLink from 'next/link';
-import { Button } from '@chakra-ui/button';
 import React from 'react';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { PostCard } from '../components/PostCard';
 import { allPosts, Post } from 'contentlayer/generated';
+import { CardListStyles, H1Styles, H2Styles } from '../style_constants';
+import clsx from 'clsx';
 
 const ProjectListComponent = () => (
-	<Stack py={5} spacing={5}>
-		<Heading>Projects</Heading>
-		<Stack direction="column" spacing={5}>
+	<section className={'flex flex-col'}>
+		<h2 className={H2Styles}>Projects</h2>
+		<section className={CardListStyles}>
 			{PROJECT_LIST.map((project) => (
 				<LinkCard
 					key={project.name}
@@ -22,49 +22,44 @@ const ProjectListComponent = () => (
 					link={project.link}
 				/>
 			))}
-		</Stack>
-	</Stack>
+		</section>
+	</section>
 );
 
 const ProfileSection = () => (
-	<Stack direction={{ base: 'column', md: 'row' }} spacing={8} py={10}>
-		<Image
-			borderRadius="full"
-			boxSize="130px"
+	<section className={'flex py-12 flex-col space-y-5 md:flex-row md:space-x-5 md:space-y-0'}>
+		<img
+			className={'rounded-full h-20 w-20'}
 			src={'https://pbs.twimg.com/profile_images/1395084526884298754/rg1BFxMS_400x400.jpg'}
 			alt={'Bharat Kalluri'}
 		/>
-		<Stack justifyContent={'center'}>
-			<Heading fontSize="5xl" fontWeight="extrabold">
-				Hi, I&apos;m Bharat Kalluri 👋
-			</Heading>
-			<Text fontSize={'md'}>
-				Senior software engineer at Refyne. I write about programming, books and open source!
-			</Text>
-		</Stack>
-	</Stack>
+		<section className={'text-left flex flex-col space-y-5 md:space-y-2'}>
+			<h1 className={H1Styles}>Hi, I&apos;m Bharat Kalluri 👋</h1>
+			<p>Senior software engineer at Refyne. I write about programming, books and open source!</p>
+		</section>
+	</section>
 );
 
 const RecentBlogPosts = ({ recentNotes }: { recentNotes: Post[] }) => (
-	<Stack py={5} spacing={5}>
-		<Heading>Writings</Heading>
-		<Stack direction="column" spacing={5}>
+	<section className={'flex flex-col'}>
+		<h2 className={H2Styles}>Writings</h2>
+		<section className={CardListStyles}>
 			{recentNotes.map((frontMatter) => (
 				<PostCard post={frontMatter} key={frontMatter.url} />
 			))}
 
-			<Flex flexDirection={'row-reverse'}>
+			<div className={'flex flex-row-reverse'}>
 				<NextLink href={'/blog'}>
-					<Button>
-						<Stack direction="row" align="center" style={{ width: '100%' }} justify="space-between">
-							<Text>Read all posts</Text>
+					<button>
+						<div className={'flex flex-row space-x-4'}>
+							<p className={'font-black'}>All posts</p>
 							<AiOutlineArrowRight size="20" />
-						</Stack>
-					</Button>
+						</div>
+					</button>
 				</NextLink>
-			</Flex>
-		</Stack>
-	</Stack>
+			</div>
+		</section>
+	</section>
 );
 
 const IndexPage = () => {
@@ -74,13 +69,13 @@ const IndexPage = () => {
 		.slice(0, 3);
 	return (
 		<Layout title="Bharat Kalluri's Website" relativeCanonicalURL="">
-			<Stack direction="column" spacing={5}>
+			<section className={clsx('flex', 'flex-col')}>
 				<ProfileSection />
 
 				<RecentBlogPosts recentNotes={recentPosts} />
 
 				<ProjectListComponent />
-			</Stack>
+			</section>
 		</Layout>
 	);
 };
