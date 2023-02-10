@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
+
 import { Flex, Stack } from '@chakra-ui/layout';
 import Footer from './Footer';
 import { NextSeo } from 'next-seo';
@@ -37,44 +38,33 @@ const navBarItems: Array<{ href: string; text: string }> = [
 		href: '/about',
 		text: 'About',
 	},
+	{
+		href: '/now',
+		text: 'Now',
+	},
+	{
+		href: '/reading-log',
+		text: 'Reading',
+	},
 ];
 
 const DesktopLeftNavBar = () => {
 	return (
-		<div className="flex items-center justify-between py-4">
-			{navBarItems.map((el) => (
-				<Link href={el.href} className="text-md mr-6" key={el.href}>
-					{el.text}
-				</Link>
-			))}
-		</div>
-	);
-};
-
-const NavBar = () => {
-	return (
-		<Stack
-			flexDirection="row"
-			justifyContent="space-between"
-			alignItems="center"
-			width="100%"
-			as="nav"
-			p={3}
-			mx="auto"
-			maxW="1200px"
-			wrap="wrap"
-		>
-			<DesktopLeftNavBar />
-			{/*TODO: uncomment once tailwind migration is complete*/}
-			{/*<Box flexDirection="row" mb={'0.2rem'}>*/}
-			{/*	<IconButton*/}
-			{/*		aria-label="Toggle dark mode"*/}
-			{/*		variant="ghost"*/}
-			{/*		onClick={toggleColorMode}*/}
-			{/*		icon={colorMode == 'dark' ? <SunIcon /> : <MoonIcon />}*/}
-			{/*	/>*/}
-			{/*</Box>*/}
-		</Stack>
+		<section className={'pb-8'}>
+			<div className={'flex flex-row overflow-auto pb-4 justify-left'}>
+				{navBarItems.map((el) => {
+					return (
+						<Link
+							href={el.href}
+							key={el.href}
+							className="rounded-md font-medium text-md hover:bg-gray-300 px-3 md:px-4 py-2"
+						>
+							{el.text}
+						</Link>
+					);
+				})}
+			</div>
+		</section>
 	);
 };
 
@@ -119,12 +109,11 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 				            `,
 				}}
 			/>
-
 			<div className={'mx-auto px-4 sm:px-6 lg:px-8'}>
-				<header>
-					<NavBar />
-				</header>
 				<Flex as="main" justifyContent="center" flexDirection="column" px={4} mx="auto" mt={8} maxW="1000px">
+					<header>
+						<DesktopLeftNavBar />
+					</header>
 					<Stack spacing={7}>{children}</Stack>
 				</Flex>
 				<Footer />

@@ -27,7 +27,7 @@ const ProjectListComponent = () => (
 );
 
 const ProfileSection = () => (
-	<section className={'flex py-12 flex-col space-y-5 md:flex-row md:space-x-5 md:space-y-0'}>
+	<section className={'flex pb-12 flex-col space-y-5 md:flex-row md:space-x-5 md:space-y-0'}>
 		<img
 			className={'rounded-full h-20 w-20'}
 			src={'https://pbs.twimg.com/profile_images/1395084526884298754/rg1BFxMS_400x400.jpg'}
