@@ -1,0 +1,81 @@
+---
+title: From Code to Deployment - A Comprehensive Guide to CI CD
+publishedAt: '2023-03-08'
+tags:
+    - devops
+    - testing
+    - best-practices
+---
+
+When developing software, confidence is a very important factor. When there is no confidence, the speed of development slows down and fear increases in the team. There are many tools in our toolbox to fix this issue, one of the most important is the continuous integration & deployment.
+
+Continuous integration (CI) and continuous deployment (CD) are two pieces which tie in with each other closely. CI deals with the process of making sure the code passes a lot of pre-checks and is ready to go to production. CD makes sure that the deployment is done in a completely automated fashion without any manual intervention & if something does go wrong, a rollback is always an option.
+
+# Continuous integration (CI)
+
+The idea of CI is to run enough checks so that the team is confident that the code change has no unexpected consequence, here are some recommended components of a CI pipeline (presented in no particular order)
+
+## Tests
+
+The absolute necessary step, make sure you have a healthy unit test suite which runs and makes sure the code change does not break anything. All code changes ideally should also come along with a corresponding set of test cases, which makes the process sustainable.
+
+There are different levels of tests. unit tests are essential, post which come functional tests, smoke tests, integration tests and other kinds of tests like load, performance etc..
+
+**Tools recommended**: unit test suite runner of choice (`pytest` for python, `jest` for javascript/typescript etc..), selenium for e2e tests, Jmeter for load testing etc..
+
+## Spell check
+
+Typos in code are not acceptable, make sure that all changes pushed with no spelling mistakes.
+
+**Tools recommended**: `cspell`
+
+## Coverage
+
+Coverage is a metric which captures how much of the existing codebase is covered by test cases. Although this is not a silver bullet metric to chase, this is great pointer to an exhaustive test suite. Make sure the codebase has more than at least 60% of code coverage. And if it so happens that a change decreases the coverage below the threshold, make sure new tests are added so that the health of the suite is maintained.
+
+**Tools recommended**: your friendly neighborhood coverage tool in your programming language (`coverage` for python)
+
+## Static code analysis
+
+Static code analysis makes sure code smells are caught early on during the PR creation phase. Custom rules can be setup to make sure the rules are being adhered to and coding standards of the organization are being met.
+
+**Tools recommended**: Sonarcloud / Semgrep
+
+## Security analysis
+
+Infosec is a very important part of software development. If the change is introducing a new dependency that has a vulnerability, its very important that the code author is aware and mitigates it before the code hits production. Similarly if the code change is introducing a code change which has a possible vulnerability, the PR author should be made aware. There are tools to automate and help us here too.
+
+**Tools recommended**: Snyk
+
+Its recommended these checks are run at a PR level so that the feedback loop is tight and the PR author can work on changes if any. The pipeline can be optimized further by parallelizing this. Usually all of these are run in Github actions, Gitlab pipelines or a corresponding equal tool close to the codebase versioning tool. Make sure _caching is setup_ to make sure the pipeline stays snappy.
+
+Once all these pass and a PR has an approval from a corresponding code owner or a reviewer. The change is ready to be shipped to production. This is where the continuous deployment (CD) comes into the picture.
+
+# Continuous Deployment (CD)
+
+## Artifact build & storage
+
+Make sure the code builds and the packaged codebase is shipped to a storage so that a snapshot is kept around. This is useful for numerous reasons, some of them being for rollbacks, audits etc.. Usually a docker image is built at this step and built to a docker image registry (ECR if you are using the orange cloud).
+
+## Zero downtime deploy
+
+A rolling deployment or a blue green deployment is suggested to make sure that the code is being deployed without any downtime. Health check is performed on the new instances deployed to make sure that the new code is meeting minimum requirements and did not run into any abnormal deploy issues in the instance. Once health checks pass, traffic is drained from the previous setup and routed to the new setup.
+
+## Easy rollbacks
+
+Rolling back should be instantaneous and easy. The recommendation is to have the previous setup up & running for at least some cool off time (maybe for 15-30 minutes) to make sure that a instant rollback can be performed if there are edge cases missed which cause issues in production.
+
+## Notifications
+
+Have an integration with a tool of choice (slack / MS teams / flock / rocket chat etc..) so that the status of deployments is published and the team is kept in sync. Both failures and success are important to be communicated.
+
+In the CD step, all of the mentioned steps are extremely important. Start optimizing for rollbacks from the start, you don't want to get caught up in a production incident because of a faulty deployment and just be waiting for a rollback which takes half an hour.
+
+Some more general guidelines
+
+-   Rollbacks are important!
+-   Make the pipeline cloud agnostic, using docker will help in that.
+-   Make sure the pipeline tool of choice supports parallel steps
+-   Visibility into the pipeline so that failures can be debugged easily
+
+And with that, you should be having a fantastic CI & CD pipeline which will scale along as your organization grows.

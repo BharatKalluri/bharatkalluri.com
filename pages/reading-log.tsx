@@ -30,7 +30,7 @@ function ReadingLogCards(props: { readingLogFromApi: PocketArticleInfo[] }): JSX
 	const { readingLogFromApi } = props;
 	return (
 		<section>
-			{readingLogFromApi.reverse().map((el) => (
+			{readingLogFromApi.map((el) => (
 				<div className={'py-2'} key={el.resolved_url}>
 					<LinkCard name={el.resolved_title} link={el.resolved_url} key={el.resolved_url} />
 				</div>

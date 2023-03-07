@@ -20,7 +20,7 @@ export default function PostPage(props: InferGetStaticPropsType<typeof getStatic
 				relativeCanonicalURL={`/posts/${postLink}`}
 				keywords={post.tags}
 			>
-				<article className={'prose-lg lg:prose-xl'}>
+				<article className={'prose  prose-slate'}>
 					<section className={'py-2'}>
 						<h1 className={'text-4xl font-black py-4'}>{post.title}</h1>
 						<p>Bharat Kalluri / {publishedAt}</p>
