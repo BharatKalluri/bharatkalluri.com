@@ -1,7 +1,6 @@
 import Layout from '../components/Layout';
 import LinkCard from '../components/LinkCard';
 import { PROJECT_LIST } from '../constants/constants';
-import { sortByPublishedAt } from '../utils/postUtils';
 import NextLink from 'next/link';
 import React from 'react';
 import { AiOutlineArrowRight } from 'react-icons/ai';
@@ -35,16 +34,16 @@ const ProfileSection = () => (
 		/>
 		<section className={'text-left flex flex-col space-y-5 md:space-y-2'}>
 			<h1 className={H1Styles}>Hi, I&apos;m Bharat Kalluri 👋</h1>
-			<p>Senior software engineer at Refyne. I write about programming, books and open source!</p>
+			<p>Senior software engineer @ Refyne. A blog exploring the fundamentals of computer science</p>
 		</section>
 	</section>
 );
 
-const RecentBlogPosts = ({ recentNotes }: { recentNotes: Post[] }) => (
+const TopBlogPosts = ({ notes }: { notes: Post[] }) => (
 	<section className={'flex flex-col'}>
 		<h2 className={H2Styles}>Writings</h2>
 		<section className={CardListStyles}>
-			{recentNotes.map((frontMatter) => (
+			{notes.map((frontMatter) => (
 				<PostCard post={frontMatter} key={frontMatter.url} />
 			))}
 
@@ -63,16 +62,13 @@ const RecentBlogPosts = ({ recentNotes }: { recentNotes: Post[] }) => (
 );
 
 const IndexPage = () => {
-	const recentPosts = allPosts
-		.filter((el) => el.isBlogPost)
-		.sort(sortByPublishedAt)
-		.slice(0, 3);
+	const topPosts = allPosts.filter((el) => el.onFrontPage);
 	return (
 		<Layout title="Bharat Kalluri's Website" relativeCanonicalURL="">
 			<section className={clsx('flex', 'flex-col')}>
 				<ProfileSection />
 
-				<RecentBlogPosts recentNotes={recentPosts} />
+				<TopBlogPosts notes={topPosts} />
 
 				<ProjectListComponent />
 			</section>

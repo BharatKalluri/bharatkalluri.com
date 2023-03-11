@@ -17,7 +17,3 @@ export const sortByPinnedAndPublishedAt = (a: Post, b: Post): number => {
 		return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
 	}
 };
-
-export const sortByPublishedAt = (a: Post, b: Post): number => {
-	return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
-};
