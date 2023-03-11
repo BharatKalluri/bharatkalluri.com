@@ -1,13 +1,13 @@
 import Layout from '../components/Layout';
 import LinkCard from '../components/LinkCard';
-import { PROJECT_LIST } from '../constants';
+import { PROJECT_LIST } from '../constants/constants';
 import { sortByPublishedAt } from '../utils/postUtils';
 import NextLink from 'next/link';
 import React from 'react';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { PostCard } from '../components/PostCard';
 import { allPosts, Post } from 'contentlayer/generated';
-import { CardListStyles, H1Styles, H2Styles } from '../style_constants';
+import { CardListStyles, H1Styles, H2Styles } from '../constants/style-constants';
 import clsx from 'clsx';
 
 const ProjectListComponent = () => (

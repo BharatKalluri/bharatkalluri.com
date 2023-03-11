@@ -1,6 +1,6 @@
 import Layout from '../components/Layout';
 import { CustomLink } from '../components/Mdx';
-import { H1Styles } from 'style_constants';
+import { H1Styles } from 'constants/style-constants';
 
 const AboutPage = () => (
 	<Layout title="About" description="About Bharat Kalluri" relativeCanonicalURL="/about">

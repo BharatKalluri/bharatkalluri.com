@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { Flex, Stack } from '@chakra-ui/layout';
 import Footer from './Footer';
 import { NextSeo } from 'next-seo';
-import { BASE_URL } from '../constants';
+import { BASE_URL } from '../constants/constants';
 import Script from 'next/script';
 import Link from 'next/link';
 

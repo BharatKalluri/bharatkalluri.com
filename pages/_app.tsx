@@ -3,7 +3,7 @@ import { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme, ThemeConfig } from '@chakra-ui/react';
 import '../styles/main.css';
 import { DefaultSeo } from 'next-seo';
-import { DEFAULT_SEO_CONFIG } from '../constants';
+import { DEFAULT_SEO_CONFIG } from '../constants/constants';
 const themeConfig: ThemeConfig = {
 	initialColorMode: 'light',
 };

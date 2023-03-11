@@ -3,9 +3,9 @@ import React from 'react';
 import LinkCard from '../components/LinkCard';
 import { PocketArticleInfo } from '../types';
 import axios, { AxiosResponse } from 'axios';
-import { BASE_URL } from '../constants';
+import { BASE_URL } from '../constants/constants';
 import { InferGetStaticPropsType } from 'next';
-import { H1Styles } from '../style_constants';
+import { H1Styles } from '../constants/style-constants';
 
 export async function getStaticProps() {
 	const response: AxiosResponse<PocketArticleInfo[]> = await axios.get(`${BASE_URL}/api/reading-log`);

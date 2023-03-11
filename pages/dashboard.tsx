@@ -4,7 +4,7 @@ import React from 'react';
 import { ITraktTvStats } from '../interfaces';
 import { BookData } from '../types';
 import axios, { AxiosResponse } from 'axios';
-import { BASE_URL } from '../constants';
+import { BASE_URL } from '../constants/constants';
 import { InferGetStaticPropsType } from 'next';
 import { CustomLink } from '../components/Mdx';
 

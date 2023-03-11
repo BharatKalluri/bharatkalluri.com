@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, IconButton, Link } from '@chakra-ui/react';
 import { FaGithub, FaLinkedin, FaMailBulk, FaTelegramPlane, FaTwitter, FaRss } from 'react-icons/fa';
 import NowPlaying from './NowPlaying';
-import { EMAIL, GITHUB_URL, LINKEDIN_URL, TELEGRAM_URL, TWITTER_URL, RSS_URL } from '../constants';
+import { EMAIL, GITHUB_URL, LINKEDIN_URL, TELEGRAM_URL, TWITTER_URL, RSS_URL } from '../constants/constants';
 
 const Footer = () => (
 	<Flex align="center" py={8} direction="column">
