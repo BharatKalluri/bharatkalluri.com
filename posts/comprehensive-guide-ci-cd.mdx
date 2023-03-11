@@ -21,31 +21,31 @@ The absolute necessary step, make sure you have a healthy unit test suite which 
 
 There are different levels of tests. unit tests are essential, post which come functional tests, smoke tests, integration tests and other kinds of tests like load, performance etc..
 
-**Tools recommended**: unit test suite runner of choice (`pytest` for python, `jest` for javascript/typescript etc..), selenium for e2e tests, Jmeter for load testing etc..
+**Tools recommended**: unit test suite runner of choice (pytest for python, jest for javascript/typescript etc..), selenium for e2e tests, Jmeter for load testing etc..
 
 ## Spell check
 
 Typos in code are not acceptable, make sure that all changes pushed with no spelling mistakes.
 
-**Tools recommended**: `cspell`
+**Tools recommended**: [cspell](https://cspell.org/)
 
 ## Coverage
 
 Coverage is a metric which captures how much of the existing codebase is covered by test cases. Although this is not a silver bullet metric to chase, this is great pointer to an exhaustive test suite. Make sure the codebase has more than at least 60% of code coverage. And if it so happens that a change decreases the coverage below the threshold, make sure new tests are added so that the health of the suite is maintained.
 
-**Tools recommended**: your friendly neighborhood coverage tool in your programming language (`coverage` for python)
+**Tools recommended**: your friendly neighborhood coverage tool in your programming language ([coverage](https://coverage.readthedocs.io/) for python)
 
 ## Static code analysis
 
 Static code analysis makes sure code smells are caught early on during the PR creation phase. Custom rules can be setup to make sure the rules are being adhered to and coding standards of the organization are being met.
 
-**Tools recommended**: Sonarcloud / Semgrep
+**Tools recommended**: [Sonarqube](https://docs.sonarqube.org/latest/)
 
 ## Security analysis
 
 Infosec is a very important part of software development. If the change is introducing a new dependency that has a vulnerability, its very important that the code author is aware and mitigates it before the code hits production. Similarly if the code change is introducing a code change which has a possible vulnerability, the PR author should be made aware. There are tools to automate and help us here too.
 
-**Tools recommended**: Snyk
+**Tools recommended**: [Snyk](https://snyk.io/)
 
 Its recommended these checks are run at a PR level so that the feedback loop is tight and the PR author can work on changes if any. The pipeline can be optimized further by parallelizing this. Usually all of these are run in Github actions, Gitlab pipelines or a corresponding equal tool close to the codebase versioning tool. Make sure _caching is setup_ to make sure the pipeline stays snappy.
 
@@ -70,6 +70,8 @@ Rolling back should be instantaneous and easy. The recommendation is to have the
 Have an integration with a tool of choice (slack / MS teams / flock / rocket chat etc..) so that the status of deployments is published and the team is kept in sync. Both failures and success are important to be communicated.
 
 In the CD step, all of the mentioned steps are extremely important. Start optimizing for rollbacks from the start, you don't want to get caught up in a production incident because of a faulty deployment and just be waiting for a rollback which takes half an hour.
+
+---
 
 Some more general guidelines
 
