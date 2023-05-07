@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { MDXComponents } from 'mdx/types';
 import { YoutubeEmbed } from './YoutubeEmbed';
-import AudioVisualizer from './AudioVisualizer';
 import Link from 'next/link';
 
 interface MdxProps {
@@ -38,7 +37,6 @@ export const CustomLink = (props: any) => {
 export const ComponentMap: MDXComponents = {
 	a: CustomLink,
 	YoutubeEmbed: YoutubeEmbed,
-	AudioVisualizer: AudioVisualizer,
 };
 
 export function Mdx({ code }: MdxProps) {

@@ -1,71 +1,35 @@
 import React from 'react';
 import useSWR from 'swr';
-import { Box, Icon, Image, Link, Skeleton, Stack, Text, useColorMode } from '@chakra-ui/react';
 import { fetcher } from '../lib/fetcher';
 import { ICurrentlyPlayingInfo } from '../interfaces';
 import { FaSpotify } from 'react-icons/fa';
+import Link from 'next/link';
 
 const NowPlaying = () => {
 	const { data }: { data?: ICurrentlyPlayingInfo } = useSWR('/api/now-playing', fetcher);
-	const { colorMode } = useColorMode();
-	const borderColor = {
-		light: 'gray.200',
-		dark: 'gray.700',
-	};
 
 	return (
-		<Box
-			mb={4}
-			display="flex"
-			flexDirection="row"
-			alignItems="flex-start"
-			border="1px solid"
-			borderRadius={8}
-			borderColor={borderColor[colorMode]}
-			p={2}
-			w="300px"
-		>
-			<Skeleton isLoaded={!!data}>
-				<Image
+		<div className={'flex-row justify-between p-2 flex w-72 text-gray-800 border border-gray-300 rounded-2xl'}>
+			<div className={'flex flex-row space-x-6'}>
+				<img
+					className={'rounded-xl'}
 					alt="Spotify album cover"
 					height="60px"
 					width="60px"
-					borderRadius={8}
 					src={data?.collectionImageUrl || '/static/images/placeholder.jpg'}
 				/>
-			</Skeleton>
-			<Stack
-				spacing={0}
-				justifyContent="center"
-				alignItems="flex-start"
-				display="flex"
-				flexDirection="column"
-				ml={3}
-			>
-				<Link
-					fontWeight="medium"
-					maxWidth="190px"
-					whiteSpace="nowrap"
-					overflow="hidden"
-					textOverflow="ellipsis"
-					href={data?.mediaURL}
-					isExternal
-				>
-					<Text>{data && (data?.title || 'Not Playing')}</Text>
-				</Link>
-				<Text
-					color="gray.500"
-					mb={4}
-					maxWidth="190px"
-					whiteSpace="nowrap"
-					overflow="hidden"
-					textOverflow="ellipsis"
-				>
-					{data && (data?.artist || 'Spotify')}
-				</Text>
-			</Stack>
-			<Icon name="spotify" ml="auto" mt={1} as={FaSpotify} />
-		</Box>
+				<div className={'flex flex-col justify-center ml-3'}>
+					<Link href={data?.mediaURL ?? ''}>
+						<div className={'text-md'}>{data && (data?.title || 'Not Playing')}</div>
+					</Link>
+					<div className={'text-gray-500 text-sm'}>{data && (data?.artist || 'Spotify')}</div>
+				</div>
+			</div>
+
+			<div>
+				<FaSpotify />
+			</div>
+		</div>
 	);
 };
 

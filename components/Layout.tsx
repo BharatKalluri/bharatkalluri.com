@@ -1,11 +1,9 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
 
-import { Flex, Stack } from '@chakra-ui/layout';
 import Footer from './Footer';
 import { NextSeo } from 'next-seo';
 import { BASE_URL } from '../constants/constants';
-import Script from 'next/script';
 import Link from 'next/link';
 
 type LayoutProps = {
@@ -96,26 +94,13 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 				<link rel="icon" type="image/png" href={'/static/logo.png'} />
 				<meta httpEquiv="content-language" content="en-gb" />
 			</Head>
-			<Script
-				id={'microsoft-clarity'}
-				type="text/javascript"
-				dangerouslySetInnerHTML={{
-					__html: `
-				                (function(c,l,a,r,i,t,y){
-				                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-				                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-				                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-				                })(window, document, "clarity", "script", "4g3tskl7lj");
-				            `,
-				}}
-			/>
-			<div className={'mx-auto px-4 sm:px-6 lg:px-8'}>
-				<Flex as="main" justifyContent="center" flexDirection="column" px={4} mx="auto" mt={8} maxW="1000px">
+			<div className={'mx-auto px-4 sm:px-6 lg:px-8 w-7/12 pt-10'}>
+				<div className={'flex flex-col px-4 justify-center'}>
 					<header>
 						<DesktopLeftNavBar />
 					</header>
-					<Stack spacing={7}>{children}</Stack>
-				</Flex>
+					<div className={'flex flex-col space-y-6'}>{children}</div>
+				</div>
 				<Footer />
 			</div>
 		</>
