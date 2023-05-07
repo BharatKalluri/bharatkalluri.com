@@ -94,7 +94,8 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 				<link rel="icon" type="image/png" href={'/static/logo.png'} />
 				<meta httpEquiv="content-language" content="en-gb" />
 			</Head>
-			<div className={'mx-auto px-4 sm:px-6 lg:px-8 w-7/12 pt-10'}>
+
+			<div className={'mx-auto sm:px-6 lg:px-8 lg:w-7/12 pt-10'}>
 				<div className={'flex flex-col px-4 justify-center'}>
 					<header>
 						<DesktopLeftNavBar />
