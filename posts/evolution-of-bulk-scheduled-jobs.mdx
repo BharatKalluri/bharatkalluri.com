@@ -1,0 +1,79 @@
+---
+title: The story of the evolution of scheduled bulk jobs
+publishedAt: '2023-05-13'
+description: Bulk jobs are nuanced and quintessential to every company. Here's how to get them right.
+tags:
+    - scheduled-jobs
+    - architecture
+    - python
+    - typescript
+isBlogPost: true
+---
+
+Every company was once a small group of starry eyed individuals with a vision of changing lives. So they get to work and start building.
+
+The backend team picks up a battle tested language and a framework, fully realizing that the decision they are making in that meeting that day will impact the trajectory of the company for at least three to five years. And start churning out code to forge their vision to reality.
+
+Eventually the team runs into a situation where they'll have to do some bulk process at a fixed rate. Maybe it is refreshing their transaction status at a fixed interval or maybe its pulling and refreshing data from an external API.
+
+## Level One: Using the CRON construct in the framework
+
+All battle tested frameworks have a way to spin up a bulk jobs at a fixed frequency. The framework will take care of running the bulk job at the right time.
+
+Just write a function which runs a batch job, attach a decorator with the CRON expression on the top. Voila, the bulk job issue is sorted. Life goes on as usual for a while.
+
+Then the company starts taking off, one instance is not cutting it anymore. You'll need to _auto scale_! So the team spins up new instances to serve traffic!
+
+Bad news, the CRONs are now running in all the three instances you have spun up. The team is smart enough to write idempotent scheduled jobs. So, there is no real loss. But its still a waste of memory and time. Auto scaling triggers are being triggered since bulk jobs and uselessly getting auto scaling rules are triggered when they are not essential. And you'll need to fix it, soon.
+
+## Level two: Having a bulk job execution machine
+
+Its nine in the night and the servers alarms are going off, CRONs have overloaded the systems and main traffic is chocking sometimes as the new instances kick in. The team has to do something, and so something soon. What's the simplest change we can do to get things back to normal.
+
+Have an instance which will just run CRONs! Spin up a new server, and orchestrate in such a way that it'll run CRONs, the other normal servers will just serve HTTP requests. Problem solved, for now.
+
+Eventually the company scales more, CRONs are getting slow. Sometimes they even fail. Monitoring is not really that great on how many items failed or why it failed. We'll need to change code to do better.
+
+Also, the instance is large and it's just sitting there idle for eighty percent of the day. Thats useless cost to the company. We can do better than this.
+
+## Level three: Move to batch and on demand containers
+
+Every cloud provider has their own name for it. For aws, its called batch. Apparently google's GCP also calls it batch.
+
+The idea behind this is very simple, batch runs a docker run command on demand. It has a fundamental idea of a compute environment and from there you can state how much memory and CPU you want to use to run your batch job and what's the command for the batch job. It'll take those parameters, spin up a fargate/EC2/EKS container on demand, run the job and shut itself down.
+
+By making no major code changes, we can just expose a simple CLI entry point to the existing setup to trigger the batch job. Move the triggers to AWS event bridge and trigger the command to run the batch job. If your server is not dockerized, then that'll be an additional step. But docker-izing should not be hard.
+
+With this simple change, you'll get
+
+-   Out of the box monitoring on batch job success or failure
+-   No load on the main server
+-   Logging
+-   On demand compute
+-   Cost savings
+-   High parallelism
+-   Retry capabilities
+-   Capability to have jobs with dependencies
+    and many more advantages. With basically _no extra effort, code rewrite or migration_.
+
+From here, its a function of monitoring. Let's say the team now wants to solve for the issue that if there are 40,000 items to be processed, they want to be notified on how many got processed and how many failed to process. And get dashboards around scheduled jobs. Batch does not really deal with the details of tasks, it'll just understand and run a command for you. Maybe this is the right time to consider a Job scheduling library.
+
+## Level four: Job scheduling libraries
+
+In the python universe, you have Celery. In the Javascript/Typescript universe, you have Agenda, Bull etc.. They all offer pretty much the same thing. They sit on top of code and orchestrate many small units of work.
+
+Usually they run in a separate instance, so that the main instance is not over burdened. They have dashboard capabilities and offer granular control over how the tasks function. Code might have to be re-written a bit for this to work, but if the code is in good shape, this will be a minor refactor. Since this not tied into the cloud provider, there is no vendor lock in
+
+# Principles
+
+Takeaways from the journey and principles to remember
+
+-   Be idempotent: Running the job twice should not cause any issues. The code should be fully idempotent
+-   Isolate side effects and logic: Logic needs to be run in parallel, side effects need to be batched. Isolate them from day zero.
+-   Alerting from day zero: If the scheduled job fails, the team should know and have visibility
+-   Retries: It should be straight forward to have a retry a job or a part of the job if it fails
+-   Ability to establish job dependencies: Capacity to define dependencies across jobs, because you'll run into situations where a job is dependent on another job running.
+
+If the above principles are followed, migrating from one step to another is not really hard and the migration will turn out to be very smooth.
+
+Remember that with every solution, we only trade a new set of problems. At the end of the day, good code is more important than the infrastructure implementation details. And there are no objectively right answers, only right answers in the context.
