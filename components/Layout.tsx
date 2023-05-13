@@ -5,6 +5,7 @@ import Footer from './Footer';
 import { NextSeo } from 'next-seo';
 import { BASE_URL } from '../constants/constants';
 import Link from 'next/link';
+import Script from 'next/script';
 
 type LayoutProps = {
 	children?: ReactNode;
@@ -96,6 +97,19 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 			</Head>
 
 			<div className={'mx-auto sm:px-6 lg:px-8 lg:w-7/12 pt-10'}>
+				<Script
+					id={'microsoft-clarity'}
+					type="text/javascript"
+					dangerouslySetInnerHTML={{
+						__html: `
+				                (function(c,l,a,r,i,t,y){
+				                    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+				                    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+				                    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+				                })(window, document, "clarity", "script", "4g3tskl7lj");
+				            `,
+					}}
+				/>
 				<div className={'flex flex-col px-4 justify-center'}>
 					<header>
 						<DesktopLeftNavBar />
