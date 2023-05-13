@@ -1,10 +1,9 @@
-import Layout from '../components/Layout';
-import { CustomLink } from '../components/Mdx';
-import { H1Styles } from '../constants/style-constants';
+import { H1Styles } from '../../constants/style-constants';
+import { CustomLink } from '../../components/Mdx';
 
 const Now = () => {
 	return (
-		<Layout title="Now" description="Lists down what I am doing currently" relativeCanonicalURL="/now">
+		<div>
 			<section>
 				<h1 className={H1Styles}>Now</h1>
 
@@ -31,7 +30,7 @@ const Now = () => {
 					</ul>
 				</section>
 			</section>
-		</Layout>
+		</div>
 	);
 };
 
