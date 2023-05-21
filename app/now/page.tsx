@@ -1,5 +1,5 @@
 import { H1Styles } from '../../constants/style-constants';
-import { CustomLink } from '../../components/Mdx';
+import {CustomLink} from "../../components/CustomLink";
 
 const Now = () => {
 	return (

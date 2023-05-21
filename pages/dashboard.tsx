@@ -4,7 +4,7 @@ import { ITraktTvStats } from '../interfaces';
 import axios, { AxiosResponse } from 'axios';
 import { BASE_URL } from '../constants/constants';
 import { InferGetStaticPropsType } from 'next';
-import { CustomLink } from '../components/Mdx';
+import { CustomLink } from '../components/CustomLink';
 import { H1Styles } from '../constants/style-constants';
 
 export async function getStaticProps() {

@@ -3,7 +3,7 @@ import { PostCard } from '../components/PostCard';
 import React, { useState } from 'react';
 import { searchInFrontMatter, sortByPinnedAndPublishedAt } from '../utils/postUtils';
 import { allPosts } from 'contentlayer/generated';
-import { CustomLink } from '../components/Mdx';
+import { CustomLink } from '../components/CustomLink';
 import { H1Styles } from '../constants/style-constants';
 import { SearchBar } from '../components/SearchBar';
 
