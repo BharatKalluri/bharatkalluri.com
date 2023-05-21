@@ -1,16 +1,16 @@
-import Layout from '../components/Layout';
-import { PostCard } from '../components/PostCard';
+'use client';
 import React, { useState } from 'react';
-import { searchInFrontMatter, sortByPinnedAndPublishedAt } from '../utils/postUtils';
 import { allPosts } from 'contentlayer/generated';
-import { H1Styles } from '../constants/style-constants';
-import { SearchBar } from 'components/SearchBar';
+import { searchInFrontMatter, sortByPinnedAndPublishedAt } from '../../utils/postUtils';
+import { H1Styles } from '../../constants/style-constants';
+import { SearchBar } from '../../components/SearchBar';
+import { PostCard } from '../../components/PostCard';
 
 const Blog = () => {
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const sortedPosts = allPosts.sort(sortByPinnedAndPublishedAt);
 	return (
-		<Layout title="Blog" description="Blog posts by Bharat Kalluri" relativeCanonicalURL="/blog">
+		<>
 			<h1 className={H1Styles}>Blog</h1>
 
 			<SearchBar onChangeFn={(e) => setSearchQuery(e.target.value)} />
@@ -22,7 +22,7 @@ const Blog = () => {
 				.map((post) => (
 					<PostCard post={post} key={post.url} />
 				))}
-		</Layout>
+		</>
 	);
 };
 

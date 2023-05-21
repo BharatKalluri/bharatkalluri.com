@@ -1,13 +1,12 @@
-import Layout from '../components/Layout';
-import LinkCard from '../components/LinkCard';
-import { PROJECT_LIST } from '../constants/constants';
-import NextLink from 'next/link';
-import React from 'react';
-import { AiOutlineArrowRight } from 'react-icons/ai';
-import { PostCard } from '../components/PostCard';
-import { allPosts, Post } from 'contentlayer/generated';
 import { CardListStyles, H1Styles, H2Styles } from '../constants/style-constants';
+import { PROJECT_LIST } from '../constants/constants';
+import LinkCard from '../components/LinkCard';
+import { allPosts, Post } from 'contentlayer/generated';
+import { PostCard } from '../components/PostCard';
+import NextLink from 'next/link';
+import { AiOutlineArrowRight } from 'react-icons/ai';
 import clsx from 'clsx';
+import React from 'react';
 
 const ProjectListComponent = () => (
 	<section className={'flex flex-col'}>
@@ -64,7 +63,7 @@ const TopBlogPosts = ({ notes }: { notes: Post[] }) => (
 const IndexPage = () => {
 	const topPosts = allPosts.filter((el) => el.onFrontPage);
 	return (
-		<Layout title="Bharat Kalluri's Website" relativeCanonicalURL="">
+		<>
 			<section className={clsx('flex', 'flex-col')}>
 				<ProfileSection />
 
@@ -72,7 +71,7 @@ const IndexPage = () => {
 
 				<ProjectListComponent />
 			</section>
-		</Layout>
+		</>
 	);
 };
 

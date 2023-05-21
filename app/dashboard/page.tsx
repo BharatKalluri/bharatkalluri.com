@@ -1,23 +1,13 @@
-import Layout from '../components/Layout';
-import React from 'react';
-import { ITraktTvStats } from '../interfaces';
+'use client';
+
 import axios, { AxiosResponse } from 'axios';
-import { BASE_URL } from '../constants/constants';
-import { InferGetStaticPropsType } from 'next';
-import { CustomLink } from '../components/CustomLink';
-import { H1Styles } from '../constants/style-constants';
+import { ITraktTvStats } from '../../interfaces';
+import { BASE_URL } from '../../constants/constants';
+import { H1Styles } from '../../constants/style-constants';
+import React from 'react';
+import { CustomLink } from '../../components/CustomLink';
 
-export async function getStaticProps() {
-	const traktDataResponse: AxiosResponse<ITraktTvStats> = await axios.get(`${BASE_URL}/api/trakt-stats`);
-	const traktData = traktDataResponse.data || null;
-
-	return {
-		props: {
-			traktData,
-		},
-		revalidate: 21600, // in seconds
-	};
-}
+export const revalidate = 60;
 
 const StatBox = (props: {
 	heading?: string;
@@ -42,12 +32,13 @@ const StatBox = (props: {
 	);
 };
 
-const DashboardPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
-	const { traktData } = props;
+const DashboardPage = async () => {
+	const traktDataResponse: AxiosResponse<ITraktTvStats> = await axios.get(`${BASE_URL}/api/trakt-stats`);
+	const traktData = traktDataResponse.data || null;
 	const isTraktDataLoading: boolean = traktData === undefined;
 
 	return (
-		<Layout relativeCanonicalURL="/dashboard" title="Dashboard" description="Self quantification dashboard">
+		<>
 			<div className={H1Styles}>Dashboard</div>
 
 			<div className={'text-2xl font-bold'}>Movies and TV</div>
@@ -86,7 +77,7 @@ const DashboardPage = (props: InferGetStaticPropsType<typeof getStaticProps>) =>
 					isLoading={isTraktDataLoading}
 				/>
 			</div>
-		</Layout>
+		</>
 	);
 };
 
