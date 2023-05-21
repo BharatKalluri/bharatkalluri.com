@@ -1,5 +1,5 @@
 import { H1Styles } from '../../constants/style-constants';
-import { CustomLink } from '../../components/Mdx';
+import {CustomLink} from "../../components/CustomLink";
 
 const AboutPage = () => {
 	return (
@@ -26,7 +26,7 @@ const AboutPage = () => {
 					PS: A list of topics I am interested to write about are on this{' '}
 					<CustomLink href="https://bharatkalluri.notion.site/25c2619e180b41619b121ff3095188f7?v=b8cb72d3f8634461ae7a3f95c3330d9a">
 						board
-					</CustomLink>
+                    </CustomLink>
 				</p>
 			</section>
 		</>
