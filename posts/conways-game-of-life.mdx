@@ -30,7 +30,6 @@ start point, life evolves in different ways. The rules are very simple
 >
 >     These rules are directly copied from the [scientific american
 >     article](https://web.stanford.edu/class/sts145/Library/life.pdf)
-
 ## The implementation of the Game of life
 
 The rules are very simple to model. So we just need to draw up a bunch of squares and render them on the screen. I
@@ -55,7 +54,6 @@ let nextMatrix;
 const squareSize = 20;
 const matSize = 40;
 const canvasSize = matSize * squareSize;
-
 function generate2DArray(rows, columns) {
 	const matrix = [];
 	for (let i = 0; i < rows; i++) {
@@ -100,7 +98,6 @@ function calcNextGen(original) {
 		for (let c = 0; c < matSize; c++) {
 			let negVal = calcSurr(original, r, c);
 			let origVal = original[r][c];
-
 			// Rules
 			if (origVal === 0 && negVal === 3) {
 				nextGen[r][c] = 1; // spawn life
@@ -111,7 +108,6 @@ function calcNextGen(original) {
 			}
 		}
 	}
-
 	return nextGen;
 }
 ```
@@ -127,10 +123,8 @@ function setup() {
 	// Generate original matrix here
 	ogMatrix = generate2DArray(matSize, matSize);
 }
-
 function draw() {
 	background(0);
-
 	// draw ogMatrix on the screen to render
 	for (let r = 0; r < matSize; r++) {
 		for (let c = 0; c < matSize; c++) {
@@ -142,10 +136,8 @@ function draw() {
 			}
 		}
 	}
-
 	// calculate nextGen based on ogMatrix
 	nextGenMatrix = calcNextGen(ogMatrix);
-
 	// replace ogMatrix with nextGenMatrix
 	ogMatrix = nextGenMatrix;
 }
@@ -166,10 +158,8 @@ repainted.
 
 It is **absolutely mind blowing** to understand how much complexity can emerge out of these simple rules. Spoilers, you
 can make some configuration which could expand exponentially, can make logic gates out of these simple rules and expand
-and make a full blown computer using those gates just by following these rules. Check out this video to understand how
+and make a full blown computer using those gates just by following these rules. Check out [this video](https://www.youtube.com/watch?v=Kk2MH9O4pXY) to understand how
 all this is possible.
-
-<YoutubeEmbed youtubeID="Kk2MH9O4pXY" />
 
 This is just an introduction to the field of cellular automata, and the bigger idea of emergence. These are very
 interesting topics and I will probably write up once I am more clear on them. These topics are huge and complicated. I
@@ -181,13 +171,10 @@ gliders. There are entities called glider eaters which consume gliders, and ther
 can divert gliders in an angle. Using these three ideas, logic gates (AND, NOT, OR) can be built. Using the logic gates,
 storage latches can be built. And using all these things, a computer can be built!
 
-Here is a computer built using game of life (GOL) computing the fibonacci sequence! ([Here is some documentation for
+[Here is a computer built using game of life (GOL) computing the fibonacci sequence!](https://www.youtube.com/watch?v=8unMqSp0bFY) ([Here is some documentation for
 understanding how all this fits together](https://www.nicolasloizeau.com/gol-computer))
 
-<YoutubeEmbed youtubeID="8unMqSp0bFY" />
 
-Another video showcasing some GOL stimulations
-
-<YoutubeEmbed youtubeID="C2vgICfQawE" />
+[Another video showcasing some GOL stimulations](https://www.youtube.com/watch?v=C2vgICfQawE)
 
 We have just scratched the surface here, I will try to learn more and write more about cellular automata. Wish me luck!
