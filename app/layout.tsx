@@ -1,20 +1,11 @@
-import React, { ReactNode } from 'react';
-import Head from 'next/head';
-
-import Footer from './Footer';
-import { NextSeo } from 'next-seo';
-import { BASE_URL } from '../constants/constants';
+import React from 'react';
 import Link from 'next/link';
+import './globals.css';
+import Head from 'next/head';
 import Script from 'next/script';
-
-type LayoutProps = {
-	children?: ReactNode;
-	title: string;
-	description?: string;
-	relativeCanonicalURL: string;
-	keywords?: string[];
-	heroImage?: string;
-};
+import Footer from '../components/Footer';
+import { Metadata } from 'next';
+import { DEFAULT_SEO_CONFIG } from '../constants/constants';
 
 const navBarItems: Array<{ href: string; text: string }> = [
 	{
@@ -29,10 +20,10 @@ const navBarItems: Array<{ href: string; text: string }> = [
 		href: '/notes',
 		text: 'Notes',
 	},
-	{
-		href: '/dashboard',
-		text: 'Dashboard',
-	},
+	// {
+	// 	href: '/dashboard',
+	// 	text: 'Dashboard',
+	// },
 	{
 		href: '/about',
 		text: 'About',
@@ -67,31 +58,21 @@ const DesktopLeftNavBar = () => {
 	);
 };
 
-const Layout = ({ children, title, description, relativeCanonicalURL, keywords, heroImage }: LayoutProps) => {
-	const canonicalURL = `${BASE_URL}${relativeCanonicalURL}`;
-	const heroImageData = heroImage ? { images: [{ url: heroImage }] } : {};
-	return (
-		<>
-			<NextSeo
-				title={title}
-				description={description}
-				canonical={canonicalURL}
-				openGraph={{
-					url: canonicalURL,
-					title: title,
-					description: description,
-					...heroImageData,
-				}}
-			/>
+export const metadata: Metadata = DEFAULT_SEO_CONFIG;
 
+export default function RootLayout({
+	// Layouts must accept a children prop.
+	// This will be populated with nested layouts or pages
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	return (
+		<html lang="en">
 			<Head>
-				<title>{`${title} | Bharat Kalluri`}</title>
+				<title>{`Bharat Kalluri`}</title>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
-				{keywords !== undefined && (
-					<meta name="keywords" content={keywords.map((el) => el.replace('-', ' ')).join(', ')} />
-				)}
-
 				<link rel="icon" type="image/png" href={'/static/logo.png'} />
 				<meta httpEquiv="content-language" content="en-gb" />
 			</Head>
@@ -115,11 +96,10 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 						<DesktopLeftNavBar />
 					</header>
 					<div className={'flex flex-col space-y-6'}>{children}</div>
+					{/*<NowPlaying />*/}
+					<Footer />
 				</div>
-				<Footer />
 			</div>
-		</>
+		</html>
 	);
-};
-
-export default Layout;
+}

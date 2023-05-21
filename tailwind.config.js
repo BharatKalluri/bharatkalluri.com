@@ -7,11 +7,7 @@ module.exports = {
 		'./constants/**/*.{js,ts,jsx,tsx}',
 	],
 	theme: {
-		fontFamily: {
-			sans: ['ui-sans-serif', 'system-ui'],
-			serif: ['ui-serif', 'Georgia'],
-			mono: ['ui-monospace', 'SFMono-Regular'],
-		},
+		fontFamily: {},
 		extend: {},
 	},
 	plugins: [require('@tailwindcss/typography')],

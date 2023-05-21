@@ -1,5 +1,5 @@
 import { IProjectCardProps } from '../interfaces';
-import { DefaultSeoProps } from 'next-seo';
+import {Metadata} from "next";
 
 // TODO: on local, this should be localhost
 export const BASE_URL: string = 'https://bharatkalluri.com';
@@ -51,12 +51,11 @@ export const PROJECT_LIST: Array<IProjectCardProps> = [
 		link: 'https://alberthub.netlify.app/',
 	},
 ];
-const DEFAULT_TITLE = 'Bharat Kalluri';
-const TWITTER_HANDLE = '@bharatkalluri';
+export const DEFAULT_TITLE = 'Bharat Kalluri';
+export const TWITTER_HANDLE = '@bharatkalluri';
 
-export const DEFAULT_SEO_CONFIG: DefaultSeoProps = {
+export const DEFAULT_SEO_CONFIG: Metadata = {
 	title: DEFAULT_TITLE,
-	canonical: BASE_URL,
 	openGraph: {
 		type: 'website',
 		locale: 'en_IE',
@@ -72,9 +71,9 @@ export const DEFAULT_SEO_CONFIG: DefaultSeoProps = {
 		],
 	},
 	twitter: {
-		handle: TWITTER_HANDLE,
-		site: TWITTER_HANDLE,
-		cardType: 'summary_large_image',
+        creator: TWITTER_HANDLE,
+        site: TWITTER_HANDLE,
+		card: 'summary_large_image',
 	},
 };
 
