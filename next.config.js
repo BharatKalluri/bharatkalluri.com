@@ -3,7 +3,7 @@ const { withContentlayer } = require('next-contentlayer');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	experimental: {
-		appDir: false,
+		appDir: true,
 	},
 	headers() {
 		return [
