@@ -17,7 +17,7 @@ const nextConfig = {
 
 // https://nextjs.org/docs/advanced-features/security-headers
 const ContentSecurityPolicy = `
-    default-src 'self' vercel.live;
+    default-src 'self' vercel.live editor.p5js.org;
     script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.vercel-insights.com vercel.live www.clarity.ms;
     style-src 'self' 'unsafe-inline';
     img-src * blob: data:;

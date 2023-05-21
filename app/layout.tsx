@@ -77,7 +77,7 @@ export default function RootLayout({
 				<meta httpEquiv="content-language" content="en-gb" />
 			</Head>
 
-			<div className={'mx-auto sm:px-6 lg:px-8 lg:w-7/12 pt-10'}>
+			<body className={'mx-auto sm:px-6 lg:px-8 lg:w-7/12 pt-10'}>
 				<Script
 					id={'microsoft-clarity'}
 					type="text/javascript"
@@ -91,6 +91,7 @@ export default function RootLayout({
 				            `,
 					}}
 				/>
+
 				<div className={'flex flex-col px-4 justify-center'}>
 					<header>
 						<DesktopLeftNavBar />
@@ -99,7 +100,7 @@ export default function RootLayout({
 					{/*<NowPlaying />*/}
 					<Footer />
 				</div>
-			</div>
+			</body>
 		</html>
 	);
 }
