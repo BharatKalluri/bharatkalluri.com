@@ -4,7 +4,7 @@ import { allPosts } from 'contentlayer/generated';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { MDXComponents } from 'mdx/types';
 import { CustomLink } from '../../components/CustomLink';
-import { useMDXComponent } from 'next-contentlayer/dist/hooks';
+import { useMDXComponent } from 'next-contentlayer/hooks';
 
 interface MdxProps {
 	code: string;
