@@ -4,8 +4,9 @@ import './globals.css';
 import Head from 'next/head';
 import Script from 'next/script';
 import Footer from '../components/Footer';
-import {Metadata} from "next";
-import {DEFAULT_SEO_CONFIG} from "../constants/constants";
+import { Metadata } from 'next';
+import { DEFAULT_SEO_CONFIG } from '../constants/constants';
+import NowPlaying from 'components/NowPlaying';
 
 const navBarItems: Array<{ href: string; text: string }> = [
 	{
@@ -96,6 +97,7 @@ export default function RootLayout({
 						<DesktopLeftNavBar />
 					</header>
 					<div className={'flex flex-col space-y-6'}>{children}</div>
+					<NowPlaying />
 					<Footer />
 				</div>
 			</div>

@@ -6,6 +6,7 @@ import { NextSeo } from 'next-seo';
 import { BASE_URL } from '../constants/constants';
 import Link from 'next/link';
 import Script from 'next/script';
+import NowPlaying from './NowPlaying';
 
 type LayoutProps = {
 	children?: ReactNode;
@@ -116,6 +117,7 @@ const Layout = ({ children, title, description, relativeCanonicalURL, keywords, 
 					</header>
 					<div className={'flex flex-col space-y-6'}>{children}</div>
 				</div>
+				<NowPlaying />
 				<Footer />
 			</div>
 		</>
