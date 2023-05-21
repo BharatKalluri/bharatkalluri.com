@@ -20,10 +20,10 @@ const navBarItems: Array<{ href: string; text: string }> = [
 		href: '/notes',
 		text: 'Notes',
 	},
-	{
-		href: '/dashboard',
-		text: 'Dashboard',
-	},
+	// {
+	// 	href: '/dashboard',
+	// 	text: 'Dashboard',
+	// },
 	{
 		href: '/about',
 		text: 'About',
