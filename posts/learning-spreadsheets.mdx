@@ -11,14 +11,20 @@ My suggestion is that, the next time you get something mathematical that needs t
 
 I've also been experimenting with google sheets as our org runs on google infrastructure. Here is maybe the parallel I draw from python to sheets and how I use it.
 
+## Reference another sheet
+
+Usually there is a constants section, where all the variables are stored. Either you can have it on the same sheet or in another sheet.
+
+If you happen to keep it in another sheet like me, then to reference a cell from that sheet use the exclamation notation. `constants!B1` will reference the `B1` cell from the sheet named `constants`.
+
 ## Cumulative sum
 
 pandas: `.cumsum()`
 
 The alternative in google sheets is by using relative referencing. A reference is done in sheets by using a `$`. For example, if you want to sum up two cells, the formula would be `=SUM($C1, $C2)`.
 
-Now if you have a column of values you want to run a cumulative sum on, then the formula would be `=SUM($C1, $C$2)`. This makes sure that the second argument is relative to the number at which the formula is being run. So as you drag along the formula, it keeps summing up _from_ C1 _to_ the relative cell you are running the formula at. Hence getting a cumulative sum
+Now if you have a column of values you want to run a cumulative sum on, then the formula would be `=SUM($C$1, $C2)`. This makes sure that the second argument is relative to the number at which the formula is being run. So as you drag along the formula, it keeps summing up _from_ C1 _to_ the relative cell you are running the formula at. Hence getting a cumulative sum. The dollar helps you make sure that its not also incremented relatively like the second C2.
 
 ## TODO
 
--   join two tables / sheets
+-   join two tables / sheets (VLOOKUP)
