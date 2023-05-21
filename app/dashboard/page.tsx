@@ -2,7 +2,6 @@
 
 import axios, { AxiosResponse } from 'axios';
 import { ITraktTvStats } from '../../interfaces';
-import { BASE_URL } from '../../constants/constants';
 import { H1Styles } from '../../constants/style-constants';
 import React from 'react';
 import { CustomLink } from '../../components/CustomLink';
@@ -33,7 +32,7 @@ const StatBox = (props: {
 };
 
 export default async function Page() {
-	const traktDataResponse: AxiosResponse<ITraktTvStats> = await axios.get(`${BASE_URL}/api/trakt-stats`);
+	const traktDataResponse: AxiosResponse<ITraktTvStats> = await axios.get(`/api/trakt-stats`);
 	const traktData = traktDataResponse.data || null;
 	const isTraktDataLoading: boolean = traktData === undefined;
 
