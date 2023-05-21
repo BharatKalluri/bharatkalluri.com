@@ -1,0 +1,24 @@
+---
+title: Learn how to use a spreadsheet
+publishedAt: '2023-05-21'
+---
+
+Learning how to use excel / google sheets is usually considered unnecessary in the engineering world. You could always spin up a jupyter notebook and crank out code in python using pandas, right? Why resort to the same tool non engineering folks have been using for decades? This line of thinking is what gets in the way of real work most of the times. There is wisdom in other peoples habits.
+
+Microsoft excel is one the most innovative tools ever developed on a computer. It bought along the idea of reactivity and two way binding to the masses and people have done absolute miracles just off spreadsheets. Microsoft excel powers the most of day to day finance probably and I could wager is the database of the largest population on planet earth. I see people use it as a task manager, habit tracker, financial planner, status log of events, OKR planner, year planner and many other use cases.
+
+My suggestion is that, the next time you get something mathematical that needs to be done quickly. Take a minute and explore how that should be done on a spreadsheet.
+
+I've also been experimenting with google sheets as our org runs on google infrastructure. Here is maybe the parallel I draw from python to sheets and how I use it.
+
+## Cumulative sum
+
+pandas: `.cumsum()`
+
+The alternative in google sheets is by using relative referencing. A reference is done in sheets by using a `$`. For example, if you want to sum up two cells, the formula would be `=SUM($C1, $C2)`.
+
+Now if you have a column of values you want to run a cumulative sum on, then the formula would be `=SUM($C1, $C$2)`. This makes sure that the second argument is relative to the number at which the formula is being run. So as you drag along the formula, it keeps summing up _from_ C1 _to_ the relative cell you are running the formula at. Hence getting a cumulative sum
+
+## TODO
+
+-   join two tables / sheets
