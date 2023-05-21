@@ -4,6 +4,8 @@ import './globals.css';
 import Head from 'next/head';
 import Script from 'next/script';
 import Footer from '../components/Footer';
+import {Metadata} from "next";
+import {DEFAULT_SEO_CONFIG} from "../constants/constants";
 
 const navBarItems: Array<{ href: string; text: string }> = [
 	{
@@ -55,6 +57,8 @@ const DesktopLeftNavBar = () => {
 		</section>
 	);
 };
+
+export const metadata: Metadata = DEFAULT_SEO_CONFIG;
 
 export default function RootLayout({
 	// Layouts must accept a children prop.

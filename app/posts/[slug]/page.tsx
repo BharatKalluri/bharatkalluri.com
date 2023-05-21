@@ -51,11 +51,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const MDXContent = getMDXComponent(post.body.code);
 	const publishedAt = post.publishedAt;
 
-	// TODO: use this in head
-	// const postTitle = post.title;
-	// const postDescription = post.description;
-	// const postLink = post.url;
-
 	return (
 		<>
 			<article className={'prose  prose-slate'}>
