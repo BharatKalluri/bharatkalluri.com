@@ -1,8 +1,29 @@
 import Layout from '../../components/Layout';
 import React from 'react';
 import { allPosts } from 'contentlayer/generated';
-import { Mdx } from '../../components/Mdx';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import { MDXComponents } from 'mdx/types';
+import { CustomLink } from '../../components/CustomLink';
+import { useMDXComponent } from 'next-contentlayer/dist/hooks';
+
+interface MdxProps {
+	code: string;
+}
+
+// TODO: I have no clue how to type this stuff
+const ComponentMap: MDXComponents = {
+	a: CustomLink,
+};
+
+function Mdx({ code }: MdxProps) {
+	const Component = useMDXComponent(code);
+
+	return (
+		<article>
+			<Component components={{ ComponentMap }} />
+		</article>
+	);
+}
 
 export default function PostPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
 	const post = allPosts.find((p) => p.slug === props.slug);
