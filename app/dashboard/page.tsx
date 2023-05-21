@@ -32,7 +32,7 @@ const StatBox = (props: {
 	);
 };
 
-const DashboardPage = async () => {
+export default async function Page() {
 	const traktDataResponse: AxiosResponse<ITraktTvStats> = await axios.get(`${BASE_URL}/api/trakt-stats`);
 	const traktData = traktDataResponse.data || null;
 	const isTraktDataLoading: boolean = traktData === undefined;
@@ -79,6 +79,4 @@ const DashboardPage = async () => {
 			</div>
 		</>
 	);
-};
-
-export default DashboardPage;
+}
