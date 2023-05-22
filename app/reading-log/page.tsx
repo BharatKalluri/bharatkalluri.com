@@ -4,6 +4,12 @@ import { PocketArticleInfo } from '../../types';
 import { BASE_URL } from '../../constants/constants';
 import { H1Styles } from '../../constants/style-constants';
 import LinkCard from '../../components/LinkCard';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: 'Reading log',
+	description: 'Recommended reading.',
+};
 
 const Header = () => {
 	return <h1 className={H1Styles}>Reading Log</h1>;
