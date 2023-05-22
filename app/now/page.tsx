@@ -1,5 +1,11 @@
 import { H1Styles } from '../../constants/style-constants';
-import {CustomLink} from "../../components/CustomLink";
+import { CustomLink } from '../../components/CustomLink';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: 'Now',
+	description: 'What I am currently working on.',
+};
 
 const Now = () => {
 	return (
@@ -7,7 +13,7 @@ const Now = () => {
 			<section>
 				<h1 className={H1Styles}>Now</h1>
 
-				<section className={'prose-lg lg:prose-xl pt-4'}>
+				<article className="text-lg space-y-5">
 					<p>
 						This is where I document what I am up to now. Inspired by{' '}
 						<CustomLink href="https://sive.rs/now">Derek siver&apos;s now page</CustomLink>. I keep updating
@@ -28,7 +34,7 @@ const Now = () => {
 							Trying to meet and talk to people who are not in technology, to get different perspectives
 						</li>
 					</ul>
-				</section>
+				</article>
 			</section>
 		</div>
 	);

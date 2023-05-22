@@ -1,5 +1,5 @@
 import { IProjectCardProps } from '../interfaces';
-import {Metadata} from "next";
+import { Metadata } from 'next';
 
 // TODO: on local, this should be localhost
 export const BASE_URL: string = 'https://bharatkalluri.com';
@@ -55,12 +55,19 @@ export const DEFAULT_TITLE = 'Bharat Kalluri';
 export const TWITTER_HANDLE = '@bharatkalluri';
 
 export const DEFAULT_SEO_CONFIG: Metadata = {
-	title: DEFAULT_TITLE,
+	title: {
+		default: DEFAULT_TITLE,
+		template: `%s | ${DEFAULT_TITLE}`,
+	},
+	icons: {
+		shortcut: '/static/logo.png',
+	},
 	openGraph: {
 		type: 'website',
 		locale: 'en_IE',
 		url: BASE_URL,
 		title: DEFAULT_TITLE,
+		description: 'Developer & writer',
 		images: [
 			{
 				url: 'https://bharatkalluri.com/static/images/og.jpg',
@@ -70,9 +77,20 @@ export const DEFAULT_SEO_CONFIG: Metadata = {
 			},
 		],
 	},
+	robots: {
+		index: true,
+		follow: true,
+		googleBot: {
+			index: true,
+			follow: true,
+			'max-video-preview': -1,
+			'max-image-preview': 'large',
+			'max-snippet': -1,
+		},
+	},
 	twitter: {
-        creator: TWITTER_HANDLE,
-        site: TWITTER_HANDLE,
+		creator: TWITTER_HANDLE,
+		site: TWITTER_HANDLE,
 		card: 'summary_large_image',
 	},
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import './globals.css';
-import Head from 'next/head';
 import Script from 'next/script';
 import Footer from '../components/Footer';
 import { Metadata } from 'next';
@@ -59,14 +58,6 @@ export const metadata: Metadata = DEFAULT_SEO_CONFIG;
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
-			<Head>
-				<title>{`Bharat Kalluri`}</title>
-				<meta charSet="utf-8" />
-				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
-				<link rel="icon" type="image/png" href={'/static/logo.png'} />
-				<meta httpEquiv="content-language" content="en-gb" />
-			</Head>
-
 			<body className={'mx-auto sm:px-6 lg:px-8 lg:w-7/12 pt-10'}>
 				<Script
 					id={'microsoft-clarity'}
