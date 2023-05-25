@@ -1,0 +1,171 @@
+---
+title: How to write a custom ESLint rule using less than 20 lines of code
+description: Static analysis is great, let's learn how to use it to better our code-bases
+tags:
+    - eslint
+    - javascript
+    - typescript
+publishedAt: 2023-05-23
+isBlogPost: true
+---
+
+I don't like it that JavaScript does not have named parameters. In python for example, I can do `function_name(a=1, b=2)`, but in javascript this does not work. Hence what we do is pass in the parameters as an object and later de-structure it in the function. Which works great, since JS has a great de-structuring syntax.
+
+But sometimes engineers write a function which will take in four strings as normal arguments. This can backfire. Since all arguments are strings, the caller can jumble arguments and there might be unexpected issues. Catching this stuff in code review is also very hard and the only way to find it out is when testing. We can do better.
+
+Why not enforce that every function which has more than two arguments should always take in parameters as an object so that the caller can be explicit?
+
+ESLint has a rule for this, It's called `max-params`, setting it to 2 ensures that we do not allow any function to have more than two arguments. So if the function needs to have three arguments, it means that it has to be converted to an object. And then it becomes a single argument. So switching it on should solve our problem, right?
+
+All the typescript servers we write use NestJS as the framework. NestJS does dependency injection out of the box, which means that the dependencies are declared at a class constructor level and they are populated by NestJS during runtime. The `max-params` rule throws an error here as well, stating that the constructor has more than 2 parameters. That's a problem, since we cannot fix this as its not an issue in the first place. So we'll need to configure `max-params` to exclude constructors. I could not find one, so let's write it.
+
+## How does a linter work?
+
+Linter reads the code and checks it against a set of rules. If any of these rules do not pass, it'll raise a alert stating that the rule. The way linters "read" code is by going through the Abstract Syntax Tree of the codebase. Or more colloquially known as AST.
+
+## What is an Abstract Syntax Tree?
+
+Code is converted from plain text to a tree structure for by the parser. This tree is later parsed by the interpreter to run the code. Since this is a data structure to represent the abstract syntactic representation of the program, this can be parsed for patterns!
+
+Here is the AST of `function hello() {}`
+
+```json
+{
+	"type": "Program",
+	"start": 0,
+	"end": 19,
+	"loc": {
+		"start": { "line": 1, "column": 0 },
+		"end": { "line": 1, "column": 19 }
+	},
+	"comments": [],
+	"range": [0, 19],
+	"sourceType": "module",
+	"body": [
+		{
+			"type": "FunctionDeclaration",
+			"start": 0,
+			"end": 19,
+			"loc": {
+				"start": { "line": 1, "column": 0 },
+				"end": { "line": 1, "column": 19 }
+			},
+			"id": {
+				"type": "Identifier",
+				"start": 9,
+				"end": 14,
+				"loc": {
+					"start": { "line": 1, "column": 9 },
+					"end": { "line": 1, "column": 14 },
+					"identifierName": "hello"
+				},
+				"name": "hello",
+				"range": [9, 14],
+				"_babelType": "Identifier"
+			},
+			"generator": false,
+			"expression": false,
+			"async": false,
+			"params": [],
+			"body": {
+				"type": "BlockStatement",
+				"start": 17,
+				"end": 19,
+				"loc": {
+					"start": { "line": 1, "column": 17 },
+					"end": { "line": 1, "column": 19 }
+				},
+				"body": [],
+				"range": [17, 19],
+				"_babelType": "BlockStatement"
+			},
+			"range": [0, 19],
+			"_babelType": "FunctionDeclaration",
+			"defaults": []
+		}
+	]
+}
+```
+
+Spend some time analyzing the above AST, its pretty interesting. ESLint works off this AST to validate rules.
+
+Open [AST explorer](https://astexplorer.net/). On the top right third menu bar element, select `babel-eslint` and write some code on the first pane. You'll see the tree changing on the side pane. The side pane is showcasing the AST of code you have written.
+
+Explore the tree a bit, there is a clear notation in which code gets translated into the tree. For example, in the above example `FunctionDeclaration` has an id and a body as a `BlockStatement`.
+
+## Writing our own rule
+
+Start by looking at `max-params` rule itself [on github](https://github.com/eslint/eslint/blob/main/lib/rules/max-params.js).
+
+Let's briefly understand the structure of an ESLint rule. The js file is expected to export a function called create. this returns back an object of which the keys are the nodes they are targeting and values are the functions to run on that node.
+
+In the `max-params` rule, the rule is run on three different types of nodes
+
+-   `FunctionDeclaration` (`const arrowFnExample = (a, b, c, d) => {}`)
+-   `ArrowFunctionExpression` (`const arrowFnExample = (a, b, c, d) => {}`)
+-   `FunctionExpression` (functions inside classes)
+
+This makes sense, and then the `checkFunction` is also very clean and simple. A more stripped version of the same code
+
+```javascript
+function checkFunction(node) {
+	if (node.params.length > numParams) {
+		context.report({ node, message: 'y u do dis?' });
+	}
+}
+```
+
+At this point, the only change we'll need to make to this is to recognise if a method type is a constructor. If yes, then ignore that method. After a bit of `console.log` - ing of node contents, we can find that there is a pointer to the parent in `node.parent`. And a constructor has a special "kind" called "constructor".
+
+Great! Plugging that in, the final rule becomes
+
+```javascript
+let numParams = 2;
+module.exports = {
+	create(context) {
+		function checkFunction(node) {
+			if (node.parent.kind !== 'constructor' && node.params.length > numParams) {
+				context.report({ node, message: 'y u do dis?' });
+			}
+		}
+
+		return {
+			FunctionDeclaration: checkFunction,
+			ArrowFunctionExpression: checkFunction,
+			FunctionExpression: checkFunction,
+		};
+	},
+};
+```
+
+There you go, _19 lines of code_ and your first ESLint rule.
+
+## Running this on an existing code base
+
+Create a folder in your existing code base, I called it eslint-rules. Create a file inside that and name it `max-params-exclude-constructor.js`.
+
+Now change `package.json` 's lint command to run eslint with an extra option called `--rulesdir` and pass the folder as an argument. An updated command might look like
+
+```javascript
+eslint \"{src,apps,libs,test}/**/*.ts\" --fix --rulesdir ./eslint-rules
+```
+
+And in the eslint config, add one more rule
+
+```javascript
+"max-params-exclude-constructor": "error"
+```
+
+and now you should have a custom functional ESLint rule!
+
+## Making it better
+
+The messaging around the rule can be much more eloquent. `context.report` is very powerful and can be used to share more context of the code.
+
+Ideally the options should come from the user, context also has a key for this called options which can be parsed and used in the rule ([example from max-params](https://github.com/eslint/eslint/blob/c4fad173c7149dbcd25695c19c68663102b9ec6b/lib/rules/max-params.js#L61-L72))
+
+Some ESLint rules also have a `--fix` option. The way it works is by mutating the AST to a desired structure.
+
+But you say, this is something others would have run into, right?
+
+[You're right.](https://www.npmjs.com/package/eslint-plugin-max-params-no-constructor)
