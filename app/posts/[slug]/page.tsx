@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	if (!post) notFound();
 	const postTitle = post.title;
 	const postDescription = post.description;
-	const canonicalURL = `${BASE_URL}/posts/${post.url}`;
+	const canonicalURL = `${BASE_URL}${post.url}`;
 	return {
 		title: postTitle,
 		description: postDescription,
