@@ -7,6 +7,8 @@ import React from 'react';
 import { Metadata } from 'next';
 import { BASE_URL } from '../../../constants/constants';
 
+import { H1Styles } from '../../../constants/style-constants';
+
 export async function generateStaticParams() {
 	return allPosts.map((post) => ({
 		slug: post._raw.flattenedPath,
@@ -55,7 +57,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 		<>
 			<article className={'prose  prose-slate'}>
 				<section className={'py-2'}>
-					<h1 className={'text-4xl font-black py-4'}>{post.title}</h1>
+					<h1 className={H1Styles}>{post.title}</h1>
 					<p>Bharat Kalluri / {publishedAt}</p>
 				</section>
 				<MDXContent components={ComponentMap} />
