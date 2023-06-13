@@ -1,0 +1,55 @@
+---
+title: Self quantification
+publishedAt: '2023-06-15'
+tags:
+    - self-quantification
+    - data-analytics
+---
+
+## What is self quantification?
+
+The idea is of collecting data points about thyself, in hope of drawing constructive inferences and use that to make positive changes to lifestyle.
+
+## Why really?
+
+There are many ways this data is useful, every person has multiple dimensions. Tracking will make sure that progress happens in all dimensions.
+
+- __Recommendations__: This is the most common use case for me. Numerous times in the past, there have been situations where I have referred to the log to lookup good movies / music / books to recommend.
+- __Anomaly alerts__: If I feel like it's been a while since I had gone on a run, I can quickly prove if my running has gone out of progress just by looking up numbers on Strava. Ideally I would want to do that for sleep and all other habits, currently that's not happening. Similarly alerts can be setup on crossing X amount spends in a particular month etc..
+- __Inferences__: I have not explored this as of yet, but technically correlations can be drawn based on observations with enough data. Corresponding recommendations can also be constructed to achieve a certain goal. For example, number of meetings attended might be directly proportional to the mood at the end of the day. In that case, understanding this phenomena can prove to be very useful. But again, correlation does not imply causation. Its very important not to consider this as absolute truth and take note of this as a possible pointer towards something useful.
+
+> For a server or a microservice setup in production. Engineers set up logging, anomaly detection, monitoring and dashboards on each and every service. Why don't we hold our life to the same standard?
+
+## How?
+
+The field is still in its early days. There are a lot of private players in this space, who have built a community around each dimension and do the data collection as a part of the product.
+
+### Expectations from a product in the stack
+
+- __Privacy__: This is the top most priority. Health and life data is extremely valuable and there needs to be trust in terms of how the data is handled.
+- __Exportability__: Lock in is a real problem in this domain. Even if interoperability is a long shot, data should at least be exportable so that it can be run through a system and imported in another. Since all players here are private, sometimes some great tools have to be disqualified since they do not support exports. NRC (nike run club) comes to mind.
+- __Implicit tracking__: Tracking should not be a action. If the idea is to go to an app, search and log every song listen. No one would do it. Ideally speaking, tracking should be entirely automated. Search for platforms & hardware which give that power.
+
+### Data to collect
+
+- Movies watched: [Trakt](https://trakt.tv/users/bharatkalluri)
+- Books read: [Goodreads](https://www.goodreads.com/user/show/84034305-bharat-kalluri)
+- Song listening history: [Last.fm](https://www.last.fm/user/BharatKalluri)
+- Podcast listening history
+- Run tracking: [Strava](https://www.strava.com/athletes/74228842)
+- Habits
+- Travel log
+- Food intake
+- Financial Transactions
+- Videos watched
+- Articles read
+- Websites visited
+- Sleep tracking
+- Online Purchasing history
+- Phone calls
+
+## State of things
+
+It is actually pretty disappointing to see that there are not a lot of open source customer facing solutions in this space, but that is expected since the field is evolving I guess. I plan on developing something here sometime soon.
+
+This is a fairly new and sensitive field. Most of this information is highly sought after by advertisers since this is gold in terms of ad personalization and that turns out to be a very important point to consider. Although tracking and data analytics is a solved problem, noticing anomalies and coming out with actionable insights is something people are still figuring out.
