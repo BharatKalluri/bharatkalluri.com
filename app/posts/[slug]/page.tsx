@@ -62,6 +62,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 				</section>
 				<MDXContent components={ComponentMap} />
 			</article>
+			<section className={'mx-auto'}>
+				<iframe
+					src="https://bharatkalluri.substack.com/embed"
+					className={'min-w-full h-64 bg-white border-0'}
+				/>
+			</section>
 		</>
 	);
 }
