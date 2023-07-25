@@ -24,6 +24,7 @@ async function generateRSS() {
 			url: `${BASE_URL}/${classification}/` + name.replace(/\.mdx?/, ''),
 			date: front_matter.data.publishedAt,
 			description: front_matter.data.description,
+			custom_elements: [{ 'content:encoded': { _cdata: descriptionHtml } }],
 		});
 	};
 
