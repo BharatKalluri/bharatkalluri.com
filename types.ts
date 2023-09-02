@@ -55,7 +55,7 @@ export const PocketArticleInfoValidator = t.type({
 	resolved_title: t.string,
 	resolved_url: t.string,
 	excerpt: t.string,
-	time_added: t.number,
+	time_added: t.string,
 });
 export type PocketArticleInfo = t.TypeOf<typeof PocketArticleInfoValidator>;
 
