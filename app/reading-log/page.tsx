@@ -1,14 +1,16 @@
 import React from 'react';
-import axios, { AxiosResponse } from 'axios';
 import { PocketArticleInfo } from '../../types';
 import { H1Styles } from '../../constants/style-constants';
 import LinkCard from '../../components/LinkCard';
 import { Metadata } from 'next';
+import { getReadingLog } from '../../lib/pocket';
 
 export const metadata: Metadata = {
 	title: 'Reading log',
 	description: 'Recommended reading.',
 };
+
+export const revalidate = 3600;
 
 const Header = () => {
 	return <h1 className={H1Styles}>Reading Log</h1>;
@@ -35,13 +37,13 @@ function ReadingLogCards(props: { readingLogFromApi: PocketArticleInfo[] }): JSX
 }
 
 const ReadingLogPage = async () => {
-	const response: AxiosResponse<PocketArticleInfo[]> = await axios.get(`/api/reading-log`);
-	const pocketArticlesInfo = response.data;
+	const readingLogRecord: Record<string, PocketArticleInfo> = await getReadingLog();
+	const readingLogList: PocketArticleInfo[] = Object.values(readingLogRecord);
 	return (
 		<section className={'space-y-4'}>
 			<Header />
 			<Description />
-			<ReadingLogCards readingLogFromApi={pocketArticlesInfo} />
+			<ReadingLogCards readingLogFromApi={readingLogList} />
 		</section>
 	);
 };
