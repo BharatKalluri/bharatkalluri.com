@@ -6,6 +6,11 @@ export const BASE_URL: string = 'https://bharatkalluri.com';
 
 export const PROJECT_LIST: Array<IProjectCardProps> = [
 	{
+		name: 'Book: From scratch (WIP)',
+		description: 'An ambitious project to build the webstack from scratch. Event loop chapter is done, DNS is next',
+		link: 'https://fromscratch.bharatkalluri.com',
+	},
+	{
 		name: 'Harmony',
 		description: 'Harmony is a command line application to sync shell history cross systems',
 		link: 'https://github.com/BharatKalluri/harmony',
