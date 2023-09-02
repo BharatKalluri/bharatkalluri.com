@@ -1,7 +1,6 @@
 import React from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { PocketArticleInfo } from '../../types';
-import { BASE_URL } from '../../constants/constants';
 import { H1Styles } from '../../constants/style-constants';
 import LinkCard from '../../components/LinkCard';
 import { Metadata } from 'next';
