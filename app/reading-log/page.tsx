@@ -36,7 +36,7 @@ function ReadingLogCards(props: { readingLogFromApi: PocketArticleInfo[] }): JSX
 }
 
 const ReadingLogPage = async () => {
-	const response: AxiosResponse<PocketArticleInfo[]> = await axios.get(`${BASE_URL}/api/reading-log`);
+	const response: AxiosResponse<PocketArticleInfo[]> = await axios.get(`/api/reading-log`);
 	const pocketArticlesInfo = response.data;
 	return (
 		<section className={'space-y-4'}>
