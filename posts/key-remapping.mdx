@@ -1,0 +1,85 @@
+---
+title: Keyboard Wizardry - Remapping keys for a Smoother Workflow
+publishedAt: '2023-09-12'
+---
+
+I'm a developer by profession, so there are three applications I keep going back to.
+
+- PyCharm (code editor of choice)
+- Edge (the browser I'm experimenting with)
+- Blackbox (terminal of choice)
+
+Apart from this, there are usually some other tools open too like postman, notion for note taking, tick tick for todo management etc.. but the frequency of access is comparatively much lesser.
+
+Everyday I spend a lot of time jumping between all these windows using `Alt+Tab`. The issue with this approach is that alt tabbing although traditional is not really efficient. If there are 6 windows open, worst case scenario to reach a window the tab has to pressed ~ 5 times. Over time this gets irritating and slow.
+
+Let's fix that.
+
+> Objective: Single shortcut for windows. CapsLock+E should either open or raise if already opened edge, CapsLock+P should run or raise PyCharm etc..
+
+Why CapsLock? Its already on the home row and easily accessible. Also caps lock I feel is large key which is not uniquely useful. For caps I just happen to press and hold shift. So I never really use caps lock.
+
+So the alternative objective is also to _remap caps lock to escape_. This is pretty common in the vim community since escape is instrumental to their workflow.
+
+## The problem
+
+Control, Meta, Alt etc.. are called "modifier keys". That's because they by themselves don't do anything but when pressed in combination with another key perform an action. Hence you can setup keyboard shortcuts, but setting up shortcuts is fragile since all applications set their own shortcuts with these modifiers.
+
+For example, if I set `Ctrl+P` for opening PyCharm, it'll conflict with print screen in the browser. Thats not good. Hence we should be picking a combination which is never used. 
+
+I'll be picking up `Shift+Ctrl+Super+Alt` as the base combination.
+
+## Setting up key remapping
+
+[KeyD](https://github.com/rvaiya/keyd) is a key remapping daemon for linux. It remaps keys at a kernel level using input primitives like evdev and uinput. So, it'll work cross distributions. I would suggest [installing it from source as explained here](https://github.com/rvaiya/keyd#from-source).
+
+Go through the [quickstart](https://github.com/rvaiya/keyd#quickstart) and set the config file. Let's quickly go through the config file
+
+```
+[ids]
+
+*
+
+[main]
+
+# Maps capslock to escape when pressed and control when held.
+capslock = overload(control, esc)
+```
+
+`ids` is the keyboards you are targeting. `*` targets every keyboard connected. `[main]` is the main config section which is the baseline. `capslock = overload(control, esc)` is the key statement. it is overloading caps lock to be escape when pressed and to use it as control when held. This is the main feature we'll be using.
+
+Let's change caps lock to be `Shift+Ctrl+Super+Alt`
+
+Update the configuration over at `/etc/keyd/default.conf` to
+
+```
+[ids]
+
+*
+
+[main]
+# Maps capslock to escape when pressed and control when held.
+capslock = overload(hyper, esc)
+
+[hyper:C-M-S-A]
+```
+
+`[hyper:C-M-S-A]` defines a custom key called hyper which is a combination of `Shift+Ctrl+Super(or also called Meta)+Alt`. Now capslock maps to esc when pressed and hyper when held.
+
+Reload keyd with `sudo keyd reload` and now you can go to keyboard shortcuts and check. If you do `CapsLock+P`, keyboard shortcuts settings will recognize `Shift+Ctrl+Super(or also called Meta)+Alt+P`!
+
+## Run or raise applications
+
+This was interesting, there was no simple command line program like `run-or-raise` which I can directly setup from keyboard shortcuts settings. The only way I found was using the [Run or raise Gnome extension](https://extensions.gnome.org/extension/1336/run-or-raise/).
+
+Fortunately its a very simple configuration file for setting up, when you open the settings for the extension it'll show the button to edit config. Go to the file and replace it with 
+
+```
+<Shift><Ctrl><Super><Alt>t,com.raggesilver.BlackBox.desktop,,
+<Shift><Ctrl><Super><Alt>e,microsoft-edge,,
+<Shift><Ctrl><Super><Alt>p,pycharm,,
+```
+
+Straightforward setup to setup shortcuts to either desktop files or the programs. Restart the extension and the shortcuts should be functional.
+
+Now, there is no need to alt tab for eternity. Directly command applications to show up when needed.
