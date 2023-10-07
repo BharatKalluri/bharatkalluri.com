@@ -33,44 +33,29 @@ limit 15;
 
 this query in athena on the new table just created spits out how much data from transferred from point A to point B grouped by hour. Visualizing this can be a pretty simple exercise of graphing this data out.
 
-here is a simple python script to visualize the 15 nodes with python using the lib networkx
+here is a simple python script to visualize the 15 nodes with python using the lib pyvis
 
 ```python
-import networkx as nx
 import pandas as pd
-import matplotlib.pyplot as plt
+from pyvis.network import Network
 
-# Load data
-df = pd.read_csv('~/Downloads/qres2.csv')
+df = pd.read_csv("~/Downloads/flowlogs.csv")
 
-# Create graph
-Graphtype = nx.Graph()
-G = nx.from_pandas_edgelist(
-    df,
-    edge_attr='gigabytes_transferred',
-    create_using=Graphtype,
-    source="srcaddr",
-    target="dstaddr"
-)
+# Create Network instance
+net = Network(height='800px', width='100%', bgcolor='#222222', font_color='white')
 
-pos = nx.spring_layout(
-    G,
-    scale=10,
-    k=5
-)
-node_color = 'lightblue'
-node_size = 500
-font_size = 12
-font_weight = 'bold'
-edge_labels = {(u, v): str(d['gigabytes_transferred']) for u, v, d in G.edges(data=True)}
+# Add nodes and edges
+for _, row in df.iterrows():
+    net.add_node(row['srcaddr'])
+    net.add_node(row['dstaddr'])
+    net.add_edge(row['srcaddr'], row['dstaddr'], title=str(row['gigabytes_transferred']), value=str(row['gigabytes_transferred']))
 
-nx.draw(G, pos, with_labels=True, node_color=node_color, node_size=node_size, font_size=font_size, font_weight=font_weight)
-nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)  # Add edge labels
-
-plt.show()
+net.toggle_physics(True)
+net.show_buttons(filter_=['nodes', 'edges', 'physics'])
+net.show('vpcflowlogs.html', notebook=False)
 ```
 
-this would pop up the graph where the weights would be the GB transferred in that time frame.
+this would write a html file and some js files to the same directory. Double click on the html file to visualize the logs.
 
 Now, you can pick an IP address and trace down which component of the infrastructure it belongs to and draw a picture of how much information is flowing where.
 
