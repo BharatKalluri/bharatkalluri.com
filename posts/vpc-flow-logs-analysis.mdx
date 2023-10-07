@@ -1,0 +1,77 @@
+---
+title: Quantifying data exchange: using AWS VPC flow logs to determine how much data is flowing between servers
+publishedAt: '2023-10-07'
+description: One version manager to rule them all!
+tags:
+    - devops
+    - aws
+---
+
+> How much data is flowing between our mongoDB cluster and our main server?
+
+This simple looking question can be pretty complex to figure out without the right tools. Let's assume the database is mongoDB and it is connected to a server running in a VPC. As suggested by mongoDB, we'll be doing a peering connection to connect to the database.
+
+This now means that we'll need to figure out the database IP, our server's load balancer IP and figure out how much data is flowing between both of these servers. Since they are both inside the VPC, we'll need to trace down network traffic inside the VPC.
+
+AWS let's us push logs regarding the data flow patterns inside the VPC. This is a very powerful data source to understand how much data is flowing where. AWS charges on data transfer and your data transfer costs can blow up if a high TPM server keeps pulling a lot of data from the database for example.
+
+for starters, publish VPC logs to athena so that we can query them using normal SQL. Here is a [guide from AWS](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-athena.html#predefined-queries) to do that.
+
+## Querying VPC logs
+
+```SQL
+select (sum(bytes)/1024/1024) as gigabytes_transferred, srcaddr, dstaddr
+from vpcflowlogs.vpc_flow_logs_parquet
+where year = '2023'
+	and month = '09'
+	and day = '15'
+	and hour = '15'
+group by srcaddr, dstaddr
+order by gigabytes_transferred desc
+limit 15;
+```
+
+this query in athena on the new table just created spits out how much data from transferred from point A to point B grouped by hour. Visualizing this can be a pretty simple exercise of graphing this data out.
+
+here is a simple python script to visualize the 15 nodes with python using the lib networkx
+
+```python
+import networkx as nx
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load data
+df = pd.read_csv('~/Downloads/qres2.csv')
+
+# Create graph
+Graphtype = nx.Graph()
+G = nx.from_pandas_edgelist(
+    df,
+    edge_attr='gigabytes_transferred',
+    create_using=Graphtype,
+    source="srcaddr",
+    target="dstaddr"
+)
+
+pos = nx.spring_layout(
+    G,
+    scale=10,
+    k=5
+)
+node_color = 'lightblue'
+node_size = 500
+font_size = 12
+font_weight = 'bold'
+edge_labels = {(u, v): str(d['gigabytes_transferred']) for u, v, d in G.edges(data=True)}
+
+nx.draw(G, pos, with_labels=True, node_color=node_color, node_size=node_size, font_size=font_size, font_weight=font_weight)
+nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)  # Add edge labels
+
+plt.show()
+```
+
+this would pop up the graph where the weights would be the GB transferred in that time frame.
+
+Now, you can pick an IP address and trace down which component of the infrastructure it belongs to and draw a picture of how much information is flowing where.
+
+PS: finding this is great, but its not really helpful in terms of understanding right away where data is flowing since the IP addresses don't have any self explanatory tags on them. For this we'll need to grep an IP and find out the resource name of the instance. We'll do this in another post.
