@@ -1,0 +1,135 @@
+---
+title: Setting up a website based on ghost using fly.io
+publishedAt: '2023-10-15'
+tags:
+    - infra
+    - website
+---
+
+Your non-tech friend wants their own space on the internet for writing about their passions & showcasing their work. Although platforms like Medium exist, they have a couple of downsides like
+
+- heavy lock-in
+- setting a custom domain is behind the medium member paywall (which is 5$ or ~420 rupees per month)
+- cannot really customize and emphasize on the taste of the author
+
+Don't get me wrong, they are a fantastic starting point to start writing on the internet and absolutely tick all the fundamental boxes like SEO, a great editor, analytics and many other features. But having a independently owned space on the internet has a lot of perks too.
+
+## The ask
+
+So here is what we want to achieve
+- custom domain
+- theming support, both in terms of structure and colors
+- great editor to write drafts and convert them to posts, probably also on mobile
+- customizable pages
+- low cost, preferably zero
+
+## Options
+
+I love next.js (this website is on next.js!), but publishing requires git access and there are not a lot of themes when compared to wordpress or Hugo.
+
+Hugo is another great option, extensive theme support, but content management is out of git. I was exploring [datoCMS](https://www.datocms.com/) (which is a continuation of netlify CMS), but setting it up I felt was pretty complex and netlify simplified the setup. But I was using vercel. [Forestery](https://tina.io/forestry/) was a great option, but they pivoted and made [TinaCMS](https://tina.io/). This workflow is worth exploring as this is truly zero cost. I'll visit this approach later again.
+
+More formal setups like WordPress also exist, but self-hosting WordPress is something I'm not keen on. The relatively newer entry is [Ghost](https://ghost.org) which actually looks great!
+
+Ghost actually comes with an excellent plan at around 8$ per month, compared to mediums 5$ you get your own website with strong theming support, sensible defaults and a great editor along with subscription support for around 500 subscribers. Self-hosting is significantly cheaper, albeit technically more work. An instance of ghost can be setup on fly.io for free!
+
+## Deploying ghost using fly.io
+
+Let's start by [installing the fly.io](https://fly.io/docs/hands-on/install-flyctl/) commandline application. Now create a new folder
+
+```shell
+mkdir blog
+cd blog
+```
+
+login to flyctl
+
+```shell
+flyctl auth login
+```
+
+Now initialize the ghost docker image using `flyctl`. Swap 5.69 with whatever version is the latest version [found over at DockerHub](https://hub.docker.com/_/ghost).
+
+```shell
+flyctl launch --image=ghost:5.69 --no-deploy
+```
+
+this will ask a couple of questions on name, region etc.. complete them and take a note of the application name. We have included the `--no-deploy` flag to indicate that its not ready to be deployed yet. There is some configuration pending.
+
+Ghost recommends setting up a MySQL database, but that'll be more complex. Let's just have a sqlite database which is given by default. For the DB, we'll need volumes to store data in. Let's create a 3GB volume for now with the name `data`
+
+```shell
+flyctl volumes create data -s 3
+```
+
+Now let's update the `fly.toml` config to let it know that we intend on using this volume, the URL of the deploy & the port number.
+
+Here is my config post edits
+
+```toml
+# fly.toml app configuration file generated for chanslens on 2023-10-14T17:46:28+05:30
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "blogname"
+primary_region = "hkg"
+
+[build]
+  image = "ghost:5.69"
+
+[http_service]
+  internal_port = 2368
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+[env]
+  url = "https://blogname.com"
+  database__client = "sqlite3"
+  database__connection__filename = "content/data/ghost.db"
+  database__useNullAsDefault = "true"
+  database__debug = "false"
+
+[mounts]
+  source="data"
+  destination="/var/lib/ghost/content"
+
+[[services]]
+  internal_port = 2368
+```
+
+Post which deploy can be triggered by
+
+```shell
+flyctl deploy
+```
+
+once this is complete, the blog should be accessible at https://\<blogname\>.fly.dev and can be administered fromhttps://\<blogname\>.fly.dev/ghost
+
+## Setting up a custom domain
+
+I usually by domains from namecheap, namecheap gives a simple DNS interface also for the domain. Let's use the same DNS for setting up the custom domain.
+
+Assuming hostname.com is your website of choice, run
+
+```shell
+flyctl certs add hostname.com
+```
+
+once success, it'll spit out an `A` record for IPv4 address and another `AAAA` record for IPv6 address. Set that up for along with an acme challange record on namecheap. Fly will take a short time to verify and then link the domain to the deploy.
+
+Change the hostname in the fly.toml as well to the new custom domain, trigger another deploy and you should be good to go!
+
+## What next
+
+Some more items are pending before we can call this complete. Here is an incomplete list
+
+- email for subscriptions & signups
+- DB backups: Incase something goes wrong with the volume. Fly.io does provide daily backups, need to restore from one of them to see if it works as expected
+- migrating to MySql or postgreSQL instead of using sqlite
+- if not, considering liteFS from Fly.io instead of sqlite
+
+That's how easy it is it setup a blog now!
