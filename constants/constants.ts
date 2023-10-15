@@ -60,6 +60,7 @@ export const DEFAULT_TITLE = 'Bharat Kalluri';
 export const TWITTER_HANDLE = '@bharatkalluri';
 
 export const DEFAULT_SEO_CONFIG: Metadata = {
+    metadataBase: new URL(BASE_URL),
 	title: {
 		default: DEFAULT_TITLE,
 		template: `%s | ${DEFAULT_TITLE}`,
