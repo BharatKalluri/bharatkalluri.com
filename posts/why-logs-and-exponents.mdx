@@ -1,0 +1,71 @@
+---
+title: What is the point of logarithms?
+publishedAt: '2023-12-21'
+---
+
+Before we get into logs, let's wrap our head around exponents.
+
+# On exponents
+
+
+Question: If a lake has a flower, and the flower doubles every day. And the lake is full of flowers on day 10. When did the lake have half the flowers?
+
+.
+
+.
+
+.
+
+If you have answered 9, you are right! The number of flowers to exist would be 1024 on the 10th day and 256 on the ninth day. (progression: `[1, 2, 4, 8, 16, 32, 64, 128, 256, 1024]`)
+
+The way to calculate growth rate is also fascinating. The formulae for calculation is
+
+```python
+import math
+# growth_rate being 0 to 1, where 1 is 100%
+growth_rate = 1
+# t being the time interval we want to get value for
+t = 10
+# starting point of the growth
+initial_value = 1
+
+value_at_time_t = initial_value * math.pow(
+    (1+growth_rate)
+, t)
+```
+
+As you can see, exponential scales are massive. With the same scale, the 15th value is 32768 & the 20th value is 1073741824.
+
+In nature, a lot of scales are actually exponential.
+
+- Disease spread (like covid) is exponential in nature, if the curve is not controlled well
+- In a controlled environment & natural conditions, the population of a species is usually exponential.
+- Compound interest follows the exponential scale, hence it is tough to get in control
+
+So when there is a growth rate, the only way to predict or assess the curve is by using an exponential scale. But dealing with ridiculously large numbers is extremely hard.
+
+## The log scale
+
+Hence, if we flip the equation. We can effectively communicate data in a compressed format. This is called the `log scale`.
+
+Let's take the same example as above
+
+```python
+[int(math.pow(2, i)) for i in range(1, 10)]
+[2, 4, 8, 16, 32, 64, 128, 256, 512]
+```
+
+```python
+[int(math.log(i, 2)) for i in [math.pow(2, i) for i in range(1, 10)]]
+# [1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+Instead of saying 1073741824 (2 ^ 15, or the state at 15th day with a growth rate of 100% starting with 2 on the first day), we can instead say 15 on log scale with a base of two.
+
+Apart from this neat data compression feature, logs make it extremely easy to perform math with large numbers given its properties.
+
+### Usage in the real world
+
+- Earthquakes are measured in the Richter scale, this is the log scale. On the Richter scale, each whole number increase represents a tenfold increase in amplitude of seismic waves and approximately 31.6 times more energy release.
+- Human hearing does not respond linearly to sound intensity, it is more closely related to the log of physical intensity. So decibel (dB) scale is logarithmic.
+- many more scales like acidity etc.. are also log scales.
