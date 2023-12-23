@@ -18,22 +18,6 @@ Question: If a lake has a flower, and the flower doubles every day. And the lake
 
 If you have answered 9, you are right! The number of flowers to exist would be 1024 on the 10th day and 256 on the ninth day. (progression: `[1, 2, 4, 8, 16, 32, 64, 128, 256, 1024]`)
 
-The way to calculate growth rate is also fascinating. The formulae for calculation is
-
-```python
-import math
-# growth_rate being 0 to 1, where 1 is 100%
-growth_rate = 1
-# t being the time interval we want to get value for
-t = 10
-# starting point of the growth
-initial_value = 1
-
-value_at_time_t = initial_value * math.pow(
-    (1+growth_rate)
-, t)
-```
-
 As you can see, exponential scales are massive. With the same scale, the 15th value is 32768 & the 20th value is 1073741824.
 
 In nature, a lot of scales are actually exponential.
