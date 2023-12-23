@@ -6,6 +6,8 @@ import { getMDXComponent } from 'next-contentlayer/hooks';
 import React from 'react';
 import { Metadata } from 'next';
 import { BASE_URL } from '../../../constants/constants';
+import { default as SyntaxHighlighter } from 'react-syntax-highlighter/dist/esm/prism';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import { H1Styles } from '../../../constants/style-constants';
 
@@ -15,9 +17,20 @@ export async function generateStaticParams() {
 	}));
 }
 
+const CodeBlock = (props: any) => {
+	const { className, children } = props.children.props;
+	const language = className?.replace(/language-/, '');
+	return (
+		<SyntaxHighlighter language={language} style={oneDark}>
+			{children}
+		</SyntaxHighlighter>
+	);
+};
+
 // TODO: I have no clue how to type this stuff
 const ComponentMap: MDXComponents = {
 	a: CustomLink,
+	pre: CodeBlock,
 };
 
 type Props = {
