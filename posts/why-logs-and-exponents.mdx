@@ -18,7 +18,7 @@ Question: If a lake has a flower, and the flower doubles every day. And the lake
 
 If you have answered 9, you are right! The number of flowers to exist would be 1024 on the 10th day and 256 on the ninth day. (progression: `[1, 2, 4, 8, 16, 32, 64, 128, 256, 1024]`)
 
-As you can see, exponential scales are massive. With the same scale, the 15th value is 32768 & the 20th value is 1073741824.
+As you can see, exponential scales are massive. With the same scale, the 15th value is 32768 & the 20th value is 1048576.
 
 In nature, a lot of scales are actually exponential.
 
@@ -35,18 +35,22 @@ Hence, if we flip the equation. We can effectively communicate data in a compres
 Let's take the same example as above
 
 ```python
-[int(math.pow(2, i)) for i in range(1, 10)]
-# [2, 4, 8, 16, 32, 64, 128, 256, 512]
+import math
+def get_final_value(initial_value: int, rate_of_change_per_cycle: float, elapsed_cycles: int):
+    return initial_value * (math.pow(1+rate_of_change_per_cycle, elapsed_cycles))
+
+exp_scale = [int(get_final_value(1, 1, i)) for i in range(0, 15)]
+print(exp_scale)
+# [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]
+
+log_scale = [int(math.log(i, 2)) for i in exp_scale]
+print(log_scale)
+# [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 ```
 
-```python
-[int(math.log(i, 2)) for i in [math.pow(2, i) for i in range(1, 10)]]
-# [1, 2, 3, 4, 5, 6, 7, 8, 9]
-```
+Instead of saying 16384 (the state at 15th day with a growth rate of 100% starting with 1), we can instead say 15 on a log scale with a base of two.
 
-Instead of saying 1073741824 (2 ^ 15, or the state at 15th day with a growth rate of 100% starting with 2 on the first day), we can instead say 15 on log scale with a base of two.
-
-That is saying, how many 2's should we multiply to make 1073741824. It takes 15 two's to be multiplied, that is what a log is.
+That is saying, how many 2's should we multiply to make 16384. It takes 14 twos to be multiplied, that is what a log is.
 
 Apart from this neat data compression feature, logs make it extremely easy to perform math with large numbers given its properties. Checkout 3blue1browns [video on logs](https://www.youtube.com/live/cEvgcoyZvB4) to explore more of its properties.
 
