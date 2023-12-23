@@ -68,7 +68,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
 	return (
 		<>
-			<article className={'prose  prose-slate'}>
+			<article className={'prose prose-sm'}>
 				<section className={'py-2'}>
 					<h1 className={H1Styles}>{post.title}</h1>
 					<p>Bharat Kalluri / {publishedAt}</p>

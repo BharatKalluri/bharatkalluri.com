@@ -5,6 +5,7 @@ import Script from 'next/script';
 import Footer from '../components/Footer';
 import { Metadata } from 'next';
 import { DEFAULT_SEO_CONFIG } from '../constants/constants';
+import { ButtonStyles } from '../constants/style-constants';
 
 const navBarItems: Array<{ href: string; text: string }> = [
 	{
@@ -35,15 +36,11 @@ const navBarItems: Array<{ href: string; text: string }> = [
 
 const DesktopLeftNavBar = () => {
 	return (
-		<section className={'pb-8'}>
+		<section className={'pb-2'}>
 			<div className={'flex flex-row overflow-auto pb-4 justify-left'}>
 				{navBarItems.map((el) => {
 					return (
-						<Link
-							href={el.href}
-							key={el.href}
-							className="rounded-md font-medium text-md hover:bg-gray-300 px-3 md:px-4 py-2"
-						>
+						<Link href={el.href} key={el.href} className={ButtonStyles}>
 							{el.text}
 						</Link>
 					);
@@ -58,7 +55,7 @@ export const metadata: Metadata = DEFAULT_SEO_CONFIG;
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
-			<body className={'mx-auto sm:px-6 lg:px-8 lg:w-7/12 pt-10'}>
+			<body className={'mx-auto sm:px-6 lg:px-8 lg:w-7/12 pt-6'}>
 				<Script
 					id={'microsoft-clarity'}
 					type="text/javascript"
@@ -77,7 +74,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<header>
 						<DesktopLeftNavBar />
 					</header>
-					<div className={'flex flex-col space-y-6'}>{children}</div>
+					<div className={'flex flex-col space-y-4'}>{children}</div>
 					<Footer />
 				</div>
 			</body>
