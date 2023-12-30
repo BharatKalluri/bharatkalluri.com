@@ -10,11 +10,7 @@ Before we get into logs, let's wrap our head around exponents.
 
 Question: If a lake has a flower, and the flower doubles every day. And the lake is full of flowers on day 10. When did the lake have half the flowers?
 
-.
-
-.
-
-.
+...
 
 If you have answered 9, you are right! The number of flowers to exist would be 1024 on the 10th day and 256 on the ninth day. (progression: `[1, 2, 4, 8, 16, 32, 64, 128, 256, 1024]`)
 
@@ -30,7 +26,7 @@ So when there is a growth rate, the only way to predict or assess the curve is b
 
 ## The log scale
 
-Hence, if we flip the equation. We can effectively communicate data in a compressed format. This is called the `log scale`.
+Hence, if we flip the equation. We can effectively communicate data in a compressed format. This is called the `log scale`. Stay with me, you'll get it once you see an example.
 
 Let's take the same example as above
 
@@ -50,12 +46,14 @@ print(log_scale)
 
 Instead of saying 16384 (the state at 15th day with a growth rate of 100% starting with 1), we can instead say 15 on a log scale with a base of two.
 
-That is saying, how many 2's should we multiply to make 16384. It takes 14 twos to be multiplied, that is what a log is.
+That is saying, how many times should we multiply the previous number by two (starting from 1) to get 16384. After 14 multiplications we get this number, that is what a log is.
+
+Apparently humans intuitively think in logarithms! There was a research study in which scientists asked a tribe which does not have numbers what is the mid number from 1 to 9 & they said 3! Because one times three is three & three times three is nine. There is a fascinating episode by [Radiolab called numbers](https://radiolab.org/podcast/91697-numbers) which dives into this research. Check it out!
 
 Apart from this neat data compression feature, logs make it extremely easy to perform math with large numbers given its properties. Checkout 3blue1browns [video on logs](https://www.youtube.com/live/cEvgcoyZvB4) to explore more of its properties.
 
 ### Usage in the real world
 
-- Earthquakes are measured in the Richter scale, this is the log scale. On the Richter scale, each whole number increase represents a tenfold increase in amplitude of seismic waves and approximately 31.6 times more energy release.
+- Earthquakes are measured in the Richter scale, this is the log scale. On the Richter scale, each whole number increase represents a tenfold increase in amplitude of seismic waves and approximately 31.6 times more energy release!
 - Human hearing does not respond linearly to sound intensity, it is more closely related to the log of physical intensity. So decibel (dB) scale is logarithmic.
 - many more scales like acidity etc.. are also log scales.
