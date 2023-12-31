@@ -1,4 +1,5 @@
 import { Post } from 'contentlayer/generated';
+import { BASE_URL, DEFAULT_TITLE, PROFILE_IMAGE_URL } from '../constants/constants';
 
 export function searchInFrontMatter(frontMatter: Post, searchQuery: string): boolean | undefined {
 	return (
@@ -16,4 +17,11 @@ export const sortByPinnedAndPublishedAt = (a: Post, b: Post): number => {
 	} else {
 		return Date.parse(b.publishedAt) - Date.parse(a.publishedAt);
 	}
+};
+
+export const getOgImageUrl = (ctx: { postTitle: string }) => {
+	const { postTitle } = ctx;
+	return encodeURI(
+		`https://dynamic-og-image-generator.vercel.app/api/generate?title=${postTitle}&author=${DEFAULT_TITLE}&avatar=${PROFILE_IMAGE_URL}&websiteUrl=${BASE_URL}&theme=github`,
+	);
 };

@@ -10,6 +10,7 @@ import { default as SyntaxHighlighter } from 'react-syntax-highlighter/dist/esm/
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import { H1Styles } from '../../../constants/style-constants';
+import { getOgImageUrl } from '../../../utils/postUtils';
 
 export async function generateStaticParams() {
 	return allPosts.map((post) => ({
@@ -43,6 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const postTitle = post.title;
 	const postDescription = post.description;
 	const canonicalURL = `${BASE_URL}${post.url}`;
+	const ogUrl = getOgImageUrl({ postTitle });
 	return {
 		title: postTitle,
 		description: postDescription,
@@ -52,6 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 			title: postTitle,
 			description: postDescription,
 			url: canonicalURL,
+			images: [ogUrl],
 		},
 	};
 }

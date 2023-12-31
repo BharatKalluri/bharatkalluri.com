@@ -57,7 +57,8 @@ export const PROJECT_LIST: Array<IProjectCardProps> = [
 	},
 ];
 export const DEFAULT_TITLE = 'Bharat Kalluri';
-export const TWITTER_HANDLE = '@bharatkalluri';
+export const TWITTER_HANDLE = '@the_bharat_k';
+export const PROFILE_IMAGE_URL = 'https://pbs.twimg.com/profile_images/1395084526884298754/rg1BFxMS_400x400.jpg';
 
 export const DEFAULT_SEO_CONFIG: Metadata = {
 	metadataBase: new URL(BASE_URL),
@@ -96,7 +97,6 @@ export const DEFAULT_SEO_CONFIG: Metadata = {
 	},
 	twitter: {
 		creator: TWITTER_HANDLE,
-		site: TWITTER_HANDLE,
 		card: 'summary_large_image',
 	},
 };

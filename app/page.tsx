@@ -1,5 +1,5 @@
 import { CardListStyles, H1Styles } from '../constants/style-constants';
-import { PROJECT_LIST } from '../constants/constants';
+import { PROFILE_IMAGE_URL, PROJECT_LIST } from '../constants/constants';
 import LinkCard from '../components/LinkCard';
 import { allPosts, Post } from 'contentlayer/generated';
 import { PostCard } from '../components/PostCard';
@@ -24,11 +24,7 @@ const ProjectListComponent = () => (
 
 const ProfileSection = () => (
 	<section className={'flex px-2 py-4 flex-col space-y-5 md:flex-row md:space-x-5 md:space-y-0'}>
-		<img
-			className={'rounded-full h-20 w-20'}
-			src={'https://pbs.twimg.com/profile_images/1395084526884298754/rg1BFxMS_400x400.jpg'}
-			alt={'Bharat Kalluri'}
-		/>
+		<img className={'rounded-full h-20 w-20'} src={PROFILE_IMAGE_URL} alt={'Bharat Kalluri'} />
 		<section className={'text-left flex flex-col space-y-5 md:space-y-2'}>
 			<h1 className={H1Styles}>Hi, I&apos;m Bharat Kalluri 👋</h1>
 			<p>Senior software engineer @ Refyne. A blog exploring the fundamentals of computer science</p>
