@@ -60,7 +60,7 @@ export const DEFAULT_TITLE = 'Bharat Kalluri';
 export const TWITTER_HANDLE = '@bharatkalluri';
 
 export const DEFAULT_SEO_CONFIG: Metadata = {
-    metadataBase: new URL(BASE_URL),
+	metadataBase: new URL(BASE_URL),
 	title: {
 		default: DEFAULT_TITLE,
 		template: `%s | ${DEFAULT_TITLE}`,
@@ -102,7 +102,7 @@ export const DEFAULT_SEO_CONFIG: Metadata = {
 };
 
 export const RSS_URL = `/feed.xml`;
-export const TWITTER_URL = 'https://twitter.com/bharatkalluri';
+export const TWITTER_URL = 'https://twitter.com/the_bharat_k';
 export const GITHUB_URL = 'https://github.com/bharatkalluri';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/bharatkalluri/';
 export const TELEGRAM_URL = 'https://t.me/bharatkalluri';
