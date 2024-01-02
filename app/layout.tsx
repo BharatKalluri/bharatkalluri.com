@@ -17,16 +17,8 @@ const navBarItems: Array<{ href: string; text: string }> = [
 		text: 'Blog',
 	},
 	{
-		href: '/notes',
-		text: 'Notes',
-	},
-	{
 		href: '/about',
 		text: 'About',
-	},
-	{
-		href: '/now',
-		text: 'Now',
 	},
 	{
 		href: '/reading-log',

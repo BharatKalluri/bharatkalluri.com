@@ -13,7 +13,7 @@ const Blog = () => {
 	return (
 		<>
 			<h1 className={H1Styles}>Blog</h1>
-			<PostsList postList={allPosts} isNotesView={false} />
+			<PostsList postList={allPosts} />
 		</>
 	);
 };

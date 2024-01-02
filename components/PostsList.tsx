@@ -6,7 +6,7 @@ import { searchInFrontMatter, sortByPinnedAndPublishedAt } from '../utils/postUt
 import { useState } from 'react';
 import { PostCard } from './PostCard';
 
-const PostsList = ({ postList, isNotesView }: { postList: Array<Post>; isNotesView: boolean }) => {
+const PostsList = ({ postList }: { postList: Array<Post> }) => {
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const sortedPosts = postList.sort(sortByPinnedAndPublishedAt);
 	return (
@@ -15,7 +15,6 @@ const PostsList = ({ postList, isNotesView }: { postList: Array<Post>; isNotesVi
 
 			{sortedPosts
 				.filter((f) => !f.draft)
-				.filter((f) => (isNotesView ? !f.isBlogPost : f.isBlogPost))
 				.filter((f) => (searchQuery.length > 0 ? searchInFrontMatter(f, searchQuery) : true))
 				.map((post) => (
 					<PostCard post={post} key={post.url} />

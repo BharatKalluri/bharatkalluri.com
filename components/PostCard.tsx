@@ -14,6 +14,7 @@ export const PostCard = ({ post }: IPostCardProps) => {
 			link={post.url}
 			tags={post.tags}
 			isPinned={post.pinned}
+			publishedAt={post.publishedAt}
 		/>
 	);
 };
