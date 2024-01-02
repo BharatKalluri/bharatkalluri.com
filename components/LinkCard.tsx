@@ -31,8 +31,12 @@ const LinkCard = ({ name, description, link, publishedAt, tags }: ILinkCardProps
 						{isTagsPresent && (
 							<div>
 								·
-								{tags.map((t) => {
-									return <span className="inline-block rounded-xl px-1">{t}</span>;
+								{tags.map((t, key) => {
+									return (
+										<span className="inline-block rounded-xl px-1" key={key}>
+											{t}
+										</span>
+									);
 								})}
 							</div>
 						)}
