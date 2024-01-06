@@ -17,6 +17,10 @@ const navBarItems: Array<{ href: string; text: string }> = [
 		text: 'Blog',
 	},
 	{
+		href: 'https://notes.bharatkalluri.com',
+		text: 'Digital garden',
+	},
+	{
 		href: '/about',
 		text: 'About',
 	},

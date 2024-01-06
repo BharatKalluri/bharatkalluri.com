@@ -27,7 +27,10 @@ const ProfileSection = () => (
 		<img className={'rounded-full h-20 w-20'} src={PROFILE_IMAGE_URL} alt={'Bharat Kalluri'} />
 		<section className={'text-left flex flex-col space-y-5 md:space-y-2'}>
 			<h1 className={H1Styles}>Hi, I&apos;m Bharat Kalluri 👋</h1>
-			<p>Senior software engineer @ Refyne. A blog exploring the fundamentals of computer science</p>
+			<p>
+				Senior software engineer @ Refyne. This is my side of the internet where I explore fundamentals of
+				computer science.
+			</p>
 		</section>
 	</section>
 );
