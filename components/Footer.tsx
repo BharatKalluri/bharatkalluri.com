@@ -1,8 +1,9 @@
 import React from 'react';
 import { FaGithub, FaLinkedin, FaTelegramPlane, FaTwitter, FaRss } from 'react-icons/fa';
-import { EMAIL, GITHUB_URL, LINKEDIN_URL, TELEGRAM_URL, TWITTER_URL, RSS_URL } from '../constants/constants';
+import { EMAIL, GITHUB_URL, LINKEDIN_URL, TELEGRAM_URL, TWITTER_URL, RSS_URL, BASE_URL } from '../constants/constants';
 import Link from 'next/link';
 import { MdEmail } from 'react-icons/md';
+import { CustomLink } from './CustomLink';
 
 const IconButton = (props: { href: string; iconComponent: any; title: string }) => {
 	const { href, iconComponent, title } = props;
@@ -23,7 +24,9 @@ const Footer = () => (
 			<IconButton href={TELEGRAM_URL} iconComponent={<FaTelegramPlane />} title={'Telegram'} />
 			<IconButton href={RSS_URL} iconComponent={<FaRss />} title={'RSS'} />
 		</div>
-		<div className="text-gray-600">Hand crafted by Bharat Kalluri</div>
+		<div className="text-gray-600">
+			Hand crafted by <CustomLink href={BASE_URL}>Bharat Kalluri</CustomLink>
+		</div>
 	</div>
 );
 
