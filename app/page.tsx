@@ -1,4 +1,4 @@
-import { CardListStyles, H1Styles } from '../constants/style-constants';
+import { CardListStyles, H1Styles, ProjectGridStyles } from '../constants/style-constants';
 import { PROFILE_IMAGE_URL, PROJECT_LIST } from '../constants/constants';
 import LinkCard from '../components/LinkCard';
 import { allPosts, Post } from 'contentlayer/generated';
@@ -9,13 +9,14 @@ import React from 'react';
 const ProjectListComponent = () => (
 	<section className={'flex flex-col'}>
 		<h2 className={H1Styles}>Projects</h2>
-		<section className={CardListStyles}>
+		<section className={ProjectGridStyles}>
 			{PROJECT_LIST.map((project) => (
 				<LinkCard
 					key={project.name}
 					name={project.name}
 					description={project.description}
 					link={project.link}
+                    shouldOpenInNewTab={true}
 				/>
 			))}
 		</section>

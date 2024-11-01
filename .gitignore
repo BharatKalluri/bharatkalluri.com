@@ -41,3 +41,5 @@ feed.xml
 .contentlayer
 
 .vscode
+.aider*
+.env
