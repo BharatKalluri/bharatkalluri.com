@@ -24,10 +24,6 @@ const navBarItems: Array<{ href: string; text: string }> = [
 		href: '/about',
 		text: 'About',
 	},
-	{
-		href: '/reading-log',
-		text: 'Reading',
-	},
 ];
 
 const DesktopLeftNavBar = () => {
