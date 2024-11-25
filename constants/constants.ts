@@ -7,24 +7,26 @@ export const BASE_URL: string = 'https://bharatkalluri.com';
 export const PROJECT_LIST: Array<IProjectCardProps> = [
 	{
 		name: 'Book: From scratch',
-		description: 'An ambitious project to build the webstack from scratch. Event loop chapter is done, DNS is next. Work in progress!',
+		description:
+			'An ambitious project to build the webstack from scratch. Event loop chapter is done, DNS is next. Work in progress!',
 		link: 'https://fromscratch.bharatkalluri.com',
 	},
-    {
-        name: 'Closeknit',
-        description: 'A social network for your closeknit groups of friends and families. Where you can share your items and subscriptions!',
-        link: 'https://closeknit.io',
-    },
-    {
-        name: 'CleanEmail',
-        description: 'An email cleaner tool to get rid of annoying subscriptions.',
-        link: 'https://cleanemail.bharatkalluri.com',
-    },
-    {
-        name: 'Flashcard',
-        description: 'No BS contact sharing, designed for sharing contacts in a events.',
-        link: 'https://flashcard.bharatkalluri.com',
-    },
+	{
+		name: 'Closeknit',
+		description:
+			'A social network for your closeknit groups of friends and families. Where you can share your items and subscriptions!',
+		link: 'https://closeknit.io',
+	},
+	{
+		name: 'CleanEmail',
+		description: 'An email cleaner tool to get rid of annoying subscriptions.',
+		link: 'https://cleanmail.bharatkalluri.com/',
+	},
+	{
+		name: 'Flashcard',
+		description: 'No BS contact sharing, designed for sharing contacts in a events.',
+		link: 'https://flashcard.bharatkalluri.com',
+	},
 	{
 		name: 'Harmony',
 		description: 'Harmony is a command line application to sync shell history cross systems',
@@ -73,7 +75,8 @@ export const PROJECT_LIST: Array<IProjectCardProps> = [
 ];
 export const DEFAULT_TITLE = 'Bharat Kalluri';
 export const TWITTER_HANDLE = '@the_bharat_k';
-export const PROFILE_IMAGE_URL = 'https://0.gravatar.com/avatar/831a39efcc6acf09fcf99f97cd3bf8612df145907298f10e36db47cf9e24f0be?size=512';
+export const PROFILE_IMAGE_URL =
+	'https://0.gravatar.com/avatar/831a39efcc6acf09fcf99f97cd3bf8612df145907298f10e36db47cf9e24f0be?size=512';
 
 export const DEFAULT_SEO_CONFIG: Metadata = {
 	metadataBase: new URL(BASE_URL),
