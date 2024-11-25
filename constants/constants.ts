@@ -117,6 +117,7 @@ export const DEFAULT_SEO_CONFIG: Metadata = {
 };
 
 export const RSS_URL = `/feed.xml`;
+export const BLUESKY_URL = 'https://bsky.app/profile/bharatkalluri.com';
 export const TWITTER_URL = 'https://twitter.com/the_bharat_k';
 export const GITHUB_URL = 'https://github.com/bharatkalluri';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/bharatkalluri/';
