@@ -1,0 +1,44 @@
+---
+title: Six Months Self-Hosted, What I Learned & Loved
+description: One of the most high return hobby project I've done
+publishedAt: '2025-06-14'
+draft: true
+tags:
+- selfhosted
+- server
+---
+
+On 13th September 2024, one of my friends donated his ancient chrome box to me since he was not using it. And I thought I'd run a server at home.
+
+![server](/static/images/self-hosting-six-months-review/home-server.jpeg)
+
+It probably was the best decision I've ever taken in terms of long-running hobby projects. Let me explain.
+
+## The Setup
+
+My server is a basic chrome box, it runs an intel i5 4th gen chip with 12GB of RAM and a 256GB SSD. It runs fedora server & [RunTipi](https://runtipi.io). I happen to have a UPS, so even with power cuts, the server almost never goes down.
+
+I run fedora server on it. Why not just run fedora or ubuntu on it? Because if you run a vanilla fedora or ubuntu, it will be problematic
+
+1. It'll have a graphical installer, which you don't want
+2. It'll come with SSH disabled, you want it to be enabled by default ideally
+3. You would not want to sleep, suspend, etc. power saving for a server does not really make sense
+
+```shell
+tower@localhost:~$ uptime
+ 00:47:48 up 91 days, 17:56,  3 users,  load average: 0.47, 0.34, 0.31
+```
+
+## Issues along the way
+
+For some reason, my chrome box needs a display to boot up first. This is unfortunately true even when you run a server OS. Its very irritating because if the power happens to go off and on, then I'll have to physically connect the server to the TV until it boots up and then disconnect once the device boots into OS. This is most probably just my issue, your home server will not run into this.
+
+The next hurdle was heat. Heat is a nightmare to control. Since my hardware is very basic, simple things tend to heat up the server. I run Immich (a self-hosted Google photos alternative), it runs some ML to figure out faces in images to ease search. Whenever the ML job runs, the server would spike up to 135 degrees and just shut down. After some observability setup, I realized Immich is spiking up CPU & that's causing this. I'll discuss this in detail later on.
+
+In the beginning, I self deployed docker compose files, and then started running [Tipi](https://runtipi.io/) and things have gotten much better. I'm a big fan of the project.
+
+## Observability
+
+Observability is one of the core components of self-hosting. There are two components to observability.
+
+---
