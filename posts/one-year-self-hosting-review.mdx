@@ -1,0 +1,106 @@
+---
+title: One year into running my own server at home - A review
+description: All the highs and lows, app recommendations and tips to get started
+publishedAt: '2025-08-26'
+tags:
+- self hosting
+- review
+---
+
+On August 2024, I got a rusty chromebox which was unused and I thought to myself
+
+Why not run a server at home?
+
+One year later, and after a lot of highs and lows. Here are my lessons and adventures.
+
+# The Story and the Why behind
+
+I take pictures, a lot of pictures.
+
+I’ve currently have a library of over 100GB of pictures and videos from the past ten years. I’m sure it’ll only explode in the future. I really believe in the idea of [documenting life](https://notes.bharatkalluri.com/remembering-life-through-photos-and-videos/) and photos are a great way of doing it. But constantly buying iCloud or google storage for pictures was getting irritating. That is actually the first time I’ve started exploring alternatives and ran into Immich.
+
+The website said, [Immich](https://immich.app/) is a self hosted photo and video management solution. Self hosted being the key word. Which means that I can just run the app on the server and sync my photos to my harddisk directly & get a iOS or an android app for viewing pictures, just like google photos. This was important because, what’s the point of having pictures if you can’t see them when you want to?
+
+So, I scoured and found that one of my friend had a 5 year old chromebox lying around which he was looking to give away. I got that and turned it into a perpetually on home server.
+
+# Setup
+
+Here’s a brief explanation of the setup I have:
+
+*   HP chromebox
+*   i7-4600U CPU 2 core 4 thread CPU
+*   12GB of RAM
+*   128GB SSD
+*   [RunTipi](https://runtipi.io/) for Home server management (backups, updates etc..)
+*   [Tailscale](https://tailscale.com/) for making sure no one apart from me and my family can access the server
+
+It feels underwhelming probably when you read the spec sheet but this runs everything I want just fine. CPU is almost always under 30% and memory usage is under 4GB.
+
+# The Apps I use
+
+I’ve installed & played with a lot of apps & these are the ones I cannot live without now
+
+## Jellyfin
+
+Man, the amount of use [Jellyfin](https://jellyfin.org/) gets and the amount of love everyone has for this is insane. The fact that you can just run your own streaming service for family and friends is magical.
+
+If you don’t know what jellyfin is, its a application which provides an interface for streaming media which is on your storage. It has apps on all platforms (android, web, iOS, android TV etc..). You can just point jellyfin to your folder with media, install jellyfin on your TV, login and start streaming videos from that folder. It manages transcoding, bitrates, subtitles, metadata and everything else. Once you get used to this, there is no going back.
+
+## Immich
+
+The reason why I stepped into the world of self hosting. Storing photos and videos in a safe space without worrying about privacy and storage size is a boon, especially for my kind of person. [Immich](https://immich.app/) has a beautiful android and iOS app. The web app is snappy and auto backups are beautifully done.
+
+All in all, a must have if you hoard pictures and videos. Highly recommended.
+
+## Actual budget
+
+I’ve been interested in knowing where my money goes for a while ([I’ve ranted about this too](https://notes.bharatkalluri.com/i-want-to-know-where-im-spending-my-money-can-i/)), Actual has been one reliable space where I can dump all my bank statements and get a gist of where I’m spending my money and how much.
+
+## Paperless ngx
+
+Weird name, killer app. You have a lot of documents. You might think you don’t, but believe me. You do. You can never pull something up when you need it because its somewhere in the downloads folder or that documents folder you created five years back.
+
+[Paperless ngx](https://docs.paperless-ngx.com/) just let’s you dump documents, it OCRs them or parses them as per the type of the document and stores them in a searchable database. So the next time you need to pull up your PAN card image or electricity bill from three months back or last year’s tax filing documents or the prescription shared by the doctor six months back or your health report of last year (all of these are real world examples I’ve used paperless in). They are all just a search away.
+
+## Karakeep
+
+I was really sad when they killed [Pocket](https://getpocket.com/farewell). And I really liked [MyMind](https://mymind.com/)‘s AI based self tagging while I used it briefly. Karakeep combines the best of both worlds. It has powerful AI tagging, has extensions and apps for all major platforms and has great search. It was a prefect replacement for Pocket.
+
+## Some other honorable mentions
+
+*   Audiobookshelf: I love audiobooks and this is basically self hosted audible.
+*   Lubelogger: Again. weird name, great app. Let’s you log all events regarding your automobiles. Really useful to get reminded about services, look at fuel efficiency, yearly spend and many other metrics.
+*   File browser: File explorer for your server.
+*   Beszel: Extremely simple monitoring application for your server or servers.
+
+# Lessons learnt
+
+Hosting something at home is humbling, but also shows the beauty & reliability of the current tech. There are a lot of small things I wished I did differently, here are some main ones
+
+## Monitoring and alerting
+
+This might not be obvious, but if you’re home server is down. It’ll sting. Especially if you get the buy in of some family and friends & then they complain.
+
+Two things form my foundation for monitoring, Pushover (just buy the license) and Beszel. Whenever something happens, Beszel sends a notification via Pushover to my phone and I look into it. Its great!
+
+There are a lot of times I’ve had CPU spikes, memory spikes because too many people were watching movies while apps were being updated etc.. Its easy to jump in a prevent fires before they start. And also be aware when something has gone wrong and be prepared for the fallout.
+
+## Storage
+
+You think your hard disk in your server would suffice. It won’t. Once you start using it extensively, you’ll start hoarding and quickly run out of space.
+
+Make sure you run all the media out of an external hard disk from day one so that you’ll have ample storage. I run all my media from a 2TB hard disk. I’ve started out from my 128gb inbuilt hard disk, and had to spend almost a day transferring 100GB of data from one hard disk to another safely & then validate and make sure all files are intact and correct. Its painful, just start by having your media on your hard disk.
+
+## Backups
+
+There is something called a 321 backup strategy. Study what it is and try to implement it.
+
+Make sure you are backing up your media (images, videos etc..) atleast once a month to some other storage so that even in a disaster scenario. Your data is intact.
+
+## Everything behind a VPN
+
+Tailscale is awesome and security is non negotiable. Everything behind a VPN makes sure that there is no leakage of data due to bad networking etc..
+
+***
+
+That concludes my story, if you have any questions on self hosting or want to get into self hosting. Feel free to [contact me](/about) and I’ll be more than happy to help!
