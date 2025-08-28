@@ -85,6 +85,18 @@ Two things form my foundation for monitoring, Pushover (just buy the license) an
 
 There are a lot of times I’ve had CPU spikes, memory spikes because too many people were watching movies while apps were being updated etc.. Its easy to jump in a prevent fires before they start. And also be aware when something has gone wrong and be prepared for the fallout.
 
+## Battling the elements
+
+### Sound
+
+This is actually something people don't think about, but sound is a factor. The fans keep spinning occasisonally and there is a decent amount of hum, this is especially true if you are running immich and other CPU intensive apps which tend to run batch jobs which will start spinning up the fan. I would suggest placing it somewhere in a corner where the hum does not disturb anyone majorly.
+
+### Heat
+
+I've not personally run into issues here yet because I've disabled machine learning on immich, disabled transcoding on jellyfin etc.. don't run anything really CPU intensive. But heat management is a thing you should consider. CPUs tend to over heat and shut down. If you happen to run a big rig, it can even heat up your room if it does not have good ventilation. Keep that in mind.
+
+When I started off self hosting, immich used to start running ML algorithms and my temps would go up to 120 degrees centigrade and it would all shut down. Monitoring will usually help you catch which docker container is consuming a ton of CPU and you can look into optimizing that..
+
 ## Storage
 
 You think your hard disk in your server would suffice. It won’t. Once you start using it extensively, you’ll start hoarding and quickly run out of space.
@@ -101,6 +113,7 @@ Make sure you are backing up your media (images, videos etc..) atleast once a mo
 
 Tailscale is awesome and security is non negotiable. Everything behind a VPN makes sure that there is no leakage of data due to bad networking etc..
 
+
 ***
 
-That concludes my story, if you have any questions on self hosting or want to get into self hosting. Feel free to [contact me](/about) and I’ll be more than happy to help!
+That concludes my story, if you have any questions on self-hosting or want to get into self-hosting. Feel free to [contact me](/about) and I’ll be more than happy to help!
