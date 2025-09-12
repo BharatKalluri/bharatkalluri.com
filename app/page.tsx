@@ -5,6 +5,7 @@ import { allPosts, Post } from 'contentlayer/generated';
 import { PostCard } from '../components/PostCard';
 import clsx from 'clsx';
 import React from 'react';
+import { CustomLink } from '../components/CustomLink';
 
 const ProjectListComponent = () => (
 	<section className={'flex flex-col'}>
@@ -37,18 +38,26 @@ const ProfileSection = () => (
 );
 
 const TopBlogPosts = ({ notes }: { notes: Post[] }) => (
-	<section className={'flex flex-col'}>
+	<section className={'flex flex-col relative'}>
 		<h2 className={H1Styles}>Popular writings</h2>
 		<section className={CardListStyles}>
 			{notes.map((frontMatter) => (
 				<PostCard post={frontMatter} key={frontMatter.url} />
 			))}
 		</section>
+		<div className={'flex justify-end mt-4'}>
+			<CustomLink
+				href="/blog"
+				className={'inline-flex items-center px-4 py-2 text-sm font-medium hover:text-blue-800 transition-colors duration-200'}
+			>
+				View all posts →
+			</CustomLink>
+		</div>
 	</section>
 );
 
 const IndexPage = () => {
-	const topPosts = allPosts.filter((el) => el.onFrontPage);
+	const topPosts = allPosts.filter((el) => el.onFrontPage).sort((a,b)=> Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
 	return (
 		<>
 			<section className={clsx('flex', 'flex-col', 'space-y-2')}>
