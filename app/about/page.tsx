@@ -14,13 +14,13 @@ const AboutPage = () => {
 
 			<section className="text-lg space-y-5">
 				<p>
-					Hello! I'm Bharat Kalluri, a Senior Software Engineer with a passion for building robust and
+					Hello! I&apos;m Bharat Kalluri, a Senior Software Engineer with a passion for building robust and
 					scalable systems.
 				</p>
 				<p>
-					For the past 7 years, I've been immersed in the fintech world, most recently as a founding team
-					member at <CustomLink href={"https://refyne.co.in"}>Refyne</CustomLink> - Asia's largest financial wellness platform for employers & world's second-largest
-					distribution platform with a network of 500+ corporates and 8 million employees a company. I've helped
+					For the past 7 years, I&apos;ve been immersed in the fintech world, most recently as a founding team
+					member at <CustomLink href={"https://refyne.co.in"}>Refyne</CustomLink> - Asia&apos;s largest financial wellness platform for employers & world&apos;s second-largest
+					distribution platform with a network of 500+ corporates and 8 million employees a company. I have helped
 					grow Refyne from the ground up to a $1.5B valuation and now am on the lookout for my next adventure!
 				</p>
 				<p>
