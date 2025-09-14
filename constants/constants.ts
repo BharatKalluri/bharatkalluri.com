@@ -74,7 +74,7 @@ export const PROJECT_LIST: Array<IProjectCardProps> = [
 	},
 ];
 export const DEFAULT_TITLE = 'Bharat Kalluri';
-export const TWITTER_HANDLE = '@the_bharat_k';
+export const TWITTER_HANDLE = '@bharatkalluri';
 export const PROFILE_IMAGE_URL =
 	'https://0.gravatar.com/avatar/831a39efcc6acf09fcf99f97cd3bf8612df145907298f10e36db47cf9e24f0be?size=512';
 
