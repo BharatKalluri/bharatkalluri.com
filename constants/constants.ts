@@ -15,7 +15,7 @@ export const PROJECT_LIST: Array<IProjectCardProps> = [
 		name: 'Closeknit',
 		description:
 			'A social network for your closeknit groups of friends and families. Where you can share your items and subscriptions!',
-		link: 'https://closeknit.io',
+		link: 'https://closeknit.bharatkalluri.com',
 	},
 	{
 		name: 'CleanEmail',
