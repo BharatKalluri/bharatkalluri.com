@@ -1,9 +1,8 @@
-import { allPosts } from 'contentlayer/generated';
+import { allPosts } from 'content-collections';
 import { MDXComponents } from 'mdx/types';
 import { CustomLink } from '../../../components/CustomLink';
 import { notFound } from 'next/navigation';
-import { getMDXComponent } from 'next-contentlayer/hooks';
-import React from 'react';
+import { MDXContent } from '@content-collections/mdx/react';
 import { Metadata } from 'next';
 import { BASE_URL } from '../../../constants/constants';
 import { default as SyntaxHighlighter } from 'react-syntax-highlighter/dist/esm/prism';
@@ -14,7 +13,7 @@ import { getOgImageUrl } from '../../../utils/postUtils';
 
 export async function generateStaticParams() {
 	return allPosts.map((post) => ({
-		slug: post._raw.flattenedPath,
+		slug: post.slug,
 	}));
 }
 
@@ -35,11 +34,12 @@ const ComponentMap: MDXComponents = {
 };
 
 type Props = {
-	params: { slug: string };
+	params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+	const { slug } = await params;
+	const post = allPosts.find((post) => post.slug === slug);
 	if (!post) notFound();
 	const postTitle = post.title;
 	const postDescription = post.description;
@@ -59,14 +59,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	};
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-	const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+export default async function Page({ params }: Props) {
+	const { slug } = await params;
+	const post = allPosts.find((post) => post.slug === slug);
 
 	// 404 if the post does not exist.
 	if (!post) notFound();
 
-	// Parse the MDX file via the useMDXComponent hook.
-	const MDXContent = getMDXComponent(post.body.code);
 	const publishedAt = post.publishedAt;
 
 	return (
@@ -76,7 +75,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 					<h1 className={H1Styles}>{post.title}</h1>
 					<p>Bharat Kalluri / {publishedAt}</p>
 				</section>
-				<MDXContent components={ComponentMap} />
+				<MDXContent code={post.mdx} components={ComponentMap} />
 			</article>
 			<section className={'mx-auto'}>
 				<iframe

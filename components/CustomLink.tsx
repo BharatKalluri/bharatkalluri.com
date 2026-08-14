@@ -1,5 +1,4 @@
 import Link from "next/link";
-import * as React from "react";
 
 export const CustomLink = (props: any) => {
 	const href = props.href;

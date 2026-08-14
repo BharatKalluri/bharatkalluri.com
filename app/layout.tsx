@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 import './globals.css';
 import Script from 'next/script';
@@ -20,10 +20,6 @@ const navBarItems: Array<{ href: string; text: string }> = [
 		href: 'https://notes.bharatkalluri.com',
 		text: 'Digital garden',
 	},
-    {
-        href: 'https://notes.bharatkalluri.com/now/',
-        text: 'Now',
-    },
 	{
 		href: '/about',
 		text: 'About',
@@ -48,7 +44,7 @@ const DesktopLeftNavBar = () => {
 
 export const metadata: Metadata = DEFAULT_SEO_CONFIG;
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html lang="en">
 			<body className={'mx-auto sm:px-6 lg:px-8 lg:w-7/12 pt-6'}>

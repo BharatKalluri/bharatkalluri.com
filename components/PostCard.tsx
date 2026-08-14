@@ -1,6 +1,5 @@
-import React from 'react';
 import LinkCard from './LinkCard';
-import { Post } from 'contentlayer/generated';
+import type { Post } from 'content-collections';
 
 interface IPostCardProps {
 	post: Post;

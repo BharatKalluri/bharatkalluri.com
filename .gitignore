@@ -38,7 +38,8 @@ yarn-error.log*
 sitemap.xml
 feed.xml
 
-.contentlayer
+.content-collections
+*.tsbuildinfo
 
 .vscode
 .aider*

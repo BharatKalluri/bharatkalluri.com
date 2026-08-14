@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaBluesky, FaGithub, FaLinkedin, FaTelegram, FaX, FaRss } from 'react-icons/fa6';
 import {
 	EMAIL,

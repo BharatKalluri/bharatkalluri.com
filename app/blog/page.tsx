@@ -1,5 +1,4 @@
-import React from 'react';
-import { allPosts } from 'contentlayer/generated';
+import { allPosts } from 'content-collections';
 import { H1Styles } from '../../constants/style-constants';
 import PostsList from '../../components/PostsList';
 import { Metadata } from 'next';

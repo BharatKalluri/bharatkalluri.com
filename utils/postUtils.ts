@@ -1,4 +1,4 @@
-import { Post } from 'contentlayer/generated';
+import type { Post } from 'content-collections';
 import { BASE_URL, DEFAULT_TITLE, PROFILE_IMAGE_URL } from '../constants/constants';
 
 export function searchInFrontMatter(frontMatter: Post, searchQuery: string): boolean | undefined {

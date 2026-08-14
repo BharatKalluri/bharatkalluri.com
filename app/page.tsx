@@ -1,10 +1,10 @@
 import { CardListStyles, H1Styles, ProjectGridStyles } from '../constants/style-constants';
 import { PROFILE_IMAGE_URL, PROJECT_LIST } from '../constants/constants';
 import LinkCard from '../components/LinkCard';
-import { allPosts, Post } from 'contentlayer/generated';
+import { allPosts } from 'content-collections';
+import type { Post } from 'content-collections';
 import { PostCard } from '../components/PostCard';
 import clsx from 'clsx';
-import React from 'react';
 import { CustomLink } from '../components/CustomLink';
 
 const ProjectListComponent = () => (

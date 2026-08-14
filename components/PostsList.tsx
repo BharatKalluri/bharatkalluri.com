@@ -1,6 +1,6 @@
 'use client';
 
-import { Post } from 'contentlayer/generated';
+import type { Post } from 'content-collections';
 import { SearchBar } from './SearchBar';
 import { searchInFrontMatter, sortByPinnedAndPublishedAt } from '../utils/postUtils';
 import { useState } from 'react';
