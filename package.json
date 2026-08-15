@@ -1,6 +1,7 @@
 {
 	"name": "bharatkalluri.com",
 	"version": "1.0.0",
+	"packageManager": "pnpm@11.22.0",
 	"scripts": {
 		"dev": "next",
 		"build": "next build",
@@ -47,8 +48,5 @@
 	"license": "MIT",
 	"engines": {
 		"node": ">=20.9.0"
-	},
-	"resolutions": {
-		"@types/react": "^19.2.18"
 	}
 }
