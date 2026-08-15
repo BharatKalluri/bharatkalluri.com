@@ -31,11 +31,11 @@ const Work = ({
 	href: string;
 	linkText: string;
 }) => (
-	<article className="flex flex-col border-2 p-5">
+	<article className="flex flex-col border-2 border-black p-5 sm:p-6">
 		<h3 className={H2Styles}>{title}</h3>
-		<p className="mt-3 flex-grow text-gray-700">{description}</p>
-		<p className="mt-5 text-xs font-medium uppercase tracking-wide text-gray-500">{tags}</p>
-		<CustomLink href={href} className={`${actionLinkStyles} mt-4`}>
+		<p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-gray-500">{tags}</p>
+		<p className="mt-3 flex-grow leading-relaxed text-gray-700">{description}</p>
+		<CustomLink href={href} className={`${actionLinkStyles} mt-6`}>
 			{linkText}
 		</CustomLink>
 	</article>
@@ -43,24 +43,26 @@ const Work = ({
 
 const Writing = ({ posts }: { posts: Post[] }) => (
 	<section className={sectionStyles}>
-		<SectionHeading>I write about how software works.</SectionHeading>
-		<div className="max-w-2xl space-y-4 text-lg">
-			<p>I&apos;ve been writing technical explanations and documenting my experiments for years.</p>
-			<p className="text-sm font-medium uppercase tracking-wide text-gray-500">Some popular pieces</p>
-			<ul className="border-y-2 border-gray-200 py-2">
+		<div className="grid gap-8 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-14">
+			<div>
+				<p className="text-xs font-bold uppercase tracking-[0.16em] text-gray-500">Writing</p>
+				<SectionHeading>I write about how software works.</SectionHeading>
+				<p className="mt-5 max-w-sm leading-relaxed text-gray-700">
+					Technical explanations and experiments, written for people who want to understand systems deeply.
+				</p>
+				<CustomLink href="/blog" className={`${actionLinkStyles} mt-6 inline-block`}>
+					Browse all writing →
+				</CustomLink>
+			</div>
+			<ul className="border-t border-gray-300">
 				{posts.map((post) => (
-					<li key={post.url} className="border-b border-gray-200 py-3 last:border-b-0">
-						<CustomLink href={post.url} className={actionLinkStyles}>
+					<li key={post.url} className="border-b border-gray-300 py-4">
+						<CustomLink href={post.url} className={`${actionLinkStyles} text-lg`}>
 							{post.title} →
 						</CustomLink>
 					</li>
 				))}
 			</ul>
-		</div>
-		<div className="mt-8">
-			<CustomLink href="/blog" className={actionLinkStyles}>
-				Browse all writing →
-			</CustomLink>
 		</div>
 	</section>
 );
@@ -72,20 +74,18 @@ const IndexPage = () => {
 
 	return (
 		<div className="flex flex-col gap-16 pb-4">
-			<section className="max-w-3xl space-y-6 pt-4">
+			<section className="max-w-3xl space-y-6 pt-10 pb-4">
 				<p className="text-sm font-medium uppercase tracking-wide text-gray-500">Bharat Kalluri</p>
 				<h1 className={`${H1Styles} text-4xl leading-tight sm:text-5xl`}>
-					I help startups &amp; NGOs build and untangle software.
+					Building useful software for teams doing consequential work.
 				</h1>
 				<div className="max-w-2xl space-y-5 text-lg leading-relaxed text-gray-700">
 					<p>
-						I&apos;m a software engineer and consultant with 7+ years of experience building products and
-						systems in fintech.
+						I work with nonprofits, mission-driven teams, and startups: building products, improving
+						systems, and turning messy operational work into software that helps people do more.
 					</p>
 					<p>
-						I work with founders and engineering teams when they need an experienced engineer to take
-						ownership of a difficult technical problem, whether that&apos;s getting a new product off the
-						ground, untangling an existing system, or figuring out the right technical direction.
+						My background is in startup engineering, with 7+ years building products and systems in fintech.
 					</p>
 				</div>
 				<div className="flex flex-wrap gap-x-6 gap-y-3 pt-1">
@@ -93,14 +93,70 @@ const IndexPage = () => {
 						Work with me →
 					</CustomLink>
 					<CustomLink href="#work" className={actionLinkStyles}>
-						See my work
+						See independent work →
 					</CustomLink>
 				</div>
 			</section>
 
+			<section className={`${sectionStyles} max-w-3xl`}>
+				<div className="mb-8">
+					<SectionHeading>Where I&apos;ve built</SectionHeading>
+				</div>
+				<div className="space-y-8">
+					<article className="border-l-2 border-black pl-5">
+						<h3 className={H2Styles}>Refyne · Founding engineer → Staff Engineer</h3>
+						<div className="mt-3 space-y-4 leading-relaxed text-gray-700">
+							<p>
+								Helped build Refyne from its earliest product through scale-up across earned-wage
+								access, lending, UPI, underwriting, integrations, and data pipelines.
+							</p>
+							<p>
+								Started and led lending infrastructure and B2B integrations teams, working closely with
+								customers, lenders, compliance teams, and company leadership.
+							</p>
+						</div>
+						<p className="mt-5 text-sm text-gray-700">
+							5 years · 0 → 500+ companies · 8 million employees · Led teams of 5 and 3
+						</p>
+					</article>
+					<div className="grid gap-8 md:grid-cols-2">
+						<article className="border-l-2 border-gray-200 pl-5">
+							<h3 className={H2Styles}>JitFin Co. · First engineer</h3>
+							<p className="mt-3 leading-relaxed text-gray-700">
+								Built an invoice-discounting platform end to end: product, backend, frontend, AWS
+								infrastructure, monitoring, and production deployment.
+							</p>
+						</article>
+						<article className="border-l-2 border-gray-200 pl-5">
+							<h3 className={H2Styles}>Shubhloans · Software engineer</h3>
+							<p className="mt-3 leading-relaxed text-gray-700">
+								Built underwriting and credit-decisioning systems, a rule engine, ETL pipelines, and
+								collections tooling while working directly with risk leadership.
+							</p>
+						</article>
+					</div>
+				</div>
+				<CustomLink href="/about" className={`${actionLinkStyles} mt-8 inline-block`}>
+					Read more about my work →
+				</CustomLink>
+			</section>
+
 			<section className={sectionStyles}>
-				<SectionHeading>What I can help with</SectionHeading>
-				<div className="grid gap-8 md:grid-cols-2">
+				<div className="mb-10 max-w-2xl">
+					<p className="text-xs font-bold uppercase tracking-[0.16em] text-gray-500">Consulting</p>
+					<SectionHeading>How I work with teams</SectionHeading>
+					<p className="mt-5 leading-relaxed text-gray-700">
+						I&apos;m particularly keen to work with nonprofits and civic organizations, but collaborate with
+						any team doing thoughtful, useful work.
+					</p>
+					<CustomLink
+						href="https://cal.com/bharatkalluri"
+						className={`${actionLinkStyles} mt-6 inline-block`}
+					>
+						Tell me about it →
+					</CustomLink>
+				</div>
+				<div className="grid gap-x-12 gap-y-10 md:grid-cols-2">
 					<Service title="Build something new">
 						<p>You have an idea, business problem, or internal workflow that needs software.</p>
 						<p>
@@ -130,52 +186,21 @@ const IndexPage = () => {
 						<p>Useful problems do not always fit a SaaS product or six-month roadmap.</p>
 					</Service>
 				</div>
-				<p className="mt-8">
-					Have something else in mind?{' '}
-					<CustomLink href="https://cal.com/bharatkalluri" className={actionLinkStyles}>
-						Tell me about it →
-					</CustomLink>
-				</p>
-			</section>
-
-			<section className={`${sectionStyles} max-w-3xl`}>
-				<SectionHeading>Experience</SectionHeading>
-				<h3 className={H2Styles}>Building Refyne from the ground up</h3>
-				<div className="mt-3 space-y-4 text-lg leading-relaxed text-gray-700">
-					<p>
-						I joined Refyne as part of its founding engineering team and spent several years helping build
-						and scale the platform.
-					</p>
-					<p>
-						Today, Refyne serves a network of{' '}
-						<strong className="font-semibold text-black">500+ companies and 8 million employees</strong>.
-					</p>
-					<p>
-						I&apos;ve worked across application architecture, backend systems, infrastructure, developer
-						tooling, integrations, and everyday engineering problems that appear when a startup grows
-						quickly.
-					</p>
-				</div>
-				<CustomLink href="/about" className={`${actionLinkStyles} mt-5 inline-block`}>
-					Read about my work →
-				</CustomLink>
 			</section>
 
 			<section id="work" className={sectionStyles}>
-				<SectionHeading>Selected work</SectionHeading>
-				<div className="grid gap-5 md:grid-cols-3">
+				<div className="mb-8 max-w-xl">
+					<SectionHeading>Independent work</SectionHeading>
+					<p className="mt-4 text-lg leading-relaxed text-gray-700">
+						Public-interest projects and useful experiments.
+					</p>
+				</div>
+				<div className="grid gap-5 md:grid-cols-2">
 					<Work
 						title="Parks Observatory"
-						description="Making information about Bengaluru's public parks easier to collect, structure, explore, and understand."
+						description="A public-interest data project making Bengaluru park information easier for residents and advocates to collect, explore, and understand."
 						tags="Data · Civic tech · Mapping"
 						href="https://parks-observatory-production.up.railway.app/"
-						linkText="View project →"
-					/>
-					<Work
-						title="Flashcard"
-						description="A deliberately simple way to share contact information at conferences and events using QR codes and standard VCF contact files."
-						tags="Product engineering · Web"
-						href="https://flashcard.bharatkalluri.com"
 						linkText="View project →"
 					/>
 					<Work
@@ -190,8 +215,13 @@ const IndexPage = () => {
 
 			<Writing posts={topPosts} />
 
-			<section className={`${sectionStyles} max-w-3xl`}>
-				<SectionHeading>About me</SectionHeading>
+			<section
+				className={`${sectionStyles} grid gap-8 md:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] md:gap-14`}
+			>
+				<div>
+					<p className="text-xs font-bold uppercase tracking-[0.16em] text-gray-500">About</p>
+					<SectionHeading>Engineer, builder, curious person.</SectionHeading>
+				</div>
 				<div className="space-y-4 text-lg leading-relaxed text-gray-700">
 					<p>I&apos;m Bharat, a software engineer based in Bengaluru.</p>
 					<p>
@@ -202,26 +232,32 @@ const IndexPage = () => {
 						Outside work, I&apos;m usually reading, tinkering with a side project, self-hosting something
 						unnecessarily, or disappearing into a computer game.
 					</p>
+					<CustomLink href="/about" className={`${actionLinkStyles} mt-5 inline-block`}>
+						More about me →
+					</CustomLink>
 				</div>
-				<CustomLink href="/about" className={`${actionLinkStyles} mt-5 inline-block`}>
-					More about me →
-				</CustomLink>
 			</section>
 
-			<section id="contact" className="border-2 border-black p-6 sm:p-8">
-				<h2 className={H1Styles}>Have a software problem worth solving?</h2>
-				<div className="mt-4 max-w-2xl space-y-4 text-lg leading-relaxed text-gray-700">
-					<p>I&apos;m available for selected consulting engagements.</p>
+			<section id="contact" className="border-2 border-black p-6 sm:p-10">
+				<p className="text-xs font-bold uppercase tracking-[0.16em] text-gray-500">Start a conversation</p>
+				<h2 className={`${H1Styles} mt-4 text-4xl leading-tight sm:text-5xl`}>Working on something useful?</h2>
+				<div className="mt-5 max-w-2xl space-y-4 text-lg leading-relaxed text-gray-700">
 					<p>
-						If you have a product to build, a system causing trouble, or a technical problem needing another
-						experienced engineer, I&apos;d be happy to hear about it.
+						I take on selected engagements with nonprofits, mission-driven organizations, and startups. If
+						software could remove friction from your work, let&apos;s talk.
 					</p>
 				</div>
-				<div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
-					<CustomLink href="https://cal.com/bharatkalluri" className={actionLinkStyles}>
+				<div className="mt-8 flex flex-wrap gap-3">
+					<CustomLink
+						href="https://cal.com/bharatkalluri"
+						className="bg-black px-5 py-3 font-semibold text-white no-underline hover:bg-gray-800"
+					>
 						Schedule a call →
 					</CustomLink>
-					<CustomLink href={`mailto:${EMAIL}`} className={actionLinkStyles}>
+					<CustomLink
+						href={`mailto:${EMAIL}`}
+						className="px-5 py-3 font-semibold text-blue-700 underline underline-offset-4"
+					>
 						Email me at {EMAIL}
 					</CustomLink>
 				</div>
