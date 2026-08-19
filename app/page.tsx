@@ -190,7 +190,7 @@ const IndexPage = () => {
 
 			<section id="work" className={sectionStyles}>
 				<div className="mb-8 max-w-xl">
-					<SectionHeading>Independent work</SectionHeading>
+					<SectionHeading>Personal Projects</SectionHeading>
 					<p className="mt-4 text-lg leading-relaxed text-gray-700">
 						Public-interest projects and useful experiments.
 					</p>
@@ -209,6 +209,20 @@ const IndexPage = () => {
 						tags="Computer science · Systems"
 						href="https://fromscratch.bharatkalluri.com"
 						linkText="Explore From Scratch →"
+					/>
+					<Work
+						title="Flashcard"
+						description="Skip another LinkedIn connection that gets lost in the feed. Share a QR code that saves a real phone contact—with or without a phone number—and notes about when and how you met. It leans on the contact standard, so the connection stays searchable where you already look."
+						tags="Contact sharing · Privacy · QR codes"
+						href="https://flashcard.bharatkalluri.com"
+						linkText="Try Flashcard →"
+					/>
+					<Work
+						title="Wander"
+						description="A personal atlas for saving restaurants, trails, and other places before they get lost in chats, then turning the places that belong together into a flexible trip."
+						tags="Travel · Places · Trip planning"
+						href="https://wander.bharatkalluri.com"
+						linkText="Explore Wander →"
 					/>
 				</div>
 			</section>
