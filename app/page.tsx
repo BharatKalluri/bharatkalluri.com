@@ -218,11 +218,11 @@ const IndexPage = () => {
 						linkText="Try Flashcard →"
 					/>
 					<Work
-						title="Wander"
+						title="Vihara"
 						description="A personal atlas for saving restaurants, trails, and other places before they get lost in chats, then turning the places that belong together into a flexible trip."
 						tags="Travel · Places · Trip planning"
-						href="https://wander.bharatkalluri.com"
-						linkText="Explore Wander →"
+						href="https://vihara.app"
+						linkText="Explore Vihara →"
 					/>
 				</div>
 			</section>
