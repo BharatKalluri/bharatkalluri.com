@@ -200,7 +200,7 @@ const IndexPage = () => {
 						title="Parks Observatory"
 						description="A public-interest data project making Bengaluru park information easier for residents and advocates to collect, explore, and understand."
 						tags="Data · Civic tech · Mapping"
-						href="https://parks-observatory-production.up.railway.app/"
+						href="https://parks.pacta.in"
 						linkText="View project →"
 					/>
 					<Work
